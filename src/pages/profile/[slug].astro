@@ -1,0 +1,15 @@
+---
+import { profiles } from "../../prismic.js"
+
+export async function getStaticPaths() {
+  return profiles.map((profile) => {
+    return { params: { slug: profile.uid }, props: { profile} };
+  });
+}
+
+const {
+  profile: { data },
+} = Astro.props;
+
+---
+<h1>{data.name}</h1>
