@@ -1,10 +1,9 @@
 ---
 import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from '../components/Layout.astro';
 import Section from "../components/Section.astro"
 import PrismicSlices from "../components/PrismicSlices.astro"
 import { getPage } from "../prismic.js"
-
 const page = await getPage("root");
 
 ---
