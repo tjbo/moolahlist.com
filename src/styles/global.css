@@ -1,4 +1,64 @@
 @import "tailwindcss";
 
+a {
+    @apply font-bold;
+    @apply cursor-pointer;
+  }
+  a svg {
+    color: initial;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  h7 {
+    @apply font-bold;
+  }
+  body {
+    @apply text-xl leading-[30px];
+    @apply overflow-x-hidden;
+  }
+  p {
+    @apply mb-4 sm:mb-5 md:mb-6;
+  }
+  h1 {
+    @apply text-5xl;
+  }
+  h2 {
+    @apply text-3xl md:text-4xl;
+    @apply mb-4 sm:mb-5 md:mb-6;
+  }
+  h3 {
+    @apply text-xl md:text-2xl;
+    @apply mb-5 sm:mb-5 md:mb-6;
+  }
+  h4 {
+    @apply text-lg md:text-xl;
+    @apply mb-4 sm:mb-5 md:mb-6;
+  }
+  ul {
+    @apply list-disc;
+    @apply mb-6;
+    @apply mt-1;
+  }
+  ol {
+    @apply list-decimal;
+    @apply mb-6;
+  }
+
+  li {
+    @apply mx-10;
+    @apply mb-3;
+  }
+  
+  hr {
+  }
+  a {
+  }
+
+
 
 
