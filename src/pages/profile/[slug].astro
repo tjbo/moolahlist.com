@@ -1,5 +1,9 @@
 ---
+import * as prismic from "@prismicio/client";
 import { profiles } from "../../prismic.js"
+import Layout from "../../components/Layout.astro"
+import Section from "../../components/Section.astro"
+import Stat from "../../components/Stat.astro"
 
 export async function getStaticPaths() {
   return profiles.map((profile) => {
@@ -11,5 +15,26 @@ const {
   profile: { data },
 } = Astro.props;
 
+
+const intro = prismic.asHTML(data.description, (doc) => {
+  return getUrl(doc.id);
+});
+
+console.log(data)
+
 ---
+<Layout>
+  <Section>
 <h1>{data.name}</h1>
+  </Section>
+  <Section title={data.headline}>
+  <Fragment set:html={intro} />
+  </Section>
+  <Section title="Lending Guidelines">
+    <Stat
+      label="Amounts"
+      value={`${data.min_loan_amount} to ${data.max_loan_amount}`}
+    />
+
+</Section>
+</Layout>
