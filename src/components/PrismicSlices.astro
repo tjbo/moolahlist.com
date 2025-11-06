@@ -1,0 +1,30 @@
+---
+import OnlyText from "./OnlyText.astro"
+import Section from "./Section.astro"
+const {
+  body
+} = Astro.props
+---
+
+{
+  body &&
+    body.length &&
+    body.map((slice, index) => {
+      const type = slice.slice_type;
+      const isEven = index % 2 === 0;
+      const background_color = !isEven ? "dark" : "light";
+
+      if (type === "headline_and_text") {
+        return (
+          <Section background={background_color}>
+            <OnlyText
+              headlinesClass="text-left"
+              title_as={slice.primary.title_as}
+              title={slice.primary.title1}
+              body={slice.primary.body}
+            />
+          </Section>
+        );
+      }
+    })
+}

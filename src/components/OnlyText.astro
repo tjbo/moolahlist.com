@@ -1,0 +1,33 @@
+---
+import Section from "./Section.astro";
+import CallToAction2 from "./CallToAction2.astro";
+import * as prismic from "@prismicio/client";
+import { getUrl } from "../prismic.js";
+
+const {
+  headlinesClass = "text-center",
+  title,
+  title_as = "h2",
+  body,
+} = Astro.props;
+
+const text = prismic.asHTML(body, (doc) => {
+  return getUrl(doc.id);
+});
+---
+
+{
+  title_as === "h2" ? (
+    <h2 class={headlinesClass}>{title}</h2>
+  ) : title_as === "h3" ? (
+    <h3 class={headlinesClass}>{title}</h3>
+  ) : title_as === "h4" ? (
+    <h4 class={headlinesClass}>{title}</h4>
+  ) : title_as === "h5" ? (
+    <h5 class={headlinesClass}>{title}</h5>
+  ) : title_as === "h6" ? (
+    <h6 class={headlinesClass}>{title}</h6>
+  ) : null
+}
+
+<div set:html={text} />
