@@ -20,8 +20,6 @@ const intro = prismic.asHTML(data.description, (doc) => {
   return getUrl(doc.id);
 });
 
-console.log(data)
-
 ---
 <Layout>
   <Section>
@@ -31,10 +29,32 @@ console.log(data)
   <Fragment set:html={intro} />
   </Section>
   <Section title="Lending Guidelines">
+    <div class="grid grid-cols-3 space-3">
     <Stat
       label="Amounts"
       value={`${data.min_loan_amount} to ${data.max_loan_amount}`}
     />
+    <Stat
+      label="Rates"
+      value={`${data.min_interest_rate} to ${data.max_interest_rate}`}
+    />
+    <Stat
+      label="LTV"
+      value={`${data.max_loan_to_value}`}
+    />
+    <Stat
+      label="Origination Fee"
+      value={`${data.min_origination_fee} to ${data.max_origination_fee}`}
+    />
+   <Stat
+      label="Term Length"
+      value={`${data.min_term_length} to ${data.max_term_length} months`}
+    />
+  <Stat
+      label="Closing"
+      value={`${data.min_closing_time} to ${data.max_closing_time} days`}
+    />
+    </div>
 
 </Section>
 </Layout>
