@@ -4,6 +4,7 @@ import { profiles } from "../../prismic.js"
 import Layout from "../../components/Layout.astro"
 import Section from "../../components/Section.astro"
 import Stat from "../../components/Stat.astro"
+import numeral from "numeral"
 
 export async function getStaticPaths() {
   return profiles.map((profile) => {
@@ -32,15 +33,15 @@ const intro = prismic.asHTML(data.description, (doc) => {
     <div class="grid grid-cols-3 space-3">
     <Stat
       label="Amounts"
-      value={`${data.min_loan_amount} to ${data.max_loan_amount}`}
+      value={`${numeral(data.min_loan_amount).format('($ 0.00 a)')} to ${numeral(data.max_loan_amount).format('($ 0.00 a)')}`}
     />
     <Stat
       label="Rates"
-      value={`${data.min_interest_rate} to ${data.max_interest_rate}`}
+        value={`${numeral(data.min_interest_rate/100).format('0.00%')} to ${numeral(data.max_interest_rate/100).format('0%')}`}
     />
     <Stat
       label="LTV"
-      value={`${data.max_loan_to_value}`}
+        value={`${numeral(data.max_loan_to_value/100).format('0%')}`}
     />
     <Stat
       label="Origination Fee"
