@@ -9,35 +9,40 @@ const client = prismic.createClient("moolahlist");
 const _pages = await client.getAllByType("page");
 const _profiles = await client.getAllByType("profile");
 
-const urls = []
-
-export function getUrl(id) {
-  return urls.filter((url) => {
-    return url.id === id;
-  })[0].url;
-}
-
 export const profiles = _profiles 
-  .map((deal) => {
+  .map((p) => {
     return {
-      ...deal,
-      category: "profile",
-      url: rootUrl + "/recent/" + deal.uid + "/",
+      ...p,
+      url: rootUrl + "/profile/" + p.uid + "/",
     };
   })
-  .toSorted((a, b) => {
-    return (
-      new Date(b.first_publication_date) - new Date(a.first_publication_date)
-    );
-  });
 
-
-export const pages = [..._pages, ..._profiles].map((page) => {
+export const pages = [..._pages].map((page) => {
   return {
     ...page,
     url: page.uid === "root" ? rootUrl : rootUrl + "/" + page.uid + "/",
   };
 });
+
+export const urls = [...pages, ...profiles].map(
+  (item) => {
+    return {
+      uid: item.uid,
+      id: item.id,
+      last_mod: item.last_publication_date,
+      url: item.url,
+    };
+  },
+);
+
+export function getUrl(id) {
+  console.log(urls.filter((url) => {
+    return url.id === id;
+  })[0].url)
+  return urls.filter((url) => {
+    return url.id === id;
+  })[0].url;
+}
 
 export async function getPage(uid) {
   return pages.filter((page) => {

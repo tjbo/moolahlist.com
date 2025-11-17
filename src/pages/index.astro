@@ -3,11 +3,18 @@ import Welcome from '../components/Welcome.astro';
 import Layout from '../components/Layout.astro';
 import Section from "../components/Section.astro"
 import PrismicSlices from "../components/PrismicSlices.astro"
-import { getPage } from "../prismic.js"
+import { getPage, getUrl, profiles } from "../prismic.js"
 const page = await getPage("root");
 
 ---
 
 <Layout>
   <PrismicSlices body={page.data.body1} />
+<Section>
+<ul>
+ {profiles.map(p => {
+    return <li><a href={getUrl(p.id)}>{p.data.name}</a></li>
+      })}
+</ul>
+</Section>
 </Layout>

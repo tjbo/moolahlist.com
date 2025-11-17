@@ -4,6 +4,7 @@ import { profiles } from "../../prismic.js"
 import Layout from "../../components/Layout.astro"
 import Section from "../../components/Section.astro"
 import Stat from "../../components/Stat.astro"
+import StatContainer from "../../components/StatContainer.astro"
 import numeral from "numeral"
 
 export async function getStaticPaths() {
@@ -15,7 +16,6 @@ export async function getStaticPaths() {
 const {
   profile: { data },
 } = Astro.props;
-
 
 const intro = prismic.asHTML(data.description, (doc) => {
   return getUrl(doc.id);
@@ -57,16 +57,24 @@ const intro = prismic.asHTML(data.description, (doc) => {
     />
     </div>
 
-    <div>
-
- <Stat
+    <StatContainer>
+      <Stat
       label="Credit Check Required"
       footer={`${data.is_credit_check_required ? data.minimum_fico_score : ""}`}
       value={`${data.is_credit_check_required ? "yes" : "no"}`}
     /> 
-
-
-    </div>
-
+      <Stat
+      label="Will lend to a foreign national"
+      value={`${data.is_foreign_national_allowed ? "yes" : "no"}`}
+    />
+    <Stat
+      label="2nd Trust Deeds"
+      value={`${data.is_2nd_trust_deed_allowed ? "yes" : "no"}`}
+    />
+    <Stat
+      label="Allows Cross Collaterization"
+      value={`${data.is_cross_collateralization_allowed ? "yes" : "no"}`}
+    />
+    </StatContainer>
 </Section>
 </Layout>
