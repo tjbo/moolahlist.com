@@ -6,7 +6,7 @@ interface Props {
   prefix?: string
   suffix?: string
   precision?: number
-  helpText?: string
+  footer?: string
   trend?: 'up' | 'down' | null
   trendText?: string
   size?: 'sm' | 'md' | 'lg'
@@ -20,10 +20,10 @@ const {
   prefix = '',
   suffix = '',
   precision = 0,
-  helpText = '',
+  footer= '',
   trend = null,
   trendText = '',
-  size = 'md',
+  size = 'sm',
   loading = false,
   class: extraClass = '',
 } = Astro.props
@@ -59,7 +59,7 @@ const sizes = {
 ---
 
 <dl class={`flex items-start ${sizes.gap} ${extraClass}`} role="group" aria-label={label || 'stat'}>
-  <div class="flex-1 min-w-0">
+  <div class="flex-1 min-w-0 bg-gray-200 rounded-md p-2">
     {label && <dt class={`text-gray-500 ${sizes.label}`}>{label}</dt>}
 
     <dd class="mt-1 flex items-baseline">
@@ -97,9 +97,9 @@ const sizes = {
       )}
     </dd>
 
-    {helpText && (
+    {footer && (
       <dd class={`mt-2 text-gray-500 ${sizes.help}`}>
-        {helpText}
+        {footer}
       </dd>
     )}
   </div>
