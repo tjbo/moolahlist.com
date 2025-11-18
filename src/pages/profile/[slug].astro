@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import * as prismic from "@prismicio/client";
 import { profiles } from "../../prismic.js"
 import Layout from "../../components/Layout.astro"
@@ -6,6 +7,8 @@ import Section from "../../components/Section.astro"
 import Stat from "../../components/Stat.astro"
 import StatContainer from "../../components/StatContainer.astro"
 import numeral from "numeral"
+import generateSrcSets from "../../utils/generateSrcSets.js";
+import getImageUrlFromSize from "../../utils/getImageUrlFromSize.js";
 
 export async function getStaticPaths() {
   return profiles.map((profile) => {
@@ -21,10 +24,43 @@ const intro = prismic.asHTML(data.description, (doc) => {
   return getUrl(doc.id);
 });
 
+const image = data.logo
+const srcSets =
+  !!image &&
+  !!image.url &&
+  generateSrcSets(
+    image.url,
+      [
+  { w: 400, h: 400 },
+  { w: 300, h: 300 },
+  { w: 200, h: 200 },
+  { w: 150, h: 150 },
+  { w: 100, h: 100 }
+      ],
+    true,
+  );
 ---
 <Layout>
   <Section>
-<h1>{data.name}</h1>
+    <div class="grid grid-cols-2 bg-gray-100 items-center justify-between p-0 m-0">
+<h1 class="mx-auto mb-3 text-center justify-self-start">{data.name}</h1>
+  {
+    !!image && !!image.url && (
+      <div class="max-w-[300px] justify-self-end m-0">
+        <Image
+          alt={!!image.alt ? image.alt : ""}
+        class="max-w-[200px]"
+          loading="lazy"
+          sizes="(max-width: 640px) 95vw, (min-width: 768px) 44vw, (min-width: 1252px) 552px"
+          src={getImageUrlFromSize(image.url, 576, 432, true)}
+          srcSet={srcSets}
+          width="300"
+          height="300"
+        />
+      </div>
+    )
+  }
+      </div>
   </Section>
   <Section title={data.headline}>
   <Fragment set:html={intro} />
