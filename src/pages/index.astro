@@ -5,12 +5,12 @@ import Section from "../components/Section.astro"
 import PrismicSlices from "../components/PrismicSlices.astro"
 import { getPage, getUrl, profiles } from "../prismic.js"
 const page = await getPage("root");
-
 ---
 
 <Layout>
   <PrismicSlices body={page.data.body1} />
 <Section>
+    <h2>Recently Added</h2>
 <ul>
  {profiles.map(p => {
     return <li><a href={getUrl(p.id)}>{p.data.name}</a></li>
