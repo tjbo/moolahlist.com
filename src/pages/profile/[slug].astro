@@ -39,20 +39,30 @@ const srcSets =
     ],
     true,
   );
+
+function formatMoneyAbbrev(n) {
+  // use abbreviation for 1,000 and above, otherwise show usual amount
+  const abs = Math.abs(n);
+  const pattern = abs >= 1000 ? "0,0.00a" : "0,0.00";
+  return "$" + numeral(n).format(pattern);
+}
+
+function formatRange(min, max) {
+  return `${formatMoneyAbbrev(min)} to ${formatMoneyAbbrev(max)}`;
+}
 ---
 
 <Layout>
-  <Section>
+  <div class="w-full border-gray-200 border-b p-3 m-0 bg-gray-50">
     <div
-      class="grid grid-cols-2 bg-gray-100 items-center justify-between p-0 m-0"
+      class="grid grid-cols-[162px_auto] mx-auto max-w-[1024px] px-6 w-full items-start"
     >
-      <h1 class="mx-auto mb-3 text-center justify-self-start">{data.name}</h1>
       {
         !!image && !!image.url && (
-          <div class="max-w-[300px] justify-self-end m-0">
+          <div class="w-[162px] h-[162px] m-0 border-gray-200 border">
             <Image
               alt={!!image.alt ? image.alt : ""}
-              class="max-w-[200px]"
+              class="max-w-[160px]"
               loading="lazy"
               sizes="(max-width: 640px) 95vw, (min-width: 768px) 44vw, (min-width: 1252px) 552px"
               src={getImageUrlFromSize(image.url, 576, 432, true)}
@@ -63,16 +73,33 @@ const srcSets =
           </div>
         )
       }
+
+      <div class="p-3">
+        <h1 class="!text-xl">
+          {data.name}
+        </h1>
+      </div>
     </div>
-  </Section>
+  </div>
   <Section title={data.headline}>
     <Fragment set:html={intro} />
   </Section>
+
+  <Section>
+    <h3>Why Borrowers Choose This Lender</h3>
+
+    {
+      data.best_features.map((f) => {
+        return <li>{f.feature}</li>;
+      })
+    }
+  </Section>
+
   <Section title="Lending Guidelines">
     <div class="grid grid-cols-3 space-x-6 space-y-6">
       <Stat
         label="Amounts"
-        value={`${numeral(data.min_loan_amount).format("($ 0.00 a)")} to ${numeral(data.max_loan_amount).format("($ 0.00 a)")}`}
+        value={formatRange(data.min_loan_amount, data.max_loan_amount)}
       />
       <Stat
         label="Rates"
