@@ -51,6 +51,13 @@ function formatMoneyAbbrev(n) {
 function formatRange(min, max) {
   return `${formatMoneyAbbrev(min)} to ${formatMoneyAbbrev(max)}`;
 }
+
+const hasLicenses =
+  !!data.licenses &&
+  !!data.licenses.length &&
+  data.licenses.some((license) => {
+    return !!license.key && !!license.value;
+  });
 ---
 
 <Layout>
@@ -76,27 +83,46 @@ function formatRange(min, max) {
       }
 
       <div class="p-3">
-        <h1 class="!text-xl">
+        <h1 class="!text-3xl">
           {data.name}
         </h1>
-        <div class="text-sm">
+        <div class="text-base">
           {!!data.city && !!data.state ? `${data.city}, ${data.state}` : null}
         </div>
+        {
+          !!hasLicenses ? (
+            <div class="text-base">
+              {data.licenses.map((license, index) => {
+                return `${license.key} ${license.value}${index < data.licenses.length - 1 ? ", " : ""}`;
+              })}
+            </div>
+          ) : null
+        }
       </div>
     </div>
   </div>
   <Section title={data.headline}>
     <Fragment set:html={intro} />
   </Section>
-
-  <Section>
-    <h3>Why Borrowers Choose This Lender</h3>
-
-    {
-      data.best_features.map((f) => {
-        return <li>{f.feature}</li>;
-      })
-    }
+  <Section title="Before You Apply">
+    <div class="grid grid-cols-2 gap-9">
+      <div class="card">
+        <h3>What We Fund</h3>
+        {
+          data.positive_considerations.map((item) => {
+            return <li>{item.item}</li>;
+          })
+        }
+      </div>
+      <div class="card">
+        <h3>What We Don't Fund</h3>
+        {
+          data.negative_considerations.map((item) => {
+            return <li>{item.item}</li>;
+          })
+        }
+      </div>
+    </div>
   </Section>
 
   <Section title="Lending Guidelines">
@@ -146,17 +172,26 @@ function formatRange(min, max) {
       />
     </StatContainer>
   </Section>
-  <Section>
-    <StatContainer>
-      {
-        !!data.residential_property_types &&
-        !!data.residential_property_types.length ? (
+  {
+    !!data.residential_property_types &&
+    !!data.residential_property_types.length ? (
+      <Section title="Property Types">
+        <StatContainer>
           <PropertyTypes
             items={data.residential_property_types}
             title="Residential"
           />
-        ) : null
-      }
-    </StatContainer>
+        </StatContainer>
+      </Section>
+    ) : null
+  }
+  <Section>
+    <h3>Why Borrowers Choose This Lender</h3>
+
+    {
+      data.best_features.map((f) => {
+        return <li>{f.feature}</li>;
+      })
+    }
   </Section>
 </Layout>
