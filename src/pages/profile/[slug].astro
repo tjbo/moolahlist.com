@@ -52,6 +52,10 @@ function formatRange(min, max) {
   return `${formatMoneyAbbrev(min)} to ${formatMoneyAbbrev(max)}`;
 }
 
+const hasInterestRate = !!data.min_interest_rate && !!data.max_interest_rate;
+const hasOriginationFee =
+  !!data.min_origination_fee && !!data.max_origination_fee;
+
 const hasLicenses =
   data.licenses?.length &&
   data.licenses.some((license) => {
@@ -92,7 +96,6 @@ const hasPositiveConsiderations =
           </div>
         )
       }
-
       <div class="p-3">
         <h1 class="!text-3xl">
           {data.name}
@@ -115,7 +118,6 @@ const hasPositiveConsiderations =
   <Section title={data.headline}>
     <Fragment set:html={intro} />
   </Section>
-
   {
     hasPositiveConsiderations || hasNegativeConsiderations ? (
       <Section title="Before You Apply">
@@ -142,23 +144,31 @@ const hasPositiveConsiderations =
   }
 
   <Section title="Lending Guidelines">
-    <div class="grid grid-cols-3 space-x-6 space-y-6">
+    <StatContainer>
       <Stat
         label="Amounts"
         value={formatRange(data.min_loan_amount, data.max_loan_amount)}
       />
-      <Stat
-        label="Rates"
-        value={`${numeral(data.min_interest_rate / 100).format("0.00%")} to ${numeral(data.max_interest_rate / 100).format("0%")}`}
-      />
+      {
+        hasInterestRate ? (
+          <Stat
+            label="Rates"
+            value={`${numeral(data.min_interest_rate / 100).format("0.00%")} to ${numeral(data.max_interest_rate / 100).format("0%")}`}
+          />
+        ) : null
+      }
       <Stat
         label="LTV"
         value={`${numeral(data.max_loan_to_value / 100).format("0%")}`}
       />
-      <Stat
-        label="Origination Fee"
-        value={`${data.min_origination_fee} to ${data.max_origination_fee}`}
-      />
+      {
+        hasOriginationFee ? (
+          <Stat
+            label="Origination Fee"
+            value={`${data.min_origination_fee} to ${data.max_origination_fee}`}
+          />
+        ) : null
+      }
       <Stat
         label="Term Length"
         value={`${data.min_term_length} to ${data.max_term_length} months`}
@@ -167,24 +177,35 @@ const hasPositiveConsiderations =
         label="Closing"
         value={`${data.min_closing_time} to ${data.max_closing_time} days`}
       />
-    </div>
+    </StatContainer>
+  </Section>
+  <Section title="Lending Parameters">
     <StatContainer>
+      {
+        !!data.interest_only ? (
+          <Stat label="Interest-only" value={data.interest_only} />
+        ) : null
+      }
+      <Stat
+        label="Owner-occupied properties"
+        value={`${data.is_owner_occupied_allowed ? "Yes" : "No"}`}
+      />
       <Stat
         label="Credit Check Required"
         footer={`${data.is_credit_check_required ? data.minimum_fico_score : ""}`}
-        value={`${data.is_credit_check_required ? "yes" : "no"}`}
+        value={`${data.is_credit_check_required ? "Yes" : "No"}`}
       />
       <Stat
         label="Will lend to a foreign national"
-        value={`${data.is_foreign_national_allowed ? "yes" : "no"}`}
+        value={`${data.is_foreign_national_allowed ? "Yes" : "No"}`}
       />
       <Stat
         label="2nd Trust Deeds"
-        value={`${data.is_2nd_trust_deed_allowed ? "yes" : "no"}`}
+        value={`${data.is_2nd_trust_deed_allowed ? "Yes" : "No"}`}
       />
       <Stat
         label="Allows Cross Collaterization"
-        value={`${data.is_cross_collateralization_allowed ? "yes" : "no"}`}
+        value={`${data.is_cross_collateralization_allowed ? "Yes" : "No"}`}
       />
     </StatContainer>
   </Section>
