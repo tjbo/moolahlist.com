@@ -1,106 +1,133 @@
 ---
 // src/components/Stat.astro
 interface Props {
-  label?: string
-  value?: number | string
-  prefix?: string
-  suffix?: string
-  precision?: number
-  footer?: string
-  trend?: 'up' | 'down' | null
-  trendText?: string
-  size?: 'sm' | 'md' | 'lg'
-  loading?: boolean
-  class?: string
+  label?: string;
+  value?: number | string;
+  prefix?: string;
+  suffix?: string;
+  precision?: number;
+  footer?: string;
+  trend?: "up" | "down" | null;
+  trendText?: string;
+  size?: "sm" | "md" | "lg";
+  loading?: boolean;
+  class?: string;
 }
 
 const {
-  label = '',
-  value = '',
-  prefix = '',
-  suffix = '',
+  label = "",
+  value = "",
+  prefix = "",
+  suffix = "",
   precision = 0,
-  footer= '',
+  footer = "",
   trend = null,
-  trendText = '',
-  size = 'sm',
+  trendText = "",
+  size = "sm",
   loading = false,
-  class: extraClass = '',
-} = Astro.props
+  class: extraClass = "",
+} = Astro.props;
 
 function formatValue(v: number | string) {
-  if (typeof v === 'number') {
-    if (precision >= 0) return v.toLocaleString(undefined, { minimumFractionDigits: precision, maximumFractionDigits: precision })
-    return v.toLocaleString()
+  if (typeof v === "number") {
+    if (precision >= 0)
+      return v.toLocaleString(undefined, {
+        minimumFractionDigits: precision,
+        maximumFractionDigits: precision,
+      });
+    return v.toLocaleString();
   }
-  return String(v)
+  return String(v);
 }
 
 const sizes = {
   sm: {
-    label: 'text-sm',
-    value: 'text-2xl',
-    help: 'text-xs',
-    gap: 'gap-1',
+    label: "text-sm",
+    value: "text-2xl",
+    help: "text-xs",
+    gap: "gap-1",
   },
   md: {
-    label: 'text-sm',
-    value: 'text-3xl',
-    help: 'text-sm',
-    gap: 'gap-2',
+    lgbel: "text-sm",
+    value: "text-3xl",
+    help: "text-sm",
+    gap: "gap-2",
   },
   lg: {
-    label: 'text-base',
-    value: 'text-4xl',
-    help: 'text-sm',
-    gap: 'gap-3',
+    label: "text-base",
+    value: "text-4xl",
+    help: "text-sm",
+    gap: "gap-3",
   },
-}[size]
+}[size];
 ---
 
-<dl class={`flex items-start ${sizes.gap} ${extraClass}`} role="group" aria-label={label || 'stat'}>
-  <div class="flex-1 min-w-0 bg-gray-200 rounded-md p-2">
+<dl
+  class={`flex items-start ${sizes.gap} ${extraClass}`}
+  role="group"
+  aria-label={label || "stat"}
+>
+  <div class="flex-1 min-w-0 card p-2">
     {label && <dt class={`text-gray-500 ${sizes.label}`}>{label}</dt>}
 
     <dd class="mt-1 flex items-baseline">
-      {loading ? (
-        /* simple accessible skeleton */
-        <div class="h-8 rounded bg-gray-200 animate-pulse w-32" aria-hidden="true"></div>
-      ) : (
-        <>
-          {prefix && <span class="mr-1 text-gray-600">{prefix}</span>}
-          <span class={`font-semibold ${sizes.value} text-gray-900`} data-testid="stat-value">
-            {formatValue(value)}
+      {
+        loading ? (
+          /* simple accessible skeleton */
+          <div
+            class="h-8 rounded bg-gray-200 animate-pulse w-32"
+            aria-hidden="true"
+          />
+        ) : (
+          <>
+            {prefix && <span class="mr-1 text-gray-600">{prefix}</span>}
+            <span
+              class={`font-semibold ${sizes.value} text-gray-900`}
+              data-testid="stat-value"
+            >
+              {formatValue(value)}
+            </span>
+            {suffix && <span class="ml-2 text-gray-500">{suffix}</span>}
+          </>
+        )
+      }
+      {
+        trend && !loading && (
+          <span
+            class="ml-3 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
+            aria-hidden="true"
+            class:list={
+              {
+                up: "bg-green-50 text-green-700",
+                down: "bg-red-50 text-red-700",
+              }[trend] ?? "bg-gray-100 text-gray-700"
+            }
+          >
+            {trend === "up" ? (
+              <svg
+                class="w-3 h-3 mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M3 12l4 4 10-10-1.5-1.5L7 13 4.5 10.5 3 12z" />
+              </svg>
+            ) : (
+              <svg
+                class="w-3 h-3 mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M17 8l-4-4L3 14l1.5 1.5L13 6l2.5 2.5L17 8z" />
+              </svg>
+            )}
+            <span>{trendText}</span>
           </span>
-          {suffix && <span class="ml-2 text-gray-500">{suffix}</span>}
-        </>
-      )}
-      {trend && !loading && (
-        <span class="ml-3 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium" aria-hidden="true"
-          class:list={
-            {
-              'up': 'bg-green-50 text-green-700',
-              'down': 'bg-red-50 text-red-700',
-            }[trend] ?? 'bg-gray-100 text-gray-700'
-          }>
-          {trend === 'up' ? (
-            <svg class="w-3 h-3 mr-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path d="M3 12l4 4 10-10-1.5-1.5L7 13 4.5 10.5 3 12z" />
-            </svg>
-          ) : (
-            <svg class="w-3 h-3 mr-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path d="M17 8l-4-4L3 14l1.5 1.5L13 6l2.5 2.5L17 8z" />
-            </svg>
-          )}
-          <span>{trendText}</span>
-        </span>
-      )}
+        )
+      }
     </dd>
 
-    {footer && (
-      <dd class={`mt-2 text-gray-500 ${sizes.help}`}>
-        {footer}
-      </dd>
-    )}
+    {footer && <dd class={`mt-2 text-gray-500 ${sizes.help}`}>{footer}</dd>}
   </div>
 </dl>

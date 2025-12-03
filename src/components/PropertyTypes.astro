@@ -1,0 +1,80 @@
+---
+const { items, title } = Astro.props;
+
+const COMMERCIAL_PROPERTY_TYPES = {
+  Retail: {
+    title: "Retail / Storefronts",
+    description: "shops, strip centers, commercial retail spaces",
+  },
+  Office: {
+    title: "Office Buildings",
+    description:
+      "small offices, mid-size office buildings, professional suites",
+  },
+  Industrial: {
+    title: "Industrial / Warehouse",
+    description: "manufacturing, distribution, storage, logistics facilities",
+  },
+  Hospitality: {
+    title: "Hospitality / Lodging",
+    description: "hotels, motels, boutique hospitality properties",
+  },
+  "Restaurants / Bars": {
+    title: "Restaurants / Bars / Cafes",
+    description: "food and beverage commercial properties",
+  },
+  "Mixed-Use": {
+    title: "Mixed-Use Buildings",
+    description: "commercial + residential combined properties",
+  },
+  "Automotive Facilities": {
+    title: "Automotive Commercial Facilities",
+    description: "auto repair shops, dealerships, service centers",
+  },
+  "Flex Spaces": {
+    title: "Flex Industrial / Commercial Spaces",
+    description: "hybrid warehouse/office flexible-use buildings",
+  },
+};
+
+const RESIDENTIAL_PROPERTY_TYPES = {
+  "Single-Family Homes": {
+    title: "Single-Family Homes (SFR)",
+    description: "detached houses",
+  },
+  Condominiums: {
+    title: "Condominiums",
+    description: "condo units, townhouse-style condos",
+  },
+
+  "Multi-Family Residential": {
+    title: "Multi-Family Residential (2–4 units)",
+    description: "duplexes, triplexes, fourplexes",
+  },
+
+  "Large Multi-Family": {
+    title: "Large Multi-Family (5+ units)",
+    description: "apartment buildings",
+  },
+  Vacation: {
+    title: "Vacation / Short-Term Rentals",
+    description: "Airbnb or similar",
+  },
+};
+---
+
+<div class="card">
+  <h2>{title}</h2>
+  {
+    !!items &&
+      !!items.length &&
+      items.map((item) => {
+        return !!RESIDENTIAL_PROPERTY_TYPES[item.type] ? (
+          <div>
+            <b>{RESIDENTIAL_PROPERTY_TYPES[item.type].title}</b> -{" "}
+            {RESIDENTIAL_PROPERTY_TYPES[item.type].description}{" "}
+          </div>
+        ) : null;
+      })
+  }
+</div>

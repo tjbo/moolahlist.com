@@ -6,6 +6,7 @@ import Layout from "../../components/Layout.astro";
 import Section from "../../components/Section.astro";
 import Stat from "../../components/Stat.astro";
 import StatContainer from "../../components/StatContainer.astro";
+import PropertyTypes from "../../components/PropertyTypes.astro";
 import numeral from "numeral";
 import generateSrcSets from "../../utils/generateSrcSets.js";
 import getImageUrlFromSize from "../../utils/getImageUrlFromSize.js";
@@ -78,6 +79,9 @@ function formatRange(min, max) {
         <h1 class="!text-xl">
           {data.name}
         </h1>
+        <div class="text-sm">
+          {!!data.city && !!data.state ? `${data.city}, ${data.state}` : null}
+        </div>
       </div>
     </div>
   </div>
@@ -140,6 +144,19 @@ function formatRange(min, max) {
         label="Allows Cross Collaterization"
         value={`${data.is_cross_collateralization_allowed ? "yes" : "no"}`}
       />
+    </StatContainer>
+  </Section>
+  <Section>
+    <StatContainer>
+      {
+        !!data.residential_property_types &&
+        !!data.residential_property_types.length ? (
+          <PropertyTypes
+            items={data.residential_property_types}
+            title="Residential"
+          />
+        ) : null
+      }
     </StatContainer>
   </Section>
 </Layout>

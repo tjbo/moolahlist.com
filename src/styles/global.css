@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+.card {
+  @apply bg-gray-100 rounded-2xl p-3; 
+}
+
 a {
     @apply text-blue-600;
     @apply cursor-pointer;
