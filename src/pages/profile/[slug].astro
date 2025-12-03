@@ -53,10 +53,21 @@ function formatRange(min, max) {
 }
 
 const hasLicenses =
-  !!data.licenses &&
-  !!data.licenses.length &&
+  data.licenses?.length &&
   data.licenses.some((license) => {
     return !!license.key && !!license.value;
+  });
+
+const hasNegativeConsiderations =
+  data.negative_considerations?.length &&
+  data.negative_considerations.some((item) => {
+    return !!item.item;
+  });
+
+const hasPositiveConsiderations =
+  data.positive_considerations?.length &&
+  data.positive_considerations.some((item) => {
+    return !!item.item;
   });
 ---
 
@@ -104,26 +115,31 @@ const hasLicenses =
   <Section title={data.headline}>
     <Fragment set:html={intro} />
   </Section>
-  <Section title="Before You Apply">
-    <div class="grid grid-cols-2 gap-9">
-      <div class="card">
-        <h3>What We Fund</h3>
-        {
-          data.positive_considerations.map((item) => {
-            return <li>{item.item}</li>;
-          })
-        }
-      </div>
-      <div class="card">
-        <h3>What We Don't Fund</h3>
-        {
-          data.negative_considerations.map((item) => {
-            return <li>{item.item}</li>;
-          })
-        }
-      </div>
-    </div>
-  </Section>
+
+  {
+    hasPositiveConsiderations || hasNegativeConsiderations ? (
+      <Section title="Before You Apply">
+        <div class="grid grid-cols-2 gap-9">
+          {hasPositiveConsiderations && (
+            <div class="card">
+              <h3>What We Fund</h3>
+              {data.positive_considerations.map((item) => {
+                return <li>{item.item}</li>;
+              })}
+            </div>
+          )}
+          {hasNegativeConsiderations && (
+            <div class="card">
+              <h3>What We Don't Fund</h3>
+              {data.negative_considerations.map((item) => {
+                return <li>{item.item}</li>;
+              })}
+            </div>
+          )}
+        </div>
+      </Section>
+    ) : null
+  }
 
   <Section title="Lending Guidelines">
     <div class="grid grid-cols-3 space-x-6 space-y-6">
