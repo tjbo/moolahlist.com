@@ -52,14 +52,32 @@ function formatRange(min, max) {
   return `${formatMoneyAbbrev(min)} to ${formatMoneyAbbrev(max)}`;
 }
 
+const hasClosingTime = !!data.min_closing_time && !!data.max_closing_time;
 const hasInterestRate = !!data.min_interest_rate && !!data.max_interest_rate;
+const hasLoanAmount = !!data.min_loan_amount && !!data.max_loan_amount;
+const hasLtv = !!data.max_loan_to_value;
+const hasTermLength = !!data.min_term_length && !!data.max_term_length;
+
 const hasOriginationFee =
   !!data.min_origination_fee && !!data.max_origination_fee;
+
+const hasLendingGuidelines =
+  hasClosingTime ||
+  hasInterestRate ||
+  hasLoanAmount ||
+  hasTermLength ||
+  hasOriginationFee;
 
 const hasLicenses =
   data.licenses?.length &&
   data.licenses.some((license) => {
     return !!license.key && !!license.value;
+  });
+
+const hasBestFeatures =
+  data.best_features?.length &&
+  data.best_features.some((item) => {
+    return !!item.item;
   });
 
 const hasNegativeConsiderations =
@@ -143,42 +161,50 @@ const hasPositiveConsiderations =
     ) : null
   }
 
-  <Section title="Lending Guidelines">
-    <StatContainer>
-      <Stat
-        label="Amounts"
-        value={formatRange(data.min_loan_amount, data.max_loan_amount)}
-      />
-      {
-        hasInterestRate ? (
-          <Stat
-            label="Rates"
-            value={`${numeral(data.min_interest_rate / 100).format("0.00%")} to ${numeral(data.max_interest_rate / 100).format("0%")}`}
-          />
-        ) : null
-      }
-      <Stat
-        label="LTV"
-        value={`${numeral(data.max_loan_to_value / 100).format("0%")}`}
-      />
-      {
-        hasOriginationFee ? (
-          <Stat
-            label="Origination Fee"
-            value={`${data.min_origination_fee} to ${data.max_origination_fee}`}
-          />
-        ) : null
-      }
-      <Stat
-        label="Term Length"
-        value={`${data.min_term_length} to ${data.max_term_length} months`}
-      />
-      <Stat
-        label="Closing"
-        value={`${data.min_closing_time} to ${data.max_closing_time} days`}
-      />
-    </StatContainer>
-  </Section>
+  {
+    hasLendingGuidelines ? (
+      <Section title="Lending Guidelines">
+        <StatContainer>
+          {hasLoanAmount ? (
+            <Stat
+              label="Amounts"
+              value={formatRange(data.min_loan_amount, data.max_loan_amount)}
+            />
+          ) : null}
+          {hasInterestRate ? (
+            <Stat
+              label="Rates"
+              value={`${numeral(data.min_interest_rate / 100).format("0.00%")} to ${numeral(data.max_interest_rate / 100).format("0%")}`}
+            />
+          ) : null}
+          {hasLtv ? (
+            <Stat
+              label="LTV"
+              value={`${numeral(data.max_loan_to_value / 100).format("0%")}`}
+            />
+          ) : null}
+          {hasOriginationFee ? (
+            <Stat
+              label="Origination Fee"
+              value={`${data.min_origination_fee} to ${data.max_origination_fee}`}
+            />
+          ) : null}
+          {hasTermLength ? (
+            <Stat
+              label="Term Length"
+              value={`${data.min_term_length} to ${data.max_term_length} months`}
+            />
+          ) : null}
+          {hasClosingTime ? (
+            <Stat
+              label="Closing"
+              value={`${data.min_closing_time} to ${data.max_closing_time} days`}
+            />
+          ) : null}
+        </StatContainer>
+      </Section>
+    ) : null
+  }
   <Section title="Lending Parameters">
     <StatContainer>
       {
@@ -222,13 +248,15 @@ const hasPositiveConsiderations =
       </Section>
     ) : null
   }
-  <Section>
-    <h3>Why Borrowers Choose This Lender</h3>
+  {
+    hasBestFeatures ? (
+      <Section>
+        <h3>Why Borrowers Choose This Lender</h3>
 
-    {
-      data.best_features.map((f) => {
-        return <li>{f.feature}</li>;
-      })
-    }
-  </Section>
+        {data.best_features.map((f) => {
+          return <li>{f.feature}</li>;
+        })}
+      </Section>
+    ) : null
+  }
 </Layout>
