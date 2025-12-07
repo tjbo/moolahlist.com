@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html, body {
+  @apply !w-full !min-w-full
+
+}
 .card {
   @apply bg-gray-100 rounded-2xl p-3; 
 }

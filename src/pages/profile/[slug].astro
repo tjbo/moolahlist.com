@@ -94,16 +94,16 @@ const hasPositiveConsiderations =
 ---
 
 <Layout>
-  <div class="w-full border-gray-200 border-b p-3 m-0 bg-gray-50">
+  <div class="!w-full min-w-full border-gray-200 border-b p-3 m-0 bg-gray-50">
     <div
-      class="grid grid-cols-[162px_auto] mx-auto max-w-[1024px] px-6 w-full items-start"
+      class="grid grid-cols-[100px_auto] md:grid-cols-[162px_auto] mx-auto max-w-[1024px] px-6 w-full items-start"
     >
       {
         !!image && !!image.url && (
-          <div class="w-[162px] h-[162px] m-0 border-gray-200 border">
+          <div class="w-[100px] h-[100px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
             <Image
               alt={!!image.alt ? image.alt : ""}
-              class="max-w-[160px]"
+              class="w-full h-full max-w-[160px]"
               loading="lazy"
               sizes="(max-width: 640px) 95vw, (min-width: 768px) 44vw, (min-width: 1252px) 552px"
               src={getImageUrlFromSize(image.url, 576, 432, true)}
@@ -139,7 +139,7 @@ const hasPositiveConsiderations =
   {
     hasPositiveConsiderations || hasNegativeConsiderations ? (
       <Section title="Before You Apply">
-        <div class="grid grid-cols-2 gap-9">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-9">
           {hasPositiveConsiderations && (
             <div class="card">
               <h3>What We Fund</h3>

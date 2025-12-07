@@ -9,7 +9,10 @@ import { settings } from "../prismic.js";
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>MoolahList</title>
@@ -18,7 +21,7 @@ import { settings } from "../prismic.js";
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col w-full min-w-full">
     <div class="w-full m-3 mt-3 mb-0 border-b border-gray-200 p-3">
       <a href="/"
         ><img
@@ -30,7 +33,7 @@ import { settings } from "../prismic.js";
         /></a
       >
     </div>
-    <div class="mx-4">
+    <div>
       <slot />
     </div>
     <div class="mx-auto mt-auto border-t border-gray-200 w-full">
