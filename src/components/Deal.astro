@@ -1,0 +1,45 @@
+---
+import * as prismic from "@prismicio/client";
+const { deal } = Astro.props;
+
+import generateSrcSets from "../utils/generateSrcSets.js";
+import getImageUrlFromSize from "../utils/getImageUrlFromSize.js";
+
+const image = deal.image;
+const srcSets =
+  !!deal.image &&
+  !!deal.image.url &&
+  generateSrcSets(
+    deal.image.url,
+    [
+      { w: 640, h: 360 },
+      { w: 480, h: 270 },
+      { w: 320, h: 180 },
+      { w: 240, h: 135 },
+      { w: 160, h: 90 },
+    ],
+    true,
+  );
+---
+
+<div class="grid grid-cols-[auto_300px] gap-6">
+  <div>
+    <h3>
+      <a href={deal.link.url} target="_blank">
+        {deal.headline1}
+      </a>
+    </h3>
+    <div
+      set:html={prismic.asHTML(deal.body, (doc) => {
+        return getUrl(doc.id);
+      })}
+    />
+    <a href={deal.link.url} target="_blank"> Read more </a>
+  </div>
+  <img
+    sizes="(max-width: 640px) 95vw, (min-width: 768px) 44vw, (min-width: 1252px) 552px"
+    src={getImageUrlFromSize(deal.image.url, 576, 432, true)}
+    srcSet={srcSets}
+    src=""
+  />
+</div>

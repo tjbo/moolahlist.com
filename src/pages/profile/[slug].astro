@@ -3,27 +3,119 @@ import { Image } from "astro:assets";
 import * as prismic from "@prismicio/client";
 import { profiles } from "../../prismic.js";
 import Layout from "../../components/Layout.astro";
+import LoanPrograms from "../../components/LoanPrograms.astro";
+import LoanSpecs from "../../components/LoanSpecs.astro";
+import Deal from "../../components/Deal.astro";
 import Section from "../../components/Section.astro";
 import Stat from "../../components/Stat.astro";
 import StatContainer from "../../components/StatContainer.astro";
+import Tabs from "../../components/Tabs.astro";
 import PropertyTypes from "../../components/PropertyTypes.astro";
 import numeral from "numeral";
 import generateSrcSets from "../../utils/generateSrcSets.js";
 import getImageUrlFromSize from "../../utils/getImageUrlFromSize.js";
+import { marked } from "marked";
 
 export async function getStaticPaths() {
-  return profiles.map((profile) => {
-    return { params: { slug: profile.uid }, props: { profile } };
+  const response = await fetch(
+    "https://us-east-1.cdn.hygraph.com/content/cke1u42u73qoz01z20ckw7eij/master",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+        {
+          lenderProfiles(stage: PUBLISHED) {
+            slug
+            email
+            profileStatus
+            listingType
+            name
+            website
+            logo {
+              url(
+                transformation: {
+                  image: {
+                    resize: {
+                      width: 400
+                      height: 400
+                      fit: crop
+                    }
+                  }
+                }
+              )
+              fileName
+              width
+              height
+              size
+            }
+            headline {
+              markdown 
+            }
+            description {
+              markdown 
+            }
+            metaDescription {
+              raw
+            }
+            phone
+            streetAddress
+            postalCode
+            city
+            state
+            yearEstablished
+            numberOfEmployees
+            facebook
+            instagram
+            linkedIn
+            twitter
+            slug
+            loanPrograms {
+              title 
+              bestFor 
+              loanType
+              propertyTypes
+              loanToValueMax
+              loanToCostMax
+              loanAmountMin
+              loanAmountMax
+              interestRateMin
+              interestRateMax
+              termLengthMin
+              termLengthMax
+              originationFeeMin
+              originationFeeMax
+              closingTimeMin
+              closingTimeMax
+              isInterestOnly
+              is2ndPositionAllowed
+              is1stTimeInvestorAllowed
+              isForeignNationalAllowed
+              isPersonalGuaranteeRequired
+              isOwnerOccupiedAllowed
+              isCreditCheckRequired
+              minFicoScore
+              isBankruptcyAllowed
+              isPriorForeclosureAllowed
+              areRuralPropertiesAllowed
+              requirements
+            }
+          }
+        }
+      `,
+      }),
+    },
+  );
+  const profiles = await response.json();
+  return profiles.data.lenderProfiles.map((profile) => {
+    return { params: { slug: profile.slug }, props: { data: profile } };
   });
 }
 
-const {
-  profile: { data },
-} = Astro.props;
-
-const intro = prismic.asHTML(data.description, (doc) => {
-  return getUrl(doc.id);
-});
+const { data } = Astro.props;
 
 const image = data.logo;
 const srcSets =
@@ -52,21 +144,13 @@ function formatRange(min, max) {
   return `${formatMoneyAbbrev(min)} to ${formatMoneyAbbrev(max)}`;
 }
 
-const hasClosingTime = !!data.min_closing_time && !!data.max_closing_time;
-const hasInterestRate = !!data.min_interest_rate && !!data.max_interest_rate;
-const hasLoanAmount = !!data.min_loan_amount && !!data.max_loan_amount;
-const hasLtv = !!data.max_loan_to_value;
-const hasTermLength = !!data.min_term_length && !!data.max_term_length;
-
-const hasOriginationFee =
-  !!data.min_origination_fee && !!data.max_origination_fee;
-
-const hasLendingGuidelines =
-  hasClosingTime ||
-  hasInterestRate ||
-  hasLoanAmount ||
-  hasTermLength ||
-  hasOriginationFee;
+const loanProgramTabs = data.loanPrograms.map((loanProgram) => {
+  return {
+    title: loanProgram.loanType,
+    component: LoanPrograms,
+    props: loanProgram,
+  };
+});
 
 const hasLicenses =
   data.licenses?.length &&
@@ -79,6 +163,8 @@ const hasBestFeatures =
   data.best_features.some((item) => {
     return !!item.item;
   });
+
+const hasDeals = !!data.deals?.length;
 
 const hasNegativeConsiderations =
   data.negative_considerations?.length &&
@@ -137,8 +223,26 @@ const hasPositiveConsiderations =
     <Fragment set:html={intro} />
   </Section>
   {
+    !!loanPrograms && !!loanPrograms.length ? (
+      <Section>
+        <div class="-mb-px border-b border-gray-200" />
+        <Tabs tabs={loanProgramTabs} />
+      </Section>
+    ) : null
+  }
+  {
+    hasBestFeatures ? (
+      <Section>
+        <h3>Why Borrowers Choose This Lender</h3>
+        {data.best_features.map((f) => {
+          return <li>{f.feature}</li>;
+        })}
+      </Section>
+    ) : null
+  }
+  {
     hasPositiveConsiderations || hasNegativeConsiderations ? (
-      <Section title="Before You Apply">
+      <Section>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-9">
           {hasPositiveConsiderations && (
             <div class="card">
@@ -160,101 +264,12 @@ const hasPositiveConsiderations =
       </Section>
     ) : null
   }
-
   {
-    hasLendingGuidelines ? (
-      <Section title="Lending Guidelines">
-        <StatContainer>
-          {hasLoanAmount ? (
-            <Stat
-              label="Amounts"
-              value={formatRange(data.min_loan_amount, data.max_loan_amount)}
-            />
-          ) : null}
-          {hasInterestRate ? (
-            <Stat
-              label="Rates"
-              value={`${numeral(data.min_interest_rate / 100).format("0.00%")} to ${numeral(data.max_interest_rate / 100).format("0%")}`}
-            />
-          ) : null}
-          {hasLtv ? (
-            <Stat
-              label="LTV"
-              value={`${numeral(data.max_loan_to_value / 100).format("0%")}`}
-            />
-          ) : null}
-          {hasOriginationFee ? (
-            <Stat
-              label="Origination Fee"
-              value={`${data.min_origination_fee} to ${data.max_origination_fee}`}
-            />
-          ) : null}
-          {hasTermLength ? (
-            <Stat
-              label="Term Length"
-              value={`${data.min_term_length} to ${data.max_term_length} months`}
-            />
-          ) : null}
-          {hasClosingTime ? (
-            <Stat
-              label="Closing"
-              value={`${data.min_closing_time} to ${data.max_closing_time} days`}
-            />
-          ) : null}
-        </StatContainer>
-      </Section>
-    ) : null
-  }
-  <Section title="Lending Parameters">
-    <StatContainer>
-      {
-        !!data.interest_only ? (
-          <Stat label="Interest-only" value={data.interest_only} />
-        ) : null
-      }
-      <Stat
-        label="Owner-occupied properties"
-        value={`${data.is_owner_occupied_allowed ? "Yes" : "No"}`}
-      />
-      <Stat
-        label="Credit Check Required"
-        footer={`${data.is_credit_check_required ? data.minimum_fico_score : ""}`}
-        value={`${data.is_credit_check_required ? "Yes" : "No"}`}
-      />
-      <Stat
-        label="Will lend to a foreign national"
-        value={`${data.is_foreign_national_allowed ? "Yes" : "No"}`}
-      />
-      <Stat
-        label="2nd Trust Deeds"
-        value={`${data.is_2nd_trust_deed_allowed ? "Yes" : "No"}`}
-      />
-      <Stat
-        label="Allows Cross Collaterization"
-        value={`${data.is_cross_collateralization_allowed ? "Yes" : "No"}`}
-      />
-    </StatContainer>
-  </Section>
-  {
-    !!data.residential_property_types &&
-    !!data.residential_property_types.length ? (
-      <Section title="Property Types">
-        <StatContainer>
-          <PropertyTypes
-            items={data.residential_property_types}
-            title="Residential"
-          />
-        </StatContainer>
-      </Section>
-    ) : null
-  }
-  {
-    hasBestFeatures ? (
+    hasDeals ? (
       <Section>
-        <h3>Why Borrowers Choose This Lender</h3>
-
-        {data.best_features.map((f) => {
-          return <li>{f.feature}</li>;
+        <h3>Recent Deals</h3>
+        {data.deals.map((deal) => {
+          return <Deal deal={deal} />;
         })}
       </Section>
     ) : null

@@ -1,0 +1,678 @@
+{
+  "Main": {
+    "name": {
+      "type": "Text",
+      "config": {
+        "label": "Name"
+      }
+    },
+    "uid": {
+      "type": "UID",
+      "config": {
+        "label": "Slug"
+      }
+    },
+    "website": {
+      "type": "Link",
+      "config": {
+        "label": "Website",
+        "select": null
+      }
+    },
+    "email": {
+      "type": "Text",
+      "config": {
+        "label": "Email"
+      }
+    },
+    "phone": {
+      "type": "Text",
+      "config": {
+        "label": "Phone"
+      }
+    },
+    "address": {
+      "type": "Text",
+      "config": {
+        "label": "Address"
+      }
+    },
+    "city": {
+      "type": "Text",
+      "config": {
+        "label": "City"
+      }
+    },
+    "state": {
+      "type": "Select",
+      "config": {
+        "options": [
+          "Alabama",
+          "Alaska",
+          "Arizona",
+          "Arkansas",
+          "California",
+          "Colorado",
+          "Connecticut",
+          "Delaware",
+          "Florida",
+          "Georgia",
+          "Hawaii",
+          "Idaho",
+          "Illinois",
+          "Indiana",
+          "Iowa",
+          "Kansas",
+          "Kentucky",
+          "Louisiana",
+          "Maine",
+          "Maryland",
+          "Massachusetts",
+          "Michigan",
+          "Minnesota",
+          "Mississippi",
+          "Missouri",
+          "Montana",
+          "Nebraska",
+          "Nevada",
+          "New Hampshire",
+          "New Jersey",
+          "New Mexico",
+          "New York",
+          "North Carolina",
+          "North Dakota",
+          "Ohio",
+          "Oklahoma",
+          "Oregon",
+          "Pennsylvania",
+          "Rhode Island",
+          "South Carolina",
+          "South Dakota",
+          "Tennessee",
+          "Texas",
+          "Utah",
+          "Vermont",
+          "Virginia",
+          "Washington",
+          "West Virginia",
+          "Wisconsin",
+          "Wyoming"
+        ],
+        "label": "State"
+      }
+    },
+    "postal_code": {
+      "type": "Text",
+      "config": {
+        "label": "Postal Code"
+      }
+    },
+    "year_established": {
+      "type": "Number",
+      "config": {
+        "label": "Year Established"
+      }
+    },
+    "number_of_employees": {
+      "type": "Select",
+      "config": {
+        "options": ["1 to 9", "10 to 49", "50 to 249", "250 to 499", "500+"],
+        "label": "Number of Employees"
+      }
+    },
+    "licenses": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "key": {
+            "type": "Text",
+            "config": {
+              "label": "Key"
+            }
+          },
+          "value": {
+            "type": "Text",
+            "config": {
+              "label": "Value"
+            }
+          }
+        },
+        "label": "Licenses"
+      }
+    },
+    "social_media": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "type": {
+            "type": "Select",
+            "config": {
+              "options": ["Facebook", "Instagram", "LinkedIn", "X"],
+              "label": "Type"
+            }
+          },
+          "link": {
+            "type": "Link",
+            "config": {
+              "label": "Link",
+              "select": null
+            }
+          }
+        },
+        "label": "Social Media"
+      }
+    },
+
+    "works_with": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "item": {
+            "type": "Select",
+            "config": {
+              "options": ["Banks", "Borrowers", "Brokers", "Lenders"],
+              "label": "item"
+            }
+          }
+        },
+        "label": "Who do you work with?"
+      }
+    },
+    "states_served": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "state1": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "All",
+                "Alabama",
+                "Alaska",
+                "Arizona",
+                "Arkansas",
+                "California",
+                "Colorado",
+                "Connecticut",
+                "Delaware",
+                "Florida",
+                "Georgia",
+                "Hawaii",
+                "Idaho",
+                "Illinois",
+                "Indiana",
+                "Iowa",
+                "Kansas",
+                "Kentucky",
+                "Louisiana",
+                "Maine",
+                "Maryland",
+                "Massachusetts",
+                "Michigan",
+                "Minnesota",
+                "Mississippi",
+                "Missouri",
+                "Montana",
+                "Nebraska",
+                "Nevada",
+                "New Hampshire",
+                "New Jersey",
+                "New Mexico",
+                "New York",
+                "North Carolina",
+                "North Dakota",
+                "Ohio",
+                "Oklahoma",
+                "Oregon",
+                "Pennsylvania",
+                "Rhode Island",
+                "South Carolina",
+                "South Dakota",
+                "Tennessee",
+                "Texas",
+                "Utah",
+                "Vermont",
+                "Virginia",
+                "Washington",
+                "West Virginia",
+                "Wisconsin",
+                "Wyoming"
+              ],
+              "label": "State"
+            }
+          }
+        },
+        "label": "States Served"
+      }
+    },
+    "documentation_required": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "required_documentation": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Credit Report",
+                "Bank Statements",
+                "Financial Statements",
+                "Loan Application"
+              ],
+              "label": "Required Documentation"
+            }
+          }
+        },
+        "label": "Documentation Required"
+      }
+    },
+
+    "fees": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Appraisal",
+                "Deposit",
+                "Escrow",
+                "Inspection",
+                "Legal",
+                "Title",
+                "Underwriting"
+              ],
+              "label": "Type"
+            }
+          },
+          "is_required": {
+            "type": "Boolean",
+            "config": {
+              "default_value": false,
+              "label": "Is Required"
+            }
+          },
+          "is_upfront": {
+            "type": "Boolean",
+            "config": {
+              "default_value": false,
+              "label": "Is Upfront"
+            }
+          },
+          "is_third_party": {
+            "type": "Boolean",
+            "config": {
+              "default_value": false,
+              "label": "Is Third Party"
+            }
+          }
+        },
+        "label": "Fees"
+      }
+    }
+  },
+
+  "Description": {
+    "headline": {
+      "type": "Text",
+      "config": {
+        "label": "Headline"
+      }
+    },
+    "meta_description": {
+      "type": "Text",
+      "config": {
+        "label": "Meta Description"
+      }
+    },
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "multi": "paragraph,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+        "label": "Description"
+      }
+    },
+    "logo": {
+      "type": "Image",
+      "config": {
+        "constraint": {
+          "width": 400,
+          "height": 400
+        },
+        "thumbnails": [],
+        "label": "Logo"
+      }
+    },
+    "positive_considerations": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "item": {
+            "type": "Text",
+            "config": {
+              "label": "Item"
+            }
+          }
+        },
+        "label": "Positive Considerations"
+      }
+    },
+    "negative_considerations": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "item": {
+            "type": "Text",
+            "config": {
+              "label": "Item"
+            }
+          }
+        },
+        "label": "Negative Considerations"
+      }
+    },
+    "best_features": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "feature": {
+            "type": "Text",
+            "config": {
+              "label": "Feature"
+            }
+          }
+        },
+        "label": "Best Features"
+      }
+    }
+  },
+  "Loan Types": {
+    "loan_types": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "loan_type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Bridge",
+                "Cash Out",
+                "Fix & Flip",
+                "Investment Property",
+                "New Construction",
+                "Non-real Estate",
+                "Partner Buyouts",
+                "Purchase",
+                "Probate",
+                "Refinance"
+              ],
+              "label": "Loan Type"
+            }
+          }
+        },
+        "label": "Loan Types"
+      }
+    },
+
+    "residential_property_types": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Single-Family Homes",
+                "Condominiums",
+                "Multi-Family Residential",
+                "Large Multi-Family",
+                "Vacation"
+              ],
+              "label": "Type"
+            }
+          }
+        },
+        "label": "Residential Property Types"
+      }
+    },
+    "commercial_property_types": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Retail",
+                "Office",
+                "Industrial",
+                "Hospitality",
+                "Restaurants"
+              ],
+              "label": "Type"
+            }
+          }
+        },
+        "label": "Commercial Property Types"
+      }
+    },
+    "special_purpose_property_types": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Storage",
+                "Healthcare Facilities",
+                "Childcare / Schools / Religious Facilities",
+                "Parking Lots / Garages",
+                "Mobile Home Parks / RV Parks",
+                "Senior Housing",
+                "Student Housing"
+              ],
+              "label": "Type"
+            }
+          }
+        },
+        "label": "Special Purpose Property Types"
+      }
+    },
+    "land_or_development_property_types": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "type": {
+            "type": "Select",
+            "config": {
+              "options": [
+                "Raw / Undeveloped Land",
+                "Subdivision / Development Projects",
+                "Mixed-Use / Planned Communities"
+              ],
+              "label": "type"
+            }
+          }
+        },
+        "label": "Land / Development Property Types"
+      }
+    }
+  },
+  "Loan Parameters": {
+    "is_owner_occupied_allowed": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you loan on owner-occupied properties?"
+      }
+    },
+    "interest_only": {
+      "type": "Select",
+      "config": {
+        "options": ["Always", "Mostly", "Sometimes", "No"],
+        "label": "Interest-only"
+      }
+    },
+    "are_loans_interest_only": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Are your loans interest only?"
+      }
+    },
+    "pre_payment_penalty": {
+      "type": "Select",
+      "config": {
+        "options": ["Always", "Mostly", "Sometimes", "No"],
+        "label": "Pre-Payment Penalty"
+      }
+    },
+    "min_pre_payment_penalty_length": {
+      "type": "Number",
+      "config": {
+        "label": "min_pre_payment_penalty_length"
+      }
+    },
+    "max_pre_payment_penalty_length": {
+      "type": "Number",
+      "config": {
+        "label": "Max Pre-Payment Penalty Length"
+      }
+    },
+    "is_credit_check_required": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you require a credit check?"
+      }
+    },
+    "minimum_fico_score": {
+      "type": "Number",
+      "config": {
+        "label": "Minimum Fico Score"
+      }
+    },
+    "is_foreign_national_allowed": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you lend to foreign nationals?"
+      }
+    },
+    "is_auctions_allowed": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you consider lending on purchases from auctions?"
+      }
+    },
+    "is_cross_collateralization_allowed": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you allow cross collateralization?"
+      }
+    },
+    "is_2nd_trust_deed_allowed": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you fund 2nd trust deeds?"
+      }
+    },
+    "is_land_allowed": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you fund land loans?"
+      }
+    },
+    "is_ground_up_construction_allowed": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you fund ground-up construction?"
+      }
+    },
+    "is_first_time_borrower_allowed": {
+      "type": "Boolean",
+      "config": {
+        "default_value": false,
+        "label": "Do you lend to first time borrowers?"
+      }
+    },
+    "min_closing_time": {
+      "type": "Number",
+      "config": {
+        "label": "Min Closing Time"
+      }
+    },
+    "max_closing_time": {
+      "type": "Number",
+      "config": {
+        "label": "Max Closing Time"
+      }
+    },
+    "min_loan_amount": {
+      "type": "Number",
+      "config": {
+        "label": "Min Loan Amount"
+      }
+    },
+    "max_loan_amount": {
+      "type": "Number",
+      "config": {
+        "label": "Max Loan Amount"
+      }
+    },
+    "min_interest_rate": {
+      "type": "Number",
+      "config": {
+        "label": "Min Interest Rate"
+      }
+    },
+    "max_interest_rate": {
+      "type": "Number",
+      "config": {
+        "label": "Max Interest Rate"
+      }
+    },
+    "min_term_length": {
+      "type": "Number",
+      "config": {
+        "label": "Min Term Length"
+      }
+    },
+    "max_term_length": {
+      "type": "Text",
+      "config": {
+        "label": "Max Term Length"
+      }
+    },
+    "min_origination_fee": {
+      "type": "Number",
+      "config": {
+        "label": "Min Origination Fee"
+      }
+    },
+    "max_origination_fee": {
+      "type": "Text",
+      "config": {
+        "label": "Max Origination Fee"
+      }
+    },
+    "max_loan_to_cost": {
+      "type": "Number",
+      "config": {
+        "label": "Max Loan To Cost"
+      }
+    },
+    "max_loan_to_value": {
+      "type": "Number",
+      "config": {
+        "label": "Max Loan To Value"
+      }
+    }
+  }
+}

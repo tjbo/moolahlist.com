@@ -5,7 +5,11 @@ html, body {
 
 }
 .card {
-  @apply bg-gray-100 rounded-2xl p-3; 
+  @apply p-6 border-gray-600 border-solid border-1; 
+}
+
+section p:last-child {
+  margin-bottom: 0;
 }
 
 a {
@@ -68,6 +72,20 @@ a {
   a {
   }
 
+  .tab-contents > div {
+    display: none;
+  }
 
+  .tab-contents > div.active {
+    display: block;
+  }
 
+  .tab-buttons button {
+    @apply border-b-2 border-transparent px-4 py-2 text-2xl font-medium text-gray-600 transition-colors hover:text-gray-700;
+  }
 
+  .tab-buttons button.active {
+    @apply border-b-blue-600 text-blue-600  transition-colors hover:text-blue-700;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+  }

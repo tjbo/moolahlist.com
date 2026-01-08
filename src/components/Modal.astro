@@ -1,0 +1,68 @@
+---
+const { className, id, title } = Astro.props;
+---
+
+<div
+  aria-modal="true"
+  aria-labelledby="modalTitle"
+  class={`hidden fixed inset-0 z-50 place-content-center bg-black/50 p-4 overflow-y-auto`}
+  id={id}
+  role="dialog"
+>
+  <div
+    class={`w-full rounded-lg bg-white p-6 shadow-lg overflow-y-auto overflow-x-hidden ${className} mx-auto`}
+  >
+    <div class="flex items-start justify-between">
+      <h4>{title}</h4>
+      <button
+        type="button"
+        data-close-modal={id}
+        class="cursor-pointer -me-4 -mt-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none"
+        aria-label="Close"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="size-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="mt-4">
+      <slot />
+    </div>
+  </div>
+</div>
+<script>
+  const lockScroll = () => {
+    document.body.style.overflow = "hidden";
+  };
+
+  const unlockScroll = () => {
+    document.body.style.overflow = "";
+  };
+
+  document.addEventListener("click", (e) => {
+    const openBtn = e.target.closest("[data-open-modal]");
+    const closeBtn = e.target.closest("[data-close-modal]");
+    if (openBtn) {
+      event.preventDefault();
+      const id = openBtn.getAttribute("data-open-modal");
+      document.getElementById(id)?.classList.remove("hidden");
+      lockScroll();
+    }
+
+    if (closeBtn) {
+      event.preventDefault();
+      closeBtn.closest("[id]")?.classList.add("hidden");
+      unlockScroll();
+    }
+  });
+</script>

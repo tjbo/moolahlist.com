@@ -1,0 +1,156 @@
+---
+import Modal from "./Modal.astro";
+import {
+  formatAmount,
+  formatInterestRate,
+  formatLTV,
+  formatTerm,
+} from "../utils/formatNumbers.js";
+
+const { id, program } = Astro.props;
+
+function parseValue(val) {
+  if (!!val) {
+    return "Yes";
+  } else {
+    return "No";
+  }
+}
+---
+
+<Modal className="max-w-4xl" id={id} title="">
+  <div class="rounded border border-gray-300 shadow-sm">
+    <table>
+      <thead>
+        <tr style="background-color: #f3f3f3;">
+          <th colspan="2">Loan Program</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Loan Type</td>
+          <td>{program.loanType} - {program.title}</td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr style="background-color: #f3f3f3;">
+          <th colspan="2">Property Types</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="2">{program.propertyTypes.join(", ")}</td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr style="background-color: #f3f3f3;">
+          <th colspan="3">Loan Economics</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Loan Amount</td>
+          <td>{formatAmount(program.loanAmountMin, program.loanAmountMax)}</td>
+        </tr>
+        <tr>
+          <td>Term</td>
+          <td>{formatTerm(program.termLengthMin, program.termLengthMax)}</td>
+        </tr>
+        <tr>
+          <td>Interest Rate</td>
+          <td>
+            {
+              formatInterestRate(
+                program.interestRateMin,
+                program.interestRateMax,
+              )
+            }</td
+          >
+        </tr>
+        <tr>
+          <td>Interest-Only</td>
+          <td>{parseValue(program.isInterestOnly)}</td>
+        </tr>
+        <tr>
+          <td>LTV</td>
+          <td>{formatLTV(program.loanToValueMax)}</td>
+        </tr>
+        {
+          !!program.loanToCostMax ? (
+            <tr>
+              <td>LTC</td>
+              <td>{formatLTV(program.loanToCostMax)}</td>
+            </tr>
+          ) : null
+        }
+
+        <tr>
+          <td>2nd Lien Position Allowed</td>
+          <td>{program.is2ndPositionAllowed}</td>
+        </tr>
+        {
+          program.is2ndPositionAllowed && program["2nd_position_max_cltv"] ? (
+            <tr>
+              <td>Second Position Max CLTV</td>
+              <td>{program.primary["2nd_position_max_cltv"]}</td>
+            </tr>
+          ) : null
+        }
+      </tbody>
+      <thead>
+        <tr style="background-color: #f3f3f3;">
+          <th colspan="2">Borrower Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>First-Time Investor Allowed</td>
+          <td>{program.is1stTimeInvestorAllowed}</td>
+        </tr>
+        <tr>
+          <td>Foreign National Allowed</td>
+          <td>{program.isForeignNationalAllowed}</td>
+        </tr>
+        <tr>
+          <td>Personal Guarantee Required</td>
+          <td>{program.isPersonalGuaranteeRequired}</td>
+        </tr>
+        <tr>
+          <td>Owner-Occupied Allowed</td>
+          <td>{program.isOwnerOccupiedAllowed}</td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr style="background-color: #f3f3f3;">
+          <th colspan="2">Credit & Financials</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Credit Check Required</td>
+          <td>{program.isCreditCheckRequired}</td>
+        </tr>
+        <tr>
+          <td>Minimum FICO</td>
+          <td>{program.ficoScoreMin}</td>
+        </tr>
+        {
+          !!program.isBankruptcyAllowed ? (
+            <tr>
+              <td>Bankruptcy Allowed</td>
+              <td>{program.isBankruptcyAllowed}</td>
+            </tr>
+          ) : null
+        }
+        {
+          !!program.isForeclosureAllowed ? (
+            <tr>
+              <td>Foreclosure Allowed</td>
+              <td>{program.isForeclosureAllowed}</td>
+            </tr>
+          ) : null
+        }
+      </tbody>
+    </table>
+  </div>
+</Modal>
