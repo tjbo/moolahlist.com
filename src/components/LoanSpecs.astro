@@ -7,6 +7,7 @@ import {
   formatTerm,
 } from "../utils/formatNumbers.js";
 import { PROPERTY_TYPES } from "../constants/enums.js";
+import Tr from "./Tr.astro";
 
 const { id, program } = Astro.props;
 
@@ -61,100 +62,99 @@ function parseValue(val) {
           <td>Term</td>
           <td>{formatTerm(program.termLengthMin, program.termLengthMax)}</td>
         </tr>
-        <tr>
-          <td>Interest Rate</td>
-          <td>
-            {
-              formatInterestRate(
-                program.interestRateMin,
-                program.interestRateMax,
-              )
-            }</td
-          >
-        </tr>
-        <tr>
-          <td>Interest-Only</td>
-          <td>{parseValue(program.isInterestOnly)}</td>
-        </tr>
-        <tr>
-          <td>LTV</td>
-          <td>{formatLTV(program.loanToValueMax)}</td>
-        </tr>
-        {
-          !!program.loanToCostMax ? (
-            <tr>
-              <td>LTC</td>
-              <td>{formatLTV(program.loanToCostMax)}</td>
-            </tr>
-          ) : null
-        }
+        <Tr
+          name="Interest Rate"
+          value={formatInterestRate(
+            program.interestRateMin,
+            program.interestRateMax,
+          )}
+          condition={!!program.interestRateMin}
+        />
+        <Tr
+          name="LTV"
+          value={program.isInterestOnly}
+          condition={!!program.isInterestOnly}
+        />
+        <Tr
+          name="LTV"
+          value={formatLTV(program.loanToValueMax)}
+          condition={!!program.loanToCostMax}
+        />
+        <Tr
+          name="LTC"
+          value={formatLTV(program.loanToCostMax)}
+          condition={!!program.loanToCostMax}
+        />
+        <Tr
+          name="2nd Lien Position"
+          value={program.is2ndPositionAllowed}
+          condition={!!program.is2ndPositionAllowed}
+        />
+        <Tr
+          name="2nd Lien Position Max CLTV"
+          value={program["2nd_position_max_cltv"]}
+          condition={!!program.is2ndPositionAllowed &&
+            program["2nd_position_max_cltv"]}
+        />
+        <thead>
+          <tr style="background-color: #f3f3f3;">
+            <th colspan="2">Borrower Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <Tr
+            name="First-time Investor Allowed"
+            value={program.is1stTimeInvestorAllowed}
+            condition={!!program.is1stTimeInvestorAllowed}
+          />
+          <Tr
+            name="Foreign National Allowed"
+            value={program.isForeignNationalAllowed}
+            condition={!!program.isForeignNationalAllowed}
+          />
+          <Tr
+            name="Personal Guarantee Required"
+            value={program.isPersonalGuaranteeRequired}
+            condition={!!program.isPersonalGuaranteeRequired}
+          />
+          <tr>
+            <td>Owner-Occupied Allowed</td>
+            <td>{program.isOwnerOccupiedAllowed}</td>
+          </tr>
+        </tbody>
+        <thead>
+          <tr style="background-color: #f3f3f3;">
+            <th colspan="2">Credit & Financials</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Credit Check Required</td>
+            <td>{program.isCreditCheckRequired}</td>
+          </tr>
+          <Tr
+            name="Minimum FICO Score"
+            value={program.ficoScoreMin}
+            condition={!!program.ficoScoreMin}
+          />
 
-        <tr>
-          <td>2nd Lien Position Allowed</td>
-          <td>{program.is2ndPositionAllowed}</td>
-        </tr>
-        {
-          program.is2ndPositionAllowed && program["2nd_position_max_cltv"] ? (
-            <tr>
-              <td>Second Position Max CLTV</td>
-              <td>{program.primary["2nd_position_max_cltv"]}</td>
-            </tr>
-          ) : null
-        }
-      </tbody>
-      <thead>
-        <tr style="background-color: #f3f3f3;">
-          <th colspan="2">Borrower Profile</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>First-Time Investor Allowed</td>
-          <td>{program.is1stTimeInvestorAllowed}</td>
-        </tr>
-        <tr>
-          <td>Foreign National Allowed</td>
-          <td>{program.isForeignNationalAllowed}</td>
-        </tr>
-        <tr>
-          <td>Personal Guarantee Required</td>
-          <td>{program.isPersonalGuaranteeRequired}</td>
-        </tr>
-        <tr>
-          <td>Owner-Occupied Allowed</td>
-          <td>{program.isOwnerOccupiedAllowed}</td>
-        </tr>
-      </tbody>
-      <thead>
-        <tr style="background-color: #f3f3f3;">
-          <th colspan="2">Credit & Financials</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Credit Check Required</td>
-          <td>{program.isCreditCheckRequired}</td>
-        </tr>
-        <tr>
-          <td>Minimum FICO</td>
-          <td>{program.ficoScoreMin}</td>
-        </tr>
-        {
-          !!program.isBankruptcyAllowed ? (
-            <tr>
-              <td>Bankruptcy Allowed</td>
-              <td>{program.isBankruptcyAllowed}</td>
-            </tr>
-          ) : null
-        }
-        {
-          !!program.isForeclosureAllowed ? (
-            <tr>
-              <td>Foreclosure Allowed</td>
-              <td>{program.isForeclosureAllowed}</td>
-            </tr>
-          ) : null
-        }
+          {
+            !!program.isBankruptcyAllowed ? (
+              <tr>
+                <td>Bankruptcy Allowed</td>
+                <td>{program.isBankruptcyAllowed}</td>
+              </tr>
+            ) : null
+          }
+          {
+            !!program.isForeclosureAllowed ? (
+              <tr>
+                <td>Foreclosure Allowed</td>
+                <td>{program.isForeclosureAllowed}</td>
+              </tr>
+            ) : null
+          }
+        </tbody>
       </tbody>
     </table>
   </div>

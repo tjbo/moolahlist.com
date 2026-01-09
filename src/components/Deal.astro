@@ -22,7 +22,9 @@ const srcSets =
   );
 ---
 
-<div class=`grid ${hasImage ? "grid-cols-[auto_300px]" : "grid-cols-1"} gap-6`>
+<div
+  class=`grid ${hasImage ? "grid-cols-1 md:grid-cols-[auto_300px]" : "grid-cols-1"} gap-6`
+>
   <div>
     <h3>
       <a href={deal.link} target="_blank">

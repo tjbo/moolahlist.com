@@ -30,4 +30,5 @@ export const PROPERTY_TYPES = {
   RETAIL: "Retail",
   HOSPITALITY: "Hospitality",
   SELF_STORAGE: "Self Storage",
+  NON_OWNER_OCCUPIED_SFR: "Non-owner Occupied SFR",
 };
