@@ -35,6 +35,29 @@ export async function getStaticPaths() {
             listingType
             name
             website
+            lenderDeals {
+              link
+              headline
+              body
+              date
+              image {
+                url(
+                  transformation: {
+                    image: {
+                      resize: {
+                        width: 640 
+                        height: 360 
+                        fit: crop
+                      }
+                    }
+                  }
+                )
+                fileName
+                width
+                height
+                size
+              }
+            }
             logo {
               url(
                 transformation: {
@@ -52,15 +75,12 @@ export async function getStaticPaths() {
               height
               size
             }
-            headline {
-              markdown 
-            }
+            bestFeatures
+            headline 
             description {
               markdown 
             }
-            metaDescription {
-              raw
-            }
+            metaDescription 
             phone
             streetAddress
             postalCode
@@ -68,11 +88,13 @@ export async function getStaticPaths() {
             state
             yearEstablished
             numberOfEmployees
-            facebook
-            instagram
-            linkedIn
-            twitter
+            socialMedia {
+              type
+              url
+            }
             slug
+            positiveConsiderations
+            negativeConsiderations
             loanPrograms {
               title 
               bestFor 
@@ -117,6 +139,7 @@ export async function getStaticPaths() {
 
 const { data } = Astro.props;
 
+//  this probably needs to be fixed
 const image = data.logo;
 const srcSets =
   !!image &&
@@ -159,23 +182,28 @@ const hasLicenses =
   });
 
 const hasBestFeatures =
-  data.best_features?.length &&
-  data.best_features.some((item) => {
-    return !!item.item;
+  data.bestFeatures?.length &&
+  data.bestFeatures.some((item) => {
+    return !!item;
   });
 
-const hasDeals = !!data.deals?.length;
+const hasDeals =
+  !!data.lenderDeals?.length &&
+  !!data.lenderDeals.some((deal) => {
+    console.log("DEAL", deal);
+    return !!deal && !!deal.headline;
+  });
 
 const hasNegativeConsiderations =
-  data.negative_considerations?.length &&
-  data.negative_considerations.some((item) => {
-    return !!item.item;
+  data.negativeConsiderations?.length &&
+  data.negativeConsiderations.some((item) => {
+    return !!item;
   });
 
 const hasPositiveConsiderations =
-  data.positive_considerations?.length &&
-  data.positive_considerations.some((item) => {
-    return !!item.item;
+  data.positiveConsiderations?.length &&
+  data.positiveConsiderations.some((item) => {
+    return !!item;
   });
 ---
 
@@ -207,6 +235,15 @@ const hasPositiveConsiderations =
         <div class="text-base">
           {!!data.city && !!data.state ? `${data.city}, ${data.state}` : null}
         </div>
+        <div class="text-base">
+          {
+            !!data.website && !!data.website.url ? (
+              <a class="cursor-pointer" href={data.website.url} target="_blank">
+                {data.website.url}
+              </a>
+            ) : null
+          }
+        </div>
         {
           !!hasLicenses ? (
             <div class="text-base">
@@ -219,45 +256,56 @@ const hasPositiveConsiderations =
       </div>
     </div>
   </div>
-  <Section title={data.headline}>
-    <Fragment set:html={intro} />
+  <Section>
+    <h2 set:html={marked.parse(data.headline)} />
+    <Fragment set:html={marked.parse(data.description.markdown)} />
   </Section>
   {
-    !!loanPrograms && !!loanPrograms.length ? (
+    hasBestFeatures ? (
       <Section>
-        <div class="-mb-px border-b border-gray-200" />
+        <div class=" py-9 border-solid best-features-box">
+          <h2>Why Borrowers Choose This Lender</h2>
+          <div class="">
+            {data.bestFeatures.map((f) => {
+              return <li class="text-2xl">{f}</li>;
+            })}
+          </div>
+        </div>
+      </Section>
+    ) : null
+  }
+
+  {
+    !!data.loanPrograms && !!data.loanPrograms.length ? (
+      <Section>
+        <h2>Loan Programs</h2>
         <Tabs tabs={loanProgramTabs} />
       </Section>
     ) : null
   }
+
   {
-    hasBestFeatures ? (
-      <Section>
-        <h3>Why Borrowers Choose This Lender</h3>
-        {data.best_features.map((f) => {
-          return <li>{f.feature}</li>;
-        })}
-      </Section>
-    ) : null
-  }
-  {
-    hasPositiveConsiderations || hasNegativeConsiderations ? (
+    !!hasPositiveConsiderations || !!hasNegativeConsiderations ? (
       <Section>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-9">
           {hasPositiveConsiderations && (
-            <div class="card">
-              <h3>What We Fund</h3>
-              {data.positive_considerations.map((item) => {
-                return <li>{item.item}</li>;
-              })}
+            <div>
+              <h2>What We Fund</h2>
+              <div class="card">
+                {data.positiveConsiderations.map((item) => {
+                  return <li>{item}</li>;
+                })}
+              </div>
             </div>
           )}
           {hasNegativeConsiderations && (
-            <div class="card">
-              <h3>What We Don't Fund</h3>
-              {data.negative_considerations.map((item) => {
-                return <li>{item.item}</li>;
-              })}
+            <div>
+              <h2>What We Don't Fund</h2>
+              <div class="card">
+                {data.negativeConsiderations.map((item) => {
+                  return <li>{item}</li>;
+                })}
+              </div>
             </div>
           )}
         </div>
@@ -267,8 +315,8 @@ const hasPositiveConsiderations =
   {
     hasDeals ? (
       <Section>
-        <h3>Recent Deals</h3>
-        {data.deals.map((deal) => {
+        <h2>Recent News</h2>
+        {data.lenderDeals.map((deal) => {
           return <Deal deal={deal} />;
         })}
       </Section>

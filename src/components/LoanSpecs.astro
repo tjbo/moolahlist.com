@@ -6,6 +6,7 @@ import {
   formatLTV,
   formatTerm,
 } from "../utils/formatNumbers.js";
+import { PROPERTY_TYPES } from "../constants/enums.js";
 
 const { id, program } = Astro.props;
 
@@ -39,7 +40,11 @@ function parseValue(val) {
       </thead>
       <tbody>
         <tr>
-          <td colspan="2">{program.propertyTypes.join(", ")}</td>
+          <td colspan="2"
+            >{
+              program.propertyTypes.map((t) => PROPERTY_TYPES[t]).join(", ")
+            }</td
+          >
         </tr>
       </tbody>
       <thead>

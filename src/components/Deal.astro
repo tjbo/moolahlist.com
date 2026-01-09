@@ -1,7 +1,7 @@
 ---
 import * as prismic from "@prismicio/client";
 const { deal } = Astro.props;
-
+import { marked } from "marked";
 import generateSrcSets from "../utils/generateSrcSets.js";
 import getImageUrlFromSize from "../utils/getImageUrlFromSize.js";
 
@@ -22,24 +22,22 @@ const srcSets =
   );
 ---
 
-<div class="grid grid-cols-[auto_300px] gap-6">
+<div class=`grid ${hasImage ? "grid-cols-[auto_300px]" : "grid-cols-1"} gap-6`>
   <div>
     <h3>
-      <a href={deal.link.url} target="_blank">
-        {deal.headline1}
+      <a href={deal.link} target="_blank">
+        {deal.headline}
       </a>
     </h3>
-    <div
-      set:html={prismic.asHTML(deal.body, (doc) => {
-        return getUrl(doc.id);
-      })}
-    />
-    <a href={deal.link.url} target="_blank"> Read more </a>
+    <div set:html={marked(deal.body)} />
+    <a href={deal.link} target="_blank" class="mt-4 block"> Read more </a>
   </div>
-  <img
-    sizes="(max-width: 640px) 95vw, (min-width: 768px) 44vw, (min-width: 1252px) 552px"
-    src={getImageUrlFromSize(deal.image.url, 576, 432, true)}
-    srcSet={srcSets}
-    src=""
-  />
+  {
+    !!deal.image && !!deal.image.length ? (
+      <img
+        sizes="(max-width: 640px) 95vw, (min-width: 768px) 44vw, (min-width: 1252px) 552px"
+        src={deal.image[0].url}
+      />
+    ) : null
+  }
 </div>

@@ -1,4 +1,5 @@
 ---
+import { LOAN_TYPES } from "../constants/enums.js";
 const { tabs } = Astro.props;
 ---
 
@@ -12,7 +13,7 @@ const { tabs } = Astro.props;
           aria-selected="true"
           class={i === 0 ? "active" : ""}
         >
-          {tab.title}
+          {LOAN_TYPES[tab.title]}
         </button>
       );
     })
