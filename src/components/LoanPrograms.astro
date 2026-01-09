@@ -31,7 +31,7 @@ const loanToValueLabel = !!program.loanToValueMax ? "LTV" : "LTC";
   </div>
   <h3 class="!mb-0">{program.title}</h3>
   <p class="mt-0">{program.description}</p>
-  <div class="grid grid-cols-4 gap-4">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <LoanProgramsStat label={loanToValueLabel} stat={formatLTV(loanToValue)} />
     <LoanProgramsStat
       label="Interest"
