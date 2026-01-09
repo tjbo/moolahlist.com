@@ -5,7 +5,11 @@ export function formatLTV(val) {
 }
 
 export function formatInterestRate(min, max) {
-  return `${numeral(min / 100).format("0.00%")} to ${numeral(max / 100).format("0%")}`;
+  if (!!min && !!max) {
+    return `${numeral(min / 100).format("0.00%")} to ${numeral(max / 100).format("0%")}`;
+  } else {
+    return `${numeral(min / 100).format("0.00%")}`;
+  }
 }
 
 function formatMoneyAbbrev(n) {

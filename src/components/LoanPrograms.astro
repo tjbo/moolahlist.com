@@ -9,6 +9,7 @@ import {
 import numeral from "numeral";
 import Button from "./Button.astro";
 import { PROPERTY_TYPES } from "../constants/enums.js";
+import { hasArrayWithStrings } from "../utils/array.js";
 
 import LoanSpecs from "./LoanSpecs.astro";
 
@@ -31,7 +32,7 @@ const loanToValueLabel = !!program.loanToValueMax ? "LTV" : "LTC";
   <h3 class="!mb-0">{program.title}</h3>
   <p class="mt-0">{program.description}</p>
   <div class="grid grid-cols-4 gap-4">
-    <LoanProgramsStat label={loanToValueLabel} stat={loanToValue} />
+    <LoanProgramsStat label={loanToValueLabel} stat={formatLTV(loanToValue)} />
     <LoanProgramsStat
       label="Interest"
       stat={formatInterestRate(
@@ -64,14 +65,33 @@ const loanToValueLabel = !!program.loanToValueMax ? "LTV" : "LTC";
       })
     }
   </ul>
-  <h4>Requirements</h4>
-  <ul>
-    {
-      program.requirements.map((item) => {
-        return <li>{item}</li>;
-      })
-    }
-  </ul>
+
+  {
+    hasArrayWithStrings(program.requirements) ? (
+      <>
+        <h4>Requirements</h4>
+        <ul>
+          {program.requirements.map((item) => {
+            return <li>{item}</li>;
+          })}
+        </ul>
+      </>
+    ) : null
+  }
+
+  {
+    hasArrayWithStrings(program.additionalDetails) ? (
+      <>
+        <h4>Additional Details</h4>
+        <ul>
+          {program.additionalDetails.map((item) => {
+            return <li>{item}</li>;
+          })}
+        </ul>
+      </>
+    ) : null
+  }
+
   <div class="flex justify-center gap-4 mt-16">
     <Button
       data-open-modal={program.loanType}
