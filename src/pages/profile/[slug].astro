@@ -16,6 +16,8 @@ import generateSrcSets from "../../utils/generateSrcSets.js";
 import getImageUrlFromSize from "../../utils/getImageUrlFromSize.js";
 import { hasArrayWithStrings } from "../../utils/array.js";
 import { marked } from "marked";
+import FancyList from "../../components/FancyList.astro";
+import { LICENSES } from "../../constants/enums.js";
 
 export async function getStaticPaths() {
   const response = await fetch(
@@ -36,6 +38,10 @@ export async function getStaticPaths() {
             listingType
             name
             website
+            licenses {
+              type
+              value
+            }
             lenderDeals {
               link
               headline
@@ -185,7 +191,7 @@ const loanProgramTabs = data.loanPrograms.map((loanProgram) => {
 const hasLicenses =
   data.licenses?.length &&
   data.licenses.some((license) => {
-    return !!license.key && !!license.value;
+    return !!license.type && !!license.value;
   });
 
 const hasBestFeatures =
@@ -212,13 +218,13 @@ const hasPositiveConsiderations = hasArrayWithStrings(
 ---
 
 <Layout>
-  <div class="!w-full min-w-full border-gray-200 border-b p-3 m-0 bg-gray-50">
+  <div class="!w-full min-w-full border-gray-200 border-b p-3 m-0">
     <div
-      class="grid grid-cols-[100px_auto] md:grid-cols-[162px_auto] mx-auto max-w-[1024px] px-6 w-full items-start"
+      class="grid grid-cols-[50px_auto] md:grid-cols-[162px_auto] mx-auto max-w-[1024px] px-6 w-full items-start"
     >
       {
         !!image && !!image.url && (
-          <div class="w-[100px] h-[100px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
+          <div class="w-[50px] h-[50px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
             <Image
               alt={!!image.alt ? image.alt : ""}
               class="w-full h-full max-w-[160px]"
@@ -232,31 +238,31 @@ const hasPositiveConsiderations = hasArrayWithStrings(
           </div>
         )
       }
-      <div class="p-3">
-        <h1 class="!text-3xl">
+      <div class="px-3 md:p-3">
+        <h1 class="!text-xl md:!text-3xl">
           {data.name}
         </h1>
         <div class="text-base">
           {!!data.city && !!data.state ? `${data.city}, ${data.state}` : null}
         </div>
-        <div class="text-base">
-          {
-            !!data.website && !!data.website.url ? (
-              <a class="cursor-pointer" href={data.website.url} target="_blank">
-                {data.website.url}
-              </a>
-            ) : null
-          }
-        </div>
         {
           !!hasLicenses ? (
             <div class="text-base">
               {data.licenses.map((license, index) => {
-                return `${license.key} ${license.value}${index < data.licenses.length - 1 ? ", " : ""}`;
+                return `${LICENSES[license.type]} ${license.value}${index < data.licenses.length - 1 ? ", " : ""}`;
               })}
             </div>
           ) : null
         }
+        <div class="text-base">
+          {
+            !!data.website ? (
+              <a class="cursor-pointer" href={data.website} target="_blank">
+                {data.website.replace(/^https?:\/\/(www\.)?|\/$/g, "")}
+              </a>
+            ) : null
+          }
+        </div>
       </div>
     </div>
   </div>
@@ -268,12 +274,14 @@ const hasPositiveConsiderations = hasArrayWithStrings(
     hasBestFeatures ? (
       <Section>
         <div class=" py-9 border-solid best-features-box">
-          <h2>Why Borrowers Choose This Lender</h2>
-          <div class="">
+          <h2 class="text-gray-700">Why Borrowers Choose This Lender</h2>
+          <ul class="!ml-0">
             {data.bestFeatures.map((f) => {
-              return <li class="text-2xl">{f}</li>;
+              return (
+                <li class="text-xl md:text-2xl !ml-0 md:!ml-4 mb-1">{f}</li>
+              );
             })}
-          </div>
+          </ul>
         </div>
       </Section>
     ) : null
@@ -300,9 +308,10 @@ const hasPositiveConsiderations = hasArrayWithStrings(
             <>
               <h2 class="block !mb-0 md:hidden">What We Fund</h2>
               <div class="card">
-                {data.positiveConsiderations.map((item) => {
-                  return <li>{item}</li>;
-                })}
+                <FancyList
+                  data={data.positiveConsiderations}
+                  icon="checkmark"
+                />
               </div>
             </>
           )}
@@ -310,9 +319,10 @@ const hasPositiveConsiderations = hasArrayWithStrings(
             <>
               <h2 class="block !mb-0 md:hidden">What We Don't Fund</h2>
               <div class="card">
-                {data.negativeConsiderations.map((item) => {
-                  return <li>{item}</li>;
-                })}
+                <FancyList
+                  data={data.negativeConsiderations}
+                  icon="crossmark"
+                />
               </div>
             </>
           )}

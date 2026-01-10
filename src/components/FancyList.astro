@@ -1,0 +1,18 @@
+---
+const { data, icon = "checkmark" } = Astro.props;
+import { Icon } from "astro-icon/components";
+---
+
+<ul class="m-0">
+  {
+    data.map((item) => {
+      return (
+        <li class="grid grid-cols-[20px_auto] items-start gap-2 m-0 p-0 !mx-0 md:!ml-4 md:!mr-4 !mb-4">
+          <Icon name={icon} class="w-5 h-5 mt-1" />
+
+          <span class="text-xl">{item}</span>
+        </li>
+      );
+    })
+  }
+</ul>

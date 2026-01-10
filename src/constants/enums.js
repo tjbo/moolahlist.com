@@ -32,3 +32,13 @@ export const PROPERTY_TYPES = {
   SELF_STORAGE: "Self Storage",
   NON_OWNER_OCCUPIED_SFR: "Non-owner Occupied SFR",
 };
+
+export const LICENSES = {
+  CA_DRE: "CA DRE",
+  NMLS: "NMLS",
+  NVDML: "NV",
+  AZ_BK: "AZ BK",
+  CA_CFL: "CA CFL",
+  MN_MO: "MN MO",
+  OR_ML: "OR ML",
+};

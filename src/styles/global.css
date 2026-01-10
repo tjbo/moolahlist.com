@@ -1,7 +1,27 @@
 @import "tailwindcss";
 
+
+@theme {
+  --font-sans: 'Stack Sans Text', sans-serif;;
+  --breakpoint-md: 640px;
+  --breakpoint-2md: 800px;
+  --breakpoint-3md: 960px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-3xl: 1920px;
+  /* --color-primary-light: #F2F3F7; */
+  /* --color-primary-dark: #0A284c; */
+  /* --color-accent-dark: #BFA06E; */
+  /* --color-secondary-light: #EFF0F4 ;          */
+}
+
+
+table {
+@apply mb-4;
+  @apply rounded border border-gray-300 shadow-sm;
+}
+
 html, body {
-  @apply !w-full !min-w-full m-0 p-0;
+  @apply !w-full !min-w-full m-0 p-0 font-sans;
 }
 .card {
   @apply p-6 border-gray-600 border-solid border-1; 
@@ -62,7 +82,7 @@ a {
   }
 
   li {
-    @apply mx-10;
+    @apply ml-6 md:mx-10;
     @apply mb-3;
   }
   
@@ -91,6 +111,18 @@ a {
 
 table {
   @apply min-w-full divide-y-2 divide-gray-200;
+
+  border-collapse: collapse;
+}
+
+tr {
+  @apply flex flex-col md:flex-row
+
+}
+
+ tr th {
+  @apply !bg-gray-100 min-w-full;
+
 }
 
 th, td {
@@ -102,10 +134,9 @@ th {
 }
 
 .best-features-box {
-  @apply border-4 border-gray-400;
+  @apply border-2 border-gray-400;
   position: relative;
   padding: 24px;
-  border-radius: 16px;
   background: radial-gradient(
     circle at center,
     rgba(255, 255, 255, 0.9) 0%,
