@@ -1,0 +1,47 @@
+---
+import { LOAN_TYPES } from "../constants/enums.js";
+const { tabs } = Astro.props;
+---
+
+<div role="tablist" class="flex gap-1 tab-buttons">
+  {
+    tabs.map((tab, i) => {
+      return (
+        <button
+          role="tab"
+          data-index={i}
+          aria-selected="true"
+          class={i === 0 ? "active" : ""}
+        >
+          {LOAN_TYPES[tab.title]}
+        </button>
+      );
+    })
+  }
+</div>
+<div class="tab-contents">
+  {
+    tabs.map((tab, i) => {
+      const Component = tab.component;
+      return (
+        <div class={i === 0 ? "active" : ""} data-index={i}>
+          <Component program={tab.props} />
+        </div>
+      );
+    })
+  }
+</div>
+
+<script is:inline>
+  const buttons = document.querySelectorAll(".tab-buttons button");
+  const contents = document.querySelectorAll(".tab-contents > div");
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const index = btn.dataset.index;
+      buttons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      contents.forEach((c) => c.classList.remove("active"));
+      contents[index].classList.add("active");
+    });
+  });
+</script>

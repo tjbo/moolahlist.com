@@ -1,0 +1,160 @@
+---
+import Modal from "./Modal.astro";
+import {
+  formatAmount,
+  formatInterestRate,
+  formatLTV,
+  formatTerm,
+} from "../utils/formatNumbers.js";
+import { LOAN_TYPES, PROPERTY_TYPES } from "../constants/enums.js";
+import Tr from "./Tr.astro";
+const { id, program } = Astro.props;
+---
+
+<Modal className="max-w-4xl" id={id} title="">
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">Loan Program</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="flex flex-col md:flex-row">
+        <td>Loan Type</td>
+        <td>{LOAN_TYPES[program.loanType]} </td>
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Property Types</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="!wrap !whitespace-normal !break-words"
+          >{program.propertyTypes.map((t) => PROPERTY_TYPES[t]).join(", ")}</td
+        >
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">Loan Economics</th>
+      </tr>
+    </thead>
+    <tbody>
+      <Tr
+        name="Loan Amount"
+        value={formatAmount(program.loanAmountMin, program.loanAmountMax)}
+        condition={!!program.loanAmountMin || !!program.loanAmountMax}
+      />
+      <Tr
+        name="Loan Term"
+        value={formatTerm(program.termLengthMin, program.termLengthMax)}
+        condition={!!program.termLengthMin || !!program.termLengthMax}
+      />
+      <Tr
+        name="Interest Rate"
+        value={formatInterestRate(
+          program.interestRateMin,
+          program.interestRateMax,
+        )}
+        condition={!!program.interestRateMin}
+      />
+      <Tr
+        name="Interest-only"
+        value={program.isInterestOnly}
+        condition={!!program.isInterestOnly}
+      />
+      <Tr
+        name="LTV"
+        value={formatLTV(program.loanToValueMax)}
+        condition={!!program.loanToValueMax}
+      />
+      <Tr
+        name="LTC"
+        value={formatLTV(program.loanToCostMax)}
+        condition={!!program.loanToCostMax}
+      />
+      <Tr
+        name="2nd Lien Position"
+        value={program.is2ndPositionAllowed}
+        condition={!!program.is2ndPositionAllowed}
+      />
+      <Tr
+        name="2nd Lien Position Max CLTV"
+        value={program["2nd_position_max_cltv"]}
+        condition={!!program.is2ndPositionAllowed &&
+          program["2nd_position_max_cltv"]}
+      />
+    </tbody>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">Borrower Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <Tr
+          name="First-time Investor Allowed"
+          value={program.is1stTimeInvestorAllowed}
+          condition={!!program.is1stTimeInvestorAllowed}
+        />
+        <Tr
+          name="Foreign National Allowed"
+          value={program.isForeignNationalAllowed}
+          condition={!!program.isForeignNationalAllowed}
+        />
+        <Tr
+          name="Personal Guarantee Required"
+          value={program.isPersonalGuaranteeRequired}
+          condition={!!program.isPersonalGuaranteeRequired}
+        />
+        <Tr
+          name="Owner-occupied Allowed"
+          value={program.isOwnerOccupiedAllowed}
+          condition={!!program.isOwnerOccupiedAllowed}
+        />
+      </tbody>
+    </table>
+    {
+      !!program.isCreditCheckRequired ||
+      !!program.ficoScoreMin ||
+      !!program.isBankruptcyAllowed ||
+      !!program.isForeclosureAllowed ? (
+        <table>
+          <thead>
+            <tr>
+              <th colspan="2">Credit & Financials</th>
+            </tr>
+          </thead>
+          <tbody>
+            <Tr
+              name="Credit Check Required"
+              value={program.isCreditCheckRequired}
+              condition={!!program.isCreditCheckRequired}
+            />
+            <Tr
+              name="Minimum FICO Score"
+              value={program.ficoScoreMin}
+              condition={!!program.ficoScoreMin}
+            />
+            <Tr
+              name="Is Prior Bankruptcy Allowed"
+              value={program.isBankruptcyAllowed}
+              condition={!!program.isBankruptcyAllowed}
+            />
+            <Tr
+              name="Is Prior Foreclosue Allowed"
+              value={program.isForeclosureAllowed}
+              condition={!!program.isForeclosueAllowed}
+            />
+          </tbody>
+        </table>
+      ) : null
+    }
+  </table>
+</Modal>

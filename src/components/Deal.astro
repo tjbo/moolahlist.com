@@ -1,0 +1,46 @@
+---
+import * as prismic from "@prismicio/client";
+const { deal } = Astro.props;
+import { marked } from "marked";
+import generateSrcSets from "../utils/generateSrcSets.js";
+import getImageUrlFromSize from "../utils/getImageUrlFromSize.js";
+
+// const image = deal.image;
+// const srcSets =
+//   !!deal.image &&
+//   !!deal.image.url &&
+//   generateSrcSets(
+//     deal.image.url,
+//     [
+//       { w: 640, h: 360 },
+//       { w: 480, h: 270 },
+//       { w: 320, h: 180 },
+//       { w: 240, h: 135 },
+//       { w: 160, h: 90 },
+//     ],
+//     true,
+//   );
+const hasImage = !!deal.image && !!deal.image.length;
+---
+
+<div
+  class=`grid ${hasImage ? "grid-cols-1 md:grid-cols-[auto_300px]" : "grid-cols-1"} gap-6`
+>
+  <div>
+    <h3>
+      <a href={deal.link} target="_blank">
+        {deal.headline}
+      </a>
+    </h3>
+    <div set:html={marked(deal.body)} />
+    <a href={deal.link} target="_blank" class="mt-4 block"> Read more </a>
+  </div>
+  {
+    !!deal.image && !!deal.image.length ? (
+      <img
+        sizes="(max-width: 640px) 95vw, (min-width: 768px) 44vw, (min-width: 1252px) 552px"
+        src={deal.image[0].url}
+      />
+    ) : null
+  }
+</div>

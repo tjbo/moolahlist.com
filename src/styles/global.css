@@ -1,11 +1,34 @@
 @import "tailwindcss";
 
-html, body {
-  @apply !w-full !min-w-full
 
+@theme {
+  --font-sans: 'Stack Sans Text', sans-serif;;
+  --breakpoint-md: 640px;
+  --breakpoint-2md: 800px;
+  --breakpoint-3md: 960px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-3xl: 1920px;
+  /* --color-primary-light: #F2F3F7; */
+  /* --color-primary-dark: #0A284c; */
+  /* --color-accent-dark: #BFA06E; */
+  /* --color-secondary-light: #EFF0F4 ;          */
+}
+
+
+table {
+@apply mb-4;
+  @apply rounded border border-gray-300 shadow-sm;
+}
+
+html, body {
+  @apply !w-full !min-w-full m-0 p-0 font-sans;
 }
 .card {
-  @apply bg-gray-100 rounded-2xl p-3; 
+  @apply p-6 border-gray-600 border-solid border-1; 
+}
+
+section p:last-child {
+  margin-bottom: 0;
 }
 
 a {
@@ -59,7 +82,7 @@ a {
   }
 
   li {
-    @apply mx-10;
+    @apply ml-6 md:mx-10;
     @apply mb-3;
   }
   
@@ -68,6 +91,84 @@ a {
   a {
   }
 
+  .tab-contents > div {
+    display: none;
+  }
 
+  .tab-contents > div.active {
+    display: block;
+  }
 
+  .tab-buttons button {
+    @apply border-b-2 border-transparent px-4 py-2 text-2xl font-medium text-gray-600 transition-colors hover:text-gray-700 cursor-pointer;
+  }
 
+  .tab-buttons button.active {
+    @apply border-b-blue-600 text-blue-600  transition-colors hover:text-blue-700 cursor-pointer ;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+  }
+
+table {
+  @apply min-w-full divide-y-2 divide-gray-200;
+
+  border-collapse: collapse;
+}
+
+tr {
+  @apply flex flex-col md:flex-row
+
+}
+
+ tr th {
+  @apply !bg-gray-100 min-w-full;
+
+}
+
+th, td {
+  @apply px-3 py-2 whitespace-nowrap; 
+}
+
+th {
+  @apply font-medium text-gray-900 text-left;
+}
+
+.best-features-box {
+  @apply border-2 border-gray-400;
+  position: relative;
+  padding: 24px;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(245, 247, 250, 0.85) 35%,
+    rgba(230, 235, 240, 0.75) 60%,
+    rgba(210, 215, 220, 0.6) 100%
+  );
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    inset 0 0 40px rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.best-features-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.06);
+}
+
+.best-features-box h3 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.best-features-box ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.best-features-box li {
+  margin-bottom: 6px;
+}
