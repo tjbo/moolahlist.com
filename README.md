@@ -13,3 +13,4 @@ basic ones will be required
 - add link icon to news section
 - fix stats
 - fix mobile view about section and about section in general
+- add states to lender profile page

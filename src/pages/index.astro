@@ -4,49 +4,10 @@ import Layout from "../components/Layout.astro";
 import Section from "../components/Section.astro";
 import PrismicSlices from "../components/PrismicSlices.astro";
 import { getPage, getUrl } from "../prismic.js";
+import { lenderProfiles } from "../hypgrah.js";
 const page = await getPage("root");
 
-const response = await fetch(
-  "https://us-east-1.cdn.hygraph.com/content/cke1u42u73qoz01z20ckw7eij/master",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      query: `
-        {
-          lenderProfiles(stage: PUBLISHED) {
-            name
-            logo {
-              url(
-                transformation: {
-                  image: {
-                    resize: {
-                      width: 400
-                      height: 400
-                      fit: crop
-                    }
-                  }
-                }
-              )
-              fileName
-              width
-              height
-              size
-            }
-            slug
-          }
-        }
-      `,
-    }),
-  },
-);
-
-const _r = await response.json();
-
-const profiles = _r.data.lenderProfiles.map((profile) => {
+const profiles = lenderProfiles.map((profile) => {
   return { ...profile };
 });
 ---
