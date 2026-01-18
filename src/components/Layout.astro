@@ -4,11 +4,14 @@ import Section from "../components/Section.astro";
 import FooterMenu from "../components/FooterMenu.astro";
 import { settings } from "../prismic.js";
 import "@fontsource/kedebideri";
+
+const { metaTitle = "Moolah List - Private Lending Marketplace" } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
+    <title>{metaTitle}</title>
     <meta charset="UTF-8" />
     <meta
       name="viewport"

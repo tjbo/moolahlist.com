@@ -2,12 +2,12 @@
 import Welcome from "../components/Welcome.astro";
 import Layout from "../components/Layout.astro";
 import Section from "../components/Section.astro";
-import PrismicSlices from "../components/PrismicSlices.astro";
-import { getPage, getUrl, pages } from "../prismic.js";
+import HygraphSlices from "../components/HygraphSlices.astro";
+import { landingPages } from "../hypgrah.js";
 
 export async function getStaticPaths() {
-  const p = pages.map((page) => {
-    let slug = page.uid;
+  const p = landingPages.map((page) => {
+    let slug = page.slug;
     return { params: { slug: slug }, props: { page } };
   });
   return p;
@@ -16,6 +16,6 @@ export async function getStaticPaths() {
 const { page } = Astro.props;
 ---
 
-<Layout>
-  <PrismicSlices body={page.data.body1} />
+<Layout metaTitle={page.metaTitle}>
+  <HygraphSlices slices={page.content} />
 </Layout>

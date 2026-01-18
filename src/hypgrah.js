@@ -102,21 +102,34 @@ async function getLenderProfiles() {
               termLengthMax
               originationFeeMin
               originationFeeMax
+              paymentOptions
+              paymentStructure
               closingTimeMin
               closingTimeMax
-              isInterestOnly
-              is2ndPositionAllowed
-              is1stTimeInvestorAllowed
-              isForeignNationalAllowed
-              isPersonalGuaranteeRequired
-              isOwnerOccupiedAllowed
-              isCreditCheckRequired
-              ficoScoreMin
-              isBankruptcyAllowed
-              isPriorForeclosureAllowed
-              areRuralPropertiesAllowed
               requirements
               additionalDetails
+              borrowerProfile {
+                ... on BorrowerProfile {
+                  choice
+                  ficoScoreMin
+                  option          
+                }
+              }
+              loanProfile {
+                ... on LoanProfile {
+                  option 
+                  note
+                  cltv
+                  choice
+                }
+              }
+              propertyProfile {
+                ...on PropertyProfile {
+                  choice
+                  option
+                      
+                }
+              }
             }
           }
         }
@@ -138,6 +151,17 @@ async function getLandingPages() {
       body: JSON.stringify({
         query: `{
           landingPages(stage: PUBLISHED) {
+            metaTitle
+            slug
+            content {
+              __typename
+              ... on TextWithTitleSlice {
+                body {
+                  markdown
+                }
+                title
+              }
+            }
           }
         }`,
       }),
@@ -147,3 +171,16 @@ async function getLandingPages() {
 
 export const lenderProfiles = (await (await getLenderProfiles()).json()).data
   .lenderProfiles;
+
+export const landingPages = (await (await getLandingPages()).json()).data
+  .landingPages;
+
+const pages = [...lenderProfiles, ...landingPages].map((p) => {
+  return p;
+});
+
+export function getPageBySlug(slug) {
+  return pages.find((page) => {
+    return page.slug === slug;
+  });
+}

@@ -2,18 +2,17 @@
 import Welcome from "../components/Welcome.astro";
 import Layout from "../components/Layout.astro";
 import Section from "../components/Section.astro";
-import PrismicSlices from "../components/PrismicSlices.astro";
-import { getPage, getUrl } from "../prismic.js";
-import { lenderProfiles } from "../hypgrah.js";
-const page = await getPage("root");
+import HygraphSlices from "../components/HygraphSlices.astro";
+import { getPageBySlug, landingPages, lenderProfiles } from "../hypgrah.js";
+const page = await getPageBySlug("home");
 
 const profiles = lenderProfiles.map((profile) => {
   return { ...profile };
 });
 ---
 
-<Layout>
-  <PrismicSlices body={page.data.body1} />
+<Layout metaTitle={page.metaTitle}>
+  <HygraphSlices slices={page.content} />
   <Section>
     <h2>Recently Added</h2>
     <ul>

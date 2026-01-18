@@ -1,8 +1,7 @@
 ---
 import Section from "./Section.astro";
 import CallToAction2 from "./CallToAction2.astro";
-import * as prismic from "@prismicio/client";
-import { getUrl } from "../prismic.js";
+import { marked } from "marked";
 
 const {
   headlinesClass = "text-center",
@@ -10,10 +9,6 @@ const {
   title_as = "h2",
   body,
 } = Astro.props;
-
-const text = prismic.asHTML(body, (doc) => {
-  return getUrl(doc.id);
-});
 ---
 
 {
@@ -30,4 +25,4 @@ const text = prismic.asHTML(body, (doc) => {
   ) : null
 }
 
-<div set:html={text} />
+<div set:html={marked.parse(body)} />
