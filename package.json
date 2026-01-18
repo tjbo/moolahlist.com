@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@astrojs/tailwind": "^6.0.2",
-    "@fontsource/kedebideri": "^5.2.1",
-    "@prismicio/client": "^7.21.0",
+    "@fontsource-variable/montserrat": "^5.2.8",
+    "@fontsource-variable/work-sans": "^5.2.8",
     "@tailwindcss/postcss": "^4.1.16",
     "@tailwindcss/vite": "^4.1.16",
     "astro": "^5.15.3",

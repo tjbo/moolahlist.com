@@ -149,11 +149,13 @@ const hasPositiveConsiderations = hasArrayWithStrings(
     hasBestFeatures ? (
       <Section>
         <div class=" py-9 border-solid best-features-box">
-          <h2 class="text-gray-700">Why Borrowers Choose This Lender</h2>
+          <h2 class="text-gray-700 !mb-5">Why Borrowers Choose This Lender</h2>
           <ul class="!ml-0">
             {data.bestFeatures.map((f) => {
               return (
-                <li class="text-xl md:text-2xl !ml-0 md:!ml-4 mb-1">{f}</li>
+                <li class="text-xl md:text-2xl !ml-0 md:!ml-4 !mb-4 !font-serif font-medium">
+                  {f}
+                </li>
               );
             })}
           </ul>
@@ -175,13 +177,13 @@ const hasPositiveConsiderations = hasArrayWithStrings(
     !!hasPositiveConsiderations || !!hasNegativeConsiderations ? (
       <Section>
         <div class="hidden md:grid grid-cols-1 md:grid-cols-2 gap-9">
-          <h2>What We Fund</h2>
-          <h2>What We Don't Fund</h2>
+          <h2>What They Fund</h2>
+          <h2>What They Don't Fund</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-9">
           {hasPositiveConsiderations && (
             <>
-              <h2 class="block !mb-0 md:hidden">What We Fund</h2>
+              <h2 class="block !mb-0 md:hidden">What They Fund</h2>
               <div class="card">
                 <FancyList
                   data={data.positiveConsiderations}
@@ -192,7 +194,7 @@ const hasPositiveConsiderations = hasArrayWithStrings(
           )}
           {hasNegativeConsiderations && (
             <>
-              <h2 class="block !mb-0 md:hidden">What We Don't Fund</h2>
+              <h2 class="block !mb-0 md:hidden">What They Don't Fund</h2>
               <div class="card">
                 <FancyList
                   data={data.negativeConsiderations}

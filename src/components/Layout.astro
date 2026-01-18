@@ -3,9 +3,21 @@ import "../styles/global.css";
 import Section from "../components/Section.astro";
 import FooterMenu from "../components/FooterMenu.astro";
 import { settings } from "../prismic.js";
-import "@fontsource/kedebideri";
+import "@fontsource-variable/work-sans";
+import "@fontsource-variable/montserrat";
 
 const { metaTitle = "Moolah List - Private Lending Marketplace" } = Astro.props;
+
+const footerLinks = [
+  {
+    text: "Home",
+    href: "/",
+  },
+  {
+    text: "For Lenders",
+    href: "/for-lenders/",
+  },
+];
 ---
 
 <!doctype html>
@@ -42,7 +54,7 @@ const { metaTitle = "Moolah List - Private Lending Marketplace" } = Astro.props;
     </div>
     <div class="mx-auto border-t border-gray-200 w-full mt-16">
       <div class="mx-auto max-w-[500px]">
-        <FooterMenu orderClass="order-2" items={settings.data.nav_links_1} />
+        <FooterMenu orderClass="order-2" items={footerLinks} />
       </div>
     </div>
   </body>

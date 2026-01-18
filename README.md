@@ -22,7 +22,7 @@ Financial
 - add before they apply section
 - get font to work?
 - Add more loan programs to stormfield
-
+- fix sitemap.xml
 
 
 
