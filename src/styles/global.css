@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-
 @theme {
-  --font-sans: 'Stack Sans Text', sans-serif;;
+  --font-sans: 'Work Sans Variable', sans-serif;
+  --font-serif: 'Montserrat Variable', sans-serif;
   --breakpoint-md: 640px;
   --breakpoint-2md: 800px;
   --breakpoint-3md: 960px;
@@ -47,7 +47,7 @@ a {
   h5,
   h6,
   h7 {
-    @apply font-bold;
+    @apply  font-serif font-bold;
   }
   body {
     @apply text-xl leading-[30px];

@@ -270,10 +270,15 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.25.12.tgz#9bdad8176be7811ad148d1f8772359041f46c6c5"
   integrity sha512-alJC0uCZpTFrSL0CCDjcgleBXPnCrEAhTBILpeAp7M/OFgoqtAetfBzX0xM00MUsVVPpVjlPuMbREqnZCXaTnA==
 
-"@fontsource/kedebideri@^5.2.1":
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/kedebideri/-/kedebideri-5.2.1.tgz#591251d1196ebb74c8837686b78c0bfe4c55f512"
-  integrity sha512-FoJcpA/3a/LlUTaaHY78NQKWT3M1t5+Xf5nmX7JefGodNC1dHRojQovPKEc09OZA1b2NNUrJ5LYpxuGhk/hf6A==
+"@fontsource-variable/montserrat@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/montserrat/-/montserrat-5.2.8.tgz#344d2fbe14ebf0c6923df3a8ba1654d7646cd50f"
+  integrity sha512-d8wykq7GCKhEOlLwEuQIOK3w3qsXNxwDlH0meru4AZZzQ4/+rZyvHWKL6BBtHdmbovSHEEQDkwkD8qYUKlcFtQ==
+
+"@fontsource-variable/work-sans@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/work-sans/-/work-sans-5.2.8.tgz#ac91b1b0b7d8e2d2f862537e7de8451d49548279"
+  integrity sha512-8uWtTt0/B5NxGie9xUVD5y5Ch4Q+Hy7kFYKtUpwYbzSAgJEoaMxT8rMnfnK7zfAYSLC8GnGO1/tXrFtKIYYQVQ==
 
 "@iconify/tools@^4.0.5":
   version "4.2.0"
@@ -498,13 +503,6 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@oslojs/encoding/-/encoding-1.1.0.tgz#55f3d9a597430a01f2a5ef63c6b42f769f9ce34e"
   integrity sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==
-
-"@prismicio/client@^7.21.0":
-  version "7.21.0"
-  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.21.0.tgz#8b09dbabd596443b27c5cbaeb0eff0090eb86819"
-  integrity sha512-9FWmywGC4nAsgrVk6khRJQ6Qvzb/KwbwsVqfHIM+N/Hxxn+V34u+L/X1XzCxwMdGWF5lvH8lLmmrOLowpO4KVA==
-  dependencies:
-    imgix-url-builder "^0.0.6"
 
 "@rollup/pluginutils@^5.2.0":
   version "5.3.0"
@@ -1774,11 +1772,6 @@ iconv-lite@0.6.3, iconv-lite@^0.6.3:
   integrity sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==
   dependencies:
     safer-buffer ">= 2.1.2 < 3.0.0"
-
-imgix-url-builder@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/imgix-url-builder/-/imgix-url-builder-0.0.6.tgz#5bed6f1a0969f6f3ad91fa876f1c7c39071a0823"
-  integrity sha512-lFVbvaE9vMck8qz9j+y6o7vsyc1vZhdqzWu+Wp/nlnOCi9zAErc31QMkZKYUGMNLLzxOO4YIBAUPndTPah8HFg==
 
 import-meta-resolve@^4.2.0:
   version "4.2.0"

@@ -16,6 +16,7 @@ export const LOAN_TYPES = {
 };
 
 export const PROPERTY_TYPES = {
+  ADU: "ADU",
   RESIDENTIAL: "Residential",
   SMALL_MULTIFAMILY: "Small Multifamily",
   LARGE_MULTIFAMILY: "Large Multifamily",
@@ -41,4 +42,41 @@ export const LICENSES = {
   CA_CFL: "CA CFL",
   MN_MO: "MN MO",
   OR_ML: "OR ML",
+};
+
+export const BORROWER_PROFILE = {
+  IS_PRIOR_BANKRUPTCY_ALLOWED: "Prior Bankruptcy Allowed",
+  IS_PRIOR_FORECLOSURE_ALLOWED: "Prior Foreclosure Allowed",
+  IS_PERSONAL_GUARANTEE_REQUIRED: "Personal Guarantee Required",
+  IS_CREDIT_CHECK_REQUIRED: "Credit Check Required",
+  IS_FIRST_TIME_INVESTOR_ALLOWED: "First-Time Investors Allowed",
+  IS_FOREIGN_NATIONAL_ALLOWED: "Foreign Nationals Allowed",
+};
+
+export const PROPERTY_PROFILE = {
+  IS_OWNER_OCCUPIED_ALLOWED: "Owner-Occupied Properties Allowed",
+  ARE_RURAL_PROPERTIES_ALLOWED: "Rural Properties Allowed",
+  ARE_SHORT_TERM_RENTALS_ALLOWED: "Short-Term Rentals Allowed",
+  ARE_PURCHASES_FROM_AUCTION_ALLOWED: "Purchases From Auction Allowed",
+};
+
+export const LOAN_PROFILE = {
+  ARE_PREPAYMENT_PENALTIES: "Prepayment Penalties",
+  ARE_EXTENSIONS_ALLOWED: "Extensions Allowed",
+  IS_SECOND_POSITION_ALLOWED: "Second Position Loans Allowed",
+  IS_CROSS_COLLATERALIZATION_ALLOWED: "Cross-Collateralization Allowed",
+  IS_APPRAISAL_REQUIRED: "Appraisal Required",
+  IS_BPO_ALLOWED: "BPO Allowed",
+};
+
+export const PAYMENT_STRUCTURE = {
+  INTEREST_ONLY: "Interest-Only",
+  AMORTIZED: "Amortized",
+  INTEREST_RESERVE: "Interest Reserve",
+};
+
+export const PAYMENT_OPTIONS = {
+  ROLLED: "Rolled Payments",
+  DEFERRED: "Deferred Payments",
+  NO_MONTHLY_PAYMENTS_REQUIRED: "No Monthly Payments Required",
 };

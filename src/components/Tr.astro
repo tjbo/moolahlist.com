@@ -4,8 +4,8 @@ const { name, value, condition } = Astro.props;
 
 {
   condition ? (
-    <tr class="flex flex-col md:flex-row">
-      <td class="font-[600]">{name}</td>
+    <tr class="flex flex-col md:flex-row justify-between">
+      <td>{name}</td>
       <td>{value}</td>
     </tr>
   ) : null

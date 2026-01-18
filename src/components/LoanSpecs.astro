@@ -6,7 +6,15 @@ import {
   formatLTV,
   formatTerm,
 } from "../utils/formatNumbers.js";
-import { LOAN_TYPES, PROPERTY_TYPES } from "../constants/enums.js";
+import {
+  BORROWER_PROFILE,
+  LOAN_PROFILE,
+  PROPERTY_PROFILE,
+  LOAN_TYPES,
+  PAYMENT_OPTIONS,
+  PAYMENT_STRUCTURE,
+  PROPERTY_TYPES,
+} from "../constants/enums.js";
 import Tr from "./Tr.astro";
 const { id, program } = Astro.props;
 ---
@@ -65,11 +73,6 @@ const { id, program } = Astro.props;
         condition={!!program.interestRateMin}
       />
       <Tr
-        name="Interest-only"
-        value={program.isInterestOnly}
-        condition={!!program.isInterestOnly}
-      />
-      <Tr
         name="LTV"
         value={formatLTV(program.loanToValueMax)}
         condition={!!program.loanToValueMax}
@@ -90,7 +93,73 @@ const { id, program } = Astro.props;
         condition={!!program.is2ndPositionAllowed &&
           program["2nd_position_max_cltv"]}
       />
+      <Tr
+        name="Payment Structures"
+        value={program.paymentStructure
+          .map((structure) => {
+            return PAYMENT_STRUCTURE[structure];
+          })
+          .join(", ")}
+        condition={!!program.paymentStructure}
+      />
+      <Tr
+        name="Payment Options"
+        value={program.paymentOptions
+          .map((structure) => {
+            return PAYMENT_OPTIONS[structure];
+          })
+          .join(", ")}
+        condition={!!program.paymentOptions?.length}
+      />
     </tbody>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">Loan Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          program.loanProfile.map((item) => {
+            if (!!item && !!item.choice) {
+              return (
+                <>
+                  <Tr
+                    name={LOAN_PROFILE[item.option]}
+                    value={`${item.choice}${!!item.note && item.note != null ? " - " + item.note : ""}`}
+                    condition={true}
+                  />
+                </>
+              );
+            }
+          })
+        }
+      </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">Property Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          program.propertyProfile.map((item) => {
+            if (!!item && !!item.choice) {
+              return (
+                <>
+                  <Tr
+                    name={PROPERTY_PROFILE[item.option]}
+                    value={item.choice}
+                    condition={true}
+                  />
+                </>
+              );
+            }
+          })
+        }
+      </tbody>
+    </table>
     <table>
       <thead>
         <tr>
@@ -98,63 +167,27 @@ const { id, program } = Astro.props;
         </tr>
       </thead>
       <tbody>
-        <Tr
-          name="First-time Investor Allowed"
-          value={program.is1stTimeInvestorAllowed}
-          condition={!!program.is1stTimeInvestorAllowed}
-        />
-        <Tr
-          name="Foreign National Allowed"
-          value={program.isForeignNationalAllowed}
-          condition={!!program.isForeignNationalAllowed}
-        />
-        <Tr
-          name="Personal Guarantee Required"
-          value={program.isPersonalGuaranteeRequired}
-          condition={!!program.isPersonalGuaranteeRequired}
-        />
-        <Tr
-          name="Owner-occupied Allowed"
-          value={program.isOwnerOccupiedAllowed}
-          condition={!!program.isOwnerOccupiedAllowed}
-        />
+        {
+          program.borrowerProfile.map((item) => {
+            if (!!item && !!item.choice) {
+              return (
+                <>
+                  <Tr
+                    name={BORROWER_PROFILE[item.option]}
+                    value={item.choice}
+                    condition={true}
+                  />
+                  <Tr
+                    name="Min Fico Score"
+                    value={item.ficoScoreMin}
+                    condition={!!item.ficoScoreMin}
+                  />
+                </>
+              );
+            }
+          })
+        }
       </tbody>
     </table>
-    {
-      !!program.isCreditCheckRequired ||
-      !!program.ficoScoreMin ||
-      !!program.isBankruptcyAllowed ||
-      !!program.isForeclosureAllowed ? (
-        <table>
-          <thead>
-            <tr>
-              <th colspan="2">Credit & Financials</th>
-            </tr>
-          </thead>
-          <tbody>
-            <Tr
-              name="Credit Check Required"
-              value={program.isCreditCheckRequired}
-              condition={!!program.isCreditCheckRequired}
-            />
-            <Tr
-              name="Minimum FICO Score"
-              value={program.ficoScoreMin}
-              condition={!!program.ficoScoreMin}
-            />
-            <Tr
-              name="Is Prior Bankruptcy Allowed"
-              value={program.isBankruptcyAllowed}
-              condition={!!program.isBankruptcyAllowed}
-            />
-            <Tr
-              name="Is Prior Foreclosue Allowed"
-              value={program.isForeclosureAllowed}
-              condition={!!program.isForeclosueAllowed}
-            />
-          </tbody>
-        </table>
-      ) : null
-    }
   </table>
 </Modal>
