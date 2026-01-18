@@ -145,33 +145,6 @@ const hasPositiveConsiderations = hasArrayWithStrings(
     <h2 set:html={marked.parse(data.headline)} />
     <Fragment set:html={marked.parse(data.description.markdown)} />
   </Section>
-  {
-    hasBestFeatures ? (
-      <Section>
-        <div class=" py-9 border-solid best-features-box">
-          <h2 class="text-gray-700 !mb-5">Why Borrowers Choose This Lender</h2>
-          <ul class="!ml-0">
-            {data.bestFeatures.map((f) => {
-              return (
-                <li class="text-xl md:text-2xl !ml-0 md:!ml-4 !mb-4 !font-serif font-medium">
-                  {f}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </Section>
-    ) : null
-  }
-
-  {
-    !!data.loanPrograms && !!data.loanPrograms.length ? (
-      <Section>
-        <h2>Loan Programs</h2>
-        <Tabs tabs={loanProgramTabs} />
-      </Section>
-    ) : null
-  }
 
   {
     !!hasPositiveConsiderations || !!hasNegativeConsiderations ? (
@@ -207,6 +180,34 @@ const hasPositiveConsiderations = hasArrayWithStrings(
       </Section>
     ) : null
   }
+
+  {
+    !!data.loanPrograms && !!data.loanPrograms.length ? (
+      <Section>
+        <h2>Loan Programs</h2>
+        <Tabs tabs={loanProgramTabs} />
+      </Section>
+    ) : null
+  }
+  {
+    hasBestFeatures ? (
+      <Section>
+        <h2 class="text-gray-700 !mb-5">Why Borrowers Choose This Lender</h2>
+        <div class=" py-9 border-solid card">
+          <ul class="!ml-0">
+            {data.bestFeatures.map((f) => {
+              return (
+                <li class="text-xl md:text-2xl !ml-0 md:!mx-8 !my-4 !font-serif font-medium">
+                  {f}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </Section>
+    ) : null
+  }
+
   {
     hasDeals ? (
       <Section>

@@ -133,42 +133,4 @@ th {
   @apply font-medium text-gray-900 text-left;
 }
 
-.best-features-box {
-  @apply border-2 border-gray-400;
-  position: relative;
-  padding: 24px;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(245, 247, 250, 0.85) 35%,
-    rgba(230, 235, 240, 0.75) 60%,
-    rgba(210, 215, 220, 0.6) 100%
-  );
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.08),
-    inset 0 0 40px rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(6px);
-}
 
-.best-features-box::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.06);
-}
-
-.best-features-box h3 {
-  margin-bottom: 12px;
-  font-size: 1.1rem;
-}
-
-.best-features-box ul {
-  margin: 0;
-  padding-left: 18px;
-}
-
-.best-features-box li {
-  margin-bottom: 6px;
-}
