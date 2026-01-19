@@ -4,14 +4,15 @@ import { settings } from "../prismic.js";
 ---
 
 <div class={`flex-col mb-6 ${orderClass}`}>
-  <ul class="p-0 m-0 !list-none">
+  <b>{title}</b>
+  <ul class="!p-0 !m-0 !ml-0 !list-none">
     {
       items.map((link) => {
         return (
-          <li class="m-0 p-0 float-left">
+          <li class="!m-0 !p-0">
             <a
               class="text-white font-normal font-display text-md hover:underline min-h-6 py-2 block"
-              href={link.href}
+              href={link.slug}
             >
               {link.text}
             </a>

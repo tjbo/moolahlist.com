@@ -4,7 +4,6 @@ basic ones will be required
 
 ### TODOS
 - fix images from hygraph
-- move primic pages to hypgrah
 - add extensions note
 - add prepayment penalty note (arch loans)
 - add fees (arch loans)
@@ -23,6 +22,8 @@ Financial
 - get font to work?
 - Add more loan programs to stormfield
 - fix sitemap.xml
-
+- add search page
+- add pillar page
+- add footer links
 
 

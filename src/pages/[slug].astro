@@ -3,10 +3,11 @@ import Welcome from "../components/Welcome.astro";
 import Layout from "../components/Layout.astro";
 import Section from "../components/Section.astro";
 import HygraphSlices from "../components/HygraphSlices.astro";
-import { landingPages } from "../hypgrah.js";
+import PillarPage from "../components/PillarPage.astro";
+import { pages, pillarPages } from "../hypgrah.js";
 
 export async function getStaticPaths() {
-  const p = landingPages.map((page) => {
+  const p = [...pages, ...pillarPages].map((page) => {
     let slug = page.slug;
     return { params: { slug: slug }, props: { page } };
   });
@@ -16,6 +17,12 @@ export async function getStaticPaths() {
 const { page } = Astro.props;
 ---
 
-<Layout metaTitle={page.metaTitle}>
-  <HygraphSlices slices={page.content} />
+<Layout metaTitle={page.metaTitle} metaDescription={page.metaDescription}>
+  {
+    page.__typename === "PillarPage" ? (
+      <PillarPage {...page} />
+    ) : (
+      <HygraphSlices slices={page.content} />
+    )
+  }
 </Layout>
