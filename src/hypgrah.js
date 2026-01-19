@@ -84,8 +84,11 @@ async function getLenderProfiles() {
                 description
                 loanType
                 propertyTypes
-                loanToValueMax
-                loanToCostMax
+                lendingRatios {
+                  id
+                  type
+                  value
+                }
                 loanAmountMin
                 loanAmountMax
                 interestRateMin
@@ -246,25 +249,15 @@ async function getPillarPages() {
               subheadline
               __typename
               introText
-              lenderProfiles {
-                logo {
-                  url(
-                    transformation: {
-                      image: {
-                        resize: { width: 400, height: 400, fit: crop }
-                        quality: { value: 90 }
-                        compress: { metadata: true }
-                      }
-                    }
-                  )
-                  fileName
-                  width
-                  height
-                  size
+              lenderCards {
+                ... on LenderCard {
+                  lenderProfile {
+                    slug
+                  }
+                  loanProgram {
+                    loanType
+                  }
                 }
-                slug
-                bestFeatures
-                name
               }
             }
           }
@@ -298,6 +291,12 @@ const urls = [...lenderProfiles, ...pillarPages, ...pages].map((page) => {
     url: url,
   };
 });
+
+export function getLenderProfileFromSlug(slug) {
+  return lenderProfiles.filter((profile) => {
+    return profile.slug === slug;
+  })[0];
+}
 
 export function getUrlFromSlug(slug) {
   return urls.filter((url) => {

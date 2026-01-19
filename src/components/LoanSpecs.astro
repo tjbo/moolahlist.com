@@ -14,6 +14,7 @@ import {
   PAYMENT_OPTIONS,
   PAYMENT_STRUCTURE,
   PROPERTY_TYPES,
+  LENDING_RATIOS,
 } from "../constants/enums.js";
 import Tr from "./Tr.astro";
 const { id, program } = Astro.props;
@@ -72,16 +73,17 @@ const { id, program } = Astro.props;
         )}
         condition={!!program.interestRateMin}
       />
-      <Tr
-        name="LTV"
-        value={formatLTV(program.loanToValueMax)}
-        condition={!!program.loanToValueMax}
-      />
-      <Tr
-        name="LTC"
-        value={formatLTV(program.loanToCostMax)}
-        condition={!!program.loanToCostMax}
-      />
+      {
+        program.lendingRatios.map((ratio) => {
+          return (
+            <Tr
+              name={LENDING_RATIOS[ratio.type]}
+              value={formatLTV(ratio.value)}
+              condition={!!ratio.type && !!ratio.value}
+            />
+          );
+        })
+      }
       <Tr
         name="2nd Lien Position"
         value={program.is2ndPositionAllowed}

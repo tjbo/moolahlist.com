@@ -1,19 +1,23 @@
 ---
 import Section from "./Section.astro";
-const { headline, introText, lenderProfiles, subheadline } = Astro.props;
+import LenderCard from "./LenderCard.astro";
+const { headline, introText, lenderCards, subheadline } = Astro.props;
 ---
 
 <Section>
   <h1>{headline}</h1>
   <h2 class="!text-xl">{subheadline}</h2>
   {introText}
-  {
-    lenderProfiles.map((profile) => {
-      return (
-        <div>
-          <h3>{profile.name}</h3>;
-        </div>
-      );
-    })
-  }
+  <div class="grid grid-cols-1 gap-9 mt-9">
+    {
+      lenderCards.map((card) => {
+        return (
+          <LenderCard
+            slug={card.lenderProfile.slug}
+            loanType={card.loanProgram.loanType}
+          />
+        );
+      })
+    }
+  </div>
 </Section>

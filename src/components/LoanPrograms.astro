@@ -10,6 +10,7 @@ import numeral from "numeral";
 import Button from "./Button.astro";
 import { PROPERTY_TYPES } from "../constants/enums.js";
 import { hasArrayWithStrings } from "../utils/array.js";
+import { LENDING_RATIOS_SHORTHAND } from "../constants/enums.js";
 
 import LoanSpecs from "./LoanSpecs.astro";
 
@@ -17,12 +18,6 @@ import LoanProgramsStat from "./LoanProgramsStat.astro";
 import Stat from "./Stat.astro";
 
 const propertyTypes = [];
-
-const loanToValue = !!program.loanToValueMax
-  ? program.loanToValueMax
-  : program.loanToCostMax;
-
-const loanToValueLabel = !!program.loanToValueMax ? "LTV" : "LTC";
 ---
 
 <div class="block p-4 md:p-12 border-solid border-gray-400 border-1">
@@ -32,7 +27,10 @@ const loanToValueLabel = !!program.loanToValueMax ? "LTV" : "LTC";
   <h3 class="!mb-0">{program.title}</h3>
   <p class="mt-0">{program.description}</p>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <LoanProgramsStat label={loanToValueLabel} stat={formatLTV(loanToValue)} />
+    <LoanProgramsStat
+      label={LENDING_RATIOS_SHORTHAND[program.lendingRatios[0].type]}
+      stat={formatLTV(program.lendingRatios[0].value)}
+    />
     <LoanProgramsStat
       label="Interest"
       stat={formatInterestRate(

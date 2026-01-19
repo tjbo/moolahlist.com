@@ -1,0 +1,14 @@
+---
+import { getLenderProfileFromSlug } from "../hypgrah.js";
+const { slug, loanType } = Astro.props;
+
+const profile = getLenderProfileFromSlug(slug);
+
+const loanProgram = profile.loanPrograms.filter((loanProgram) => {
+  return loanProgram.loanType === loanType;
+})[0];
+---
+
+<div class="card">
+  <h3>{profile.name}</h3>
+</div>

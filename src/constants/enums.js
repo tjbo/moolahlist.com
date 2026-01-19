@@ -80,3 +80,15 @@ export const PAYMENT_OPTIONS = {
   DEFERRED: "Deferred Payments",
   NO_MONTHLY_PAYMENTS_REQUIRED: "No Monthly Payments Required",
 };
+
+export const LENDING_RATIOS = {
+  LOAN_TO_VALUE_MAX: "Loan-to-Value (Max)",
+  LOAN_TO_COST_MAX: "Loan-to-Cost (Max)",
+  LOAN_TO_PURCHASE_MAX: "Loan-to-Purchase Price (Max)",
+};
+
+export const LENDING_RATIOS_SHORTHAND = {
+  LOAN_TO_VALUE_MAX: "LTV",
+  LOAN_TO_COST_MAX: "LTC",
+  LOAN_TO_PURCHASE_MAX: "LTP",
+};
