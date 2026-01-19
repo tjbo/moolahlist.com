@@ -25,5 +25,6 @@ Financial
 - add search page
 - add pillar page
 - add footer links
+- add a recently added lenders page or all lenders... etc
 
 

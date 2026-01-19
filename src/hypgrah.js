@@ -1,5 +1,8 @@
 import { glob } from "astro/loaders";
 
+const isProd = !!import.meta.env && import.meta.env.MODE === "production";
+const rootUrl = isProd ? "https://moolahlist.com" : "http://localhost:4321";
+
 async function getLenderProfiles() {
   return await fetch(
     "https://us-east-1.cdn.hygraph.com/content/cke1u42u73qoz01z20ckw7eij/master",
@@ -13,6 +16,7 @@ async function getLenderProfiles() {
         query: /* GraphQL */ `
           {
             lenderProfiles(stage: PUBLISHED) {
+              __typename
               slug
               email
               profileStatus
@@ -139,6 +143,7 @@ async function getPages() {
         query: /* GraphQL */ `
           {
             pages(stage: PUBLISHED) {
+              __typename
               metaTitle
               slug
               content {
@@ -187,7 +192,7 @@ async function getGlobalSettings() {
                 ... on InternalLink {
                   text
                   internalPage {
-                    ... on LenderProfile {
+                    ... on PillarPage {
                       slug
                     }
                   }
@@ -198,7 +203,7 @@ async function getGlobalSettings() {
                 ... on InternalLink {
                   text
                   internalPage {
-                    ... on LenderProfile {
+                    ... on PillarPage {
                       slug
                     }
                   }
@@ -277,9 +282,28 @@ export const lenderProfiles = (await (await getLenderProfiles()).json()).data
 
 export const pages = (await (await getPages()).json()).data.pages;
 
-const allPages = [...lenderProfiles, ...pages].map((p) => {
-  return p;
+const urls = [...lenderProfiles, ...pillarPages, ...pages].map((page) => {
+  let url = page.__typename;
+  if (page.slug === "home") {
+    url = rootUrl + "/";
+  } else if (page.__typename === "LenderProfile") {
+    url = rootUrl + "/profile/" + page.slug + "/";
+  } else {
+    url = rootUrl + "/" + page.slug + "/";
+  }
+
+  return {
+    id: page.id,
+    slug: page.slug,
+    url: url,
+  };
 });
+
+export function getUrlFromSlug(slug) {
+  return urls.filter((url) => {
+    return url.slug === slug;
+  })[0].url;
+}
 
 export const globalSettings = (await (await getGlobalSettings()).json()).data
   .globalSettings[0];
