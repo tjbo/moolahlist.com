@@ -17,6 +17,8 @@ async function getLenderProfiles() {
           {
             lenderProfiles(stage: PUBLISHED) {
               __typename
+              metaDescription
+              metaTitle
               slug
               email
               profileStatus
@@ -54,10 +56,6 @@ async function getLenderProfiles() {
                     }
                   }
                 )
-                fileName
-                width
-                height
-                size
               }
               bestFeatures
               headline
@@ -147,6 +145,7 @@ async function getPages() {
           {
             pages(stage: PUBLISHED) {
               __typename
+              metaDescription
               metaTitle
               slug
               content {
@@ -245,6 +244,8 @@ async function getPillarPages() {
           {
             pillarPages(stage: PUBLISHED) {
               slug
+              metaDescription
+              metaTitle
               headline
               subheadline
               __typename

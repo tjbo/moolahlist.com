@@ -5,7 +5,6 @@ import { profiles } from "../../prismic.js";
 import { lenderProfiles } from "../../hypgrah.js";
 import Layout from "../../components/Layout.astro";
 import LoanPrograms from "../../components/LoanPrograms.astro";
-import LoanSpecs from "../../components/LoanSpecs.astro";
 import Deal from "../../components/Deal.astro";
 import Section from "../../components/Section.astro";
 import Stat from "../../components/Stat.astro";
@@ -27,23 +26,6 @@ export async function getStaticPaths() {
 }
 
 const { data } = Astro.props;
-
-//  this probably needs to be fixed
-const image = data.logo;
-const srcSets =
-  !!image &&
-  !!image.url &&
-  generateSrcSets(
-    image.url,
-    [
-      { w: 400, h: 400 },
-      { w: 300, h: 300 },
-      { w: 200, h: 200 },
-      { w: 150, h: 150 },
-      { w: 100, h: 100 },
-    ],
-    true,
-  );
 
 function formatMoneyAbbrev(n) {
   const abs = Math.abs(n);
@@ -98,20 +80,22 @@ const hasPositiveConsiderations = hasArrayWithStrings(
       class="grid grid-cols-[50px_auto] md:grid-cols-[162px_auto] mx-auto max-w-[1024px] px-6 w-full items-start"
     >
       {
-        !!image && !!image.url && (
-          <div class="w-[50px] h-[50px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
-            <Image
-              alt={!!image.alt ? image.alt : ""}
-              class="w-full h-full max-w-[160px]"
-              loading="lazy"
-              sizes="(max-width: 640px) 95vw, (min-width: 768px) 44vw, (min-width: 1252px) 552px"
-              src={getImageUrlFromSize(image.url, 576, 432, true)}
-              srcSet={srcSets}
-              width="300"
-              height="300"
-            />
-          </div>
-        )
+        !!data.logo &&
+          !!data.logo.url ? (
+            <div class="w-[50px] h-[50px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
+              <Image
+                alt={`${data.name} Logo`}
+                class="w-full h-full max-w-[160px]"
+                densities={[1.5, 2]}
+                loading="lazy"
+                src={data.logo.url}
+                widths={[100,200,300,400]}
+                sizes="(max-width: 640px) 100px, (max-width: 768px) 150px, (max-width: 1024px) 200px, 400px"
+                width={400}
+                height={400}
+              />
+            </div>,
+          ) : null
       }
       <div class="px-3 md:p-3">
         <h1 class="!text-xl md:!text-3xl">

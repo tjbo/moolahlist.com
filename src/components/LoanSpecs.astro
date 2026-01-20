@@ -21,7 +21,7 @@ const { id, program } = Astro.props;
 ---
 
 <Modal className="max-w-4xl" id={id} title="">
-  <table>
+  <table class="loan-specs">
     <thead>
       <tr>
         <th colspan="2">Loan Program</th>
@@ -34,7 +34,7 @@ const { id, program } = Astro.props;
       </tr>
     </tbody>
   </table>
-  <table>
+  <table class="loan-specs">
     <thead>
       <tr>
         <th>Property Types</th>
@@ -48,7 +48,7 @@ const { id, program } = Astro.props;
       </tr>
     </tbody>
   </table>
-  <table>
+  <table class="loan-specs">
     <thead>
       <tr>
         <th colspan="2">Loan Economics</th>
@@ -64,6 +64,12 @@ const { id, program } = Astro.props;
         name="Loan Term"
         value={formatTerm(program.termLengthMin, program.termLengthMax)}
         condition={!!program.termLengthMin || !!program.termLengthMax}
+      />
+      <Tr
+        name="Origination Fee"
+        value={`${program.originationFeeMin} to 
+${program.originationFeeMax} points`}
+        condition={!!program.originationFeeMin || !!program.originationFeeMax}
       />
       <Tr
         name="Interest Rate"
@@ -85,17 +91,6 @@ const { id, program } = Astro.props;
         })
       }
       <Tr
-        name="2nd Lien Position"
-        value={program.is2ndPositionAllowed}
-        condition={!!program.is2ndPositionAllowed}
-      />
-      <Tr
-        name="2nd Lien Position Max CLTV"
-        value={program["2nd_position_max_cltv"]}
-        condition={!!program.is2ndPositionAllowed &&
-          program["2nd_position_max_cltv"]}
-      />
-      <Tr
         name="Payment Structures"
         value={program.paymentStructure
           .map((structure) => {
@@ -114,7 +109,7 @@ const { id, program } = Astro.props;
         condition={!!program.paymentOptions?.length}
       />
     </tbody>
-    <table>
+    <table class="loan-specs">
       <thead>
         <tr>
           <th colspan="2">Loan Profile</th>
@@ -138,7 +133,7 @@ const { id, program } = Astro.props;
         }
       </tbody>
     </table>
-    <table>
+    <table class="loan-specs">
       <thead>
         <tr>
           <th colspan="2">Property Profile</th>
@@ -162,7 +157,7 @@ const { id, program } = Astro.props;
         }
       </tbody>
     </table>
-    <table>
+    <table class="loan-specs">
       <thead>
         <tr>
           <th colspan="2">Borrower Profile</th>

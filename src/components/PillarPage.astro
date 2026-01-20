@@ -2,13 +2,80 @@
 import Section from "./Section.astro";
 import LenderCard from "./LenderCard.astro";
 const { headline, introText, lenderCards, subheadline } = Astro.props;
+import { getLenderProfileFromSlug, getUrlFromSlug } from "../hypgrah.js";
+import { Image } from "astro:assets";
+import Button from "./Button.astro";
 ---
 
 <Section>
-  <h1>{headline}</h1>
-  <h2 class="!text-xl">{subheadline}</h2>
+  <h1 class="mb-3">{headline}</h1>
   {introText}
-  <div class="grid grid-cols-1 gap-9 mt-9">
+
+  <h2 class="!mt-6 !text-3xl">{subheadline}</h2>
+  <table class="lenders-list">
+    <thead>
+      <tr>
+        <th>Lender</th>
+        <th>Max LTV</th>
+        <th>Closing</th>
+        <th>Interest Rates</th>
+        <th>Learn More</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {
+        lenderCards.map((card) => {
+          const profile = getLenderProfileFromSlug(card.lenderProfile.slug);
+
+          return (
+            <tr>
+              <td class="text-center py-3">
+                <a
+                  href={profile.url}
+                  class="text-center mb-3 !text-sm font-semibold"
+                >{`${profile.name} »`}</a>
+
+                {!!profile.logo && !!profile.logo.url ? (
+                  <div class="w-[50px] h-[50px] md:w-[120px] md:h-[120px] mx-auto border-gray-200 border">
+                    <Image
+                      alt={`${profile.name} Logo`}
+                      densities={[1.5, 2]}
+                      loading="lazy"
+                      src={profile.logo.url}
+                      widths={[100, 200, 300, 400]}
+                      sizes="(max-width: 640px) 100px, (max-width: 768px) 150px, (max-width: 1024px) 200px, 400px"
+                      width={120}
+                      height={120}
+                    />
+                  </div>
+                ) : null}
+              </td>
+
+              <td> 75% </td>
+
+              <td>
+                <div>7 days</div>
+              </td>
+              <td>
+                <div>Less than industry average</div>
+              </td>
+
+              <td>
+                <Button href={getUrlFromSlug(profile.slug)}>
+                  View Profile
+                </Button>
+              </td>
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+
+  <h2 class="mt-16 mb-9">Miami Hard Money Rates & Lenders in More Detail</h2>
+
+  <div class="grid grid-cols-1 gap-9">
     {
       lenderCards.map((card) => {
         return (

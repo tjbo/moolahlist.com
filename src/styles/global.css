@@ -1,41 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Work Sans Variable', sans-serif;
+  --font-sans: 'Roboto Variable', sans-serif;
   --font-serif: 'Montserrat Variable', sans-serif;
   --breakpoint-md: 640px;
-  --breakpoint-2md: 800px;
-  --breakpoint-3md: 960px;
   --breakpoint-lg: 1024px;
-  --breakpoint-3xl: 1920px;
-  /* --color-primary-light: #F2F3F7; */
-  /* --color-primary-dark: #0A284c; */
+  --text-md: 19px;              /* 16px */
+  --text-2md: 18px;              /* 16px */
+  --text-3md: 17px;              /* 16px */
+  --text-4md: 16px;
+  --text-sm: 15px;
+  --text-2sm: 13px;
+  --color-black: #1a1d27;
+  --color-primary-dark: #008235;
+  --color-primary-light: #e1fceA;
+  --color-secondary-light: #efefef; 
+  --color-accent-dark: blue;
   /* --color-accent-dark: #BFA06E; */
   /* --color-secondary-light: #EFF0F4 ;          */
 }
 
 
-table {
-@apply mb-4;
-  @apply rounded border border-gray-300 shadow-sm;
-}
+@layer base {
+  html, body {
+    @apply !w-full !min-w-full m-0 p-0 font-sans !text-md !text-black;
+  }
 
-html, body {
-  @apply !w-full !min-w-full m-0 p-0 font-sans;
-}
-.card {
-  @apply p-6 border-gray-600 border-solid border-1; 
-}
+  section p:last-child {
+    margin-bottom: 0;
+  }
 
-section p:last-child {
-  margin-bottom: 0;
-}
-
-a {
+  a {
     @apply text-blue-600;
     @apply cursor-pointer;
-
   }
+
   a svg {
     color: initial;
   }
@@ -47,35 +46,43 @@ a {
   h5,
   h6,
   h7 {
-    @apply  font-serif font-bold;
+    @apply  font-serif font-bold !text-black;
   }
+
   body {
     @apply text-xl leading-[30px];
     @apply overflow-x-hidden;
   }
+
   p {
     @apply mb-4 sm:mb-5 md:mb-6;
   }
+
   h1 {
     @apply text-5xl;
   }
+
   h2 {
     @apply text-3xl md:text-4xl;
     @apply mb-4 sm:mb-5 md:mb-6;
   }
+
   h3 {
     @apply text-xl md:text-2xl;
     @apply mb-5 sm:mb-5 md:mb-6;
   }
+
   h4 {
     @apply text-lg md:text-xl;
     @apply mb-4 sm:mb-5 md:mb-6;
   }
+
   ul {
     @apply list-disc;
     @apply mb-6;
     @apply mt-1;
   }
+
   ol {
     @apply list-decimal;
     @apply mb-6;
@@ -88,9 +95,39 @@ a {
   
   hr {
   }
+
   a {
   }
 
+
+
+
+details:last-of-type summary {
+  list-style: none;
+  &::after {
+    content: "+";
+    border-radius: 1em;
+    font-weight: bold;
+    padding: 0 5px;
+    margin-inline-start: 5px;
+  }
+  [open] &::after {
+    content: "−";
+  }
+}
+
+details:last-of-type summary::-webkit-details-marker {
+  display: none;
+}
+
+}
+
+table {
+@apply mb-4 rounded border border-gray-300 shadow-sm;
+  @apply min-w-full divide-y-2 divide-gray-200 border-collapse;
+}
+
+@layer components {
   .tab-contents > div {
     display: none;
   }
@@ -109,28 +146,72 @@ a {
     border-bottom: 2px solid black;
   }
 
-table {
-  @apply min-w-full divide-y-2 divide-gray-200;
+  .card {
+    @apply p-6 border-primary-dark border-solid border-1; 
+  }
 
-  border-collapse: collapse;
+
+
+table.loan-specs {
+  @apply min-w-full divide-y-2 divide-gray-200 border-collapse !mb-3;
+  tr {
+    @apply flex flex-col md:flex-row;
+  }
+
+  tr th {
+    @apply !bg-primary-light min-w-full;
+  }
+
+  th,
+  td {
+    @apply px-3 py-2 whitespace-nowrap;
+  }
+
+  th {
+    @apply font-medium text-gray-900 text-left;
+  }
+  }
+
+table.lenders-list {
+    @apply min-w-full;
+    @apply border-t  border-solid border-indigo-500;
+
+  td {
+    @apply p-3 text-3md text-center;
+
+  }
+  th {
+    @apply bg-primary-dark text-white py-3  font-serif !text-3md font-medium; 
+  }
+
+  tr {
+    @apply border-t border-gray-300;
+  }
+}
+table.lender-card-specs {
+    @apply min-w-full !border-0 !border-none border-collapse !shadow-none;
+
+  td {
+    @apply py-2 px-3 text-sm;
+      @apply w-1/2;
+
+  }
+
+  tr {
+     @apply border-b border-b-secondary-light border-solid; 
+  }
+tr > td:nth-child(2) {
+      @apply text-left;
+
+      @apply font-medium;
+}
+}
 }
 
-tr {
-  @apply flex flex-col md:flex-row
 
-}
 
- tr th {
-  @apply !bg-gray-100 min-w-full;
 
-}
 
-th, td {
-  @apply px-3 py-2 whitespace-nowrap; 
-}
 
-th {
-  @apply font-medium text-gray-900 text-left;
-}
 
 

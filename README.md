@@ -1,7 +1,3 @@
-### LENDER APPLICATION
-- add optional section to LOAN SPECS, to cut down on extranoues fields, the most
-basic ones will be required
-
 ### TODOS
 - fix images from hygraph
 - add extensions note
@@ -14,19 +10,17 @@ Financial
 - fix stats
 - fix mobile view about section and about section in general
 - remove boxes from mobile view
-- migrate borrower profile fields
 - put logo and name on loan specs
 - add FAQs based on AI, and data that we have about the company
 - add before they apply section
 - Add more loan programs to stormfield
 - fix sitemap.xml
 - add search page
-- add pillar pages, miami and georgia...
 - add footer links
 - add a recently added lenders page or all lenders... etc
 - add email signup section
 - investigate SFR analytics
-
+- add pillar pages, miami and georgia...
 
 ## Potenial Pillar Pages
 - add  dscr lender
@@ -37,3 +31,6 @@ Financial
 - hard money lenders dallas
 - bridge loans california
 
+
+- make nested thumbnails... Home / Private Money Loans / State / Miami Hard
+Money Loans 
