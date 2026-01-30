@@ -46,7 +46,9 @@ const {
       <slot />
     </div>
     <div class="mx-auto border-t border-gray-200 w-full mt-16">
-      <div class="mx-auto max-w-[1180px] grid grid-cols-[1fr_1fr_1fr_1fr] pt-4">
+      <div
+        class="mx-auto max-w-desktop grid grid-cols-2 md:grid-cols-[1fr_1fr_1fr_1fr] pt-4 px-5 lg:px-0"
+      >
         <FooterMenu
           orderClass="order-1"
           items={globalSettings.footerLinks1}

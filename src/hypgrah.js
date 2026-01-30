@@ -17,14 +17,13 @@ async function getLenderProfiles() {
           {
             lenderProfiles(stage: PUBLISHED) {
               __typename
-              metaDescription
-              metaTitle
               slug
               email
               profileStatus
               listingType
               name
               website
+              bestForTagline
               licenses {
                 type
                 value
@@ -58,6 +57,7 @@ async function getLenderProfiles() {
                 )
               }
               bestFeatures
+              whyWePickedThis
               headline
               description {
                 markdown
@@ -99,7 +99,8 @@ async function getLenderProfiles() {
                 paymentStructure
                 closingTimeMin
                 closingTimeMax
-                requirements
+                documentation
+                keyRequirements
                 additionalDetails
                 borrowerProfile {
                   ... on BorrowerProfile {
@@ -249,7 +250,9 @@ async function getPillarPages() {
               headline
               subheadline
               __typename
-              introText
+              introText {
+                markdown
+              }
               lenderCards {
                 ... on LenderCard {
                   lenderProfile {

@@ -5,9 +5,9 @@
   --font-serif: 'Montserrat Variable', sans-serif;
   --breakpoint-md: 640px;
   --breakpoint-lg: 1024px;
-  --text-md: 19px;              /* 16px */
-  --text-2md: 18px;              /* 16px */
-  --text-3md: 17px;              /* 16px */
+  --text-md: 21px;              
+  --text-2md: 18px;             
+  --text-3md: 17px;              
   --text-4md: 16px;
   --text-sm: 15px;
   --text-2sm: 13px;
@@ -15,24 +15,32 @@
   --color-primary-dark: #008235;
   --color-primary-light: #e1fceA;
   --color-secondary-light: #efefef; 
-  --color-accent-dark: blue;
-  /* --color-accent-dark: #BFA06E; */
-  /* --color-secondary-light: #EFF0F4 ;          */
+  --color-accent-dark: #312b85;
+  --color-accent-darker: #372aab;
 }
 
-
 @layer base {
+  .max-w-desktop {
+    max-width: 1080px;
+  }
+
   html, body {
     @apply !w-full !min-w-full m-0 p-0 font-sans !text-md !text-black;
+    text-rendering: optimizelegibility
   }
 
   section p:last-child {
     margin-bottom: 0;
   }
 
-  a {
-    @apply text-blue-600;
+  a, .read-more {
+    @apply text-accent-darker;
     @apply cursor-pointer;
+  }
+
+  .read-more {
+
+    @apply uppercase
   }
 
   a svg {
@@ -46,7 +54,7 @@
   h5,
   h6,
   h7 {
-    @apply  font-serif font-bold !text-black;
+    @apply font-serif font-bold;
   }
 
   body {
@@ -59,22 +67,19 @@
   }
 
   h1 {
-    @apply text-5xl;
+    @apply text-4xl;
   }
 
   h2 {
-    @apply text-3xl md:text-4xl;
-    @apply mb-4 sm:mb-5 md:mb-6;
+    @apply text-2xl mb-2;
   }
 
   h3 {
-    @apply text-xl md:text-2xl;
-    @apply mb-5 sm:mb-5 md:mb-6;
+    @apply text-xl mb-2;
   }
 
   h4 {
-    @apply text-lg md:text-xl;
-    @apply mb-4 sm:mb-5 md:mb-6;
+    @apply text-md mb-2 ;
   }
 
   ul {

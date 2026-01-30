@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { getLenderProfileFromSlug } from "../hypgrah.js";
+import { getLenderProfileFromSlug, getUrlFromSlug } from "../hypgrah.js";
 import { LENDING_RATIOS_SHORTHAND } from "../constants/enums.js";
 const { slug, loanType } = Astro.props;
 import {
@@ -11,20 +11,35 @@ import {
 } from "../utils/formatNumbers.js";
 import Tr from "./Tr.astro";
 import Button from "./Button.astro";
+import FancyList from "./FancyList.astro";
+
+import { hasArrayWithStrings } from "../utils/array.js";
 
 const profile = getLenderProfileFromSlug(slug);
 
 const program = profile.loanPrograms.filter((p) => {
   return p.loanType === loanType;
 })[0];
+
+const hasNegativeConsiderations = hasArrayWithStrings(
+  profile.negativeConsiderations,
+);
+
+const hasPositiveConsiderations = hasArrayWithStrings(
+  profile.positiveConsiderations,
+);
+
+const url = getUrlFromSlug(profile.slug);
 ---
 
 <div class="block">
-  <span
-    class="bg-primary-dark text-white inline-block px-3 py-[1px] rounded-t-xl text-2sm font-semibold"
-  >
-    Good for Fast Funding
-  </span>
+  {
+    !!profile.bestForTagline ? (
+      <b class="bg-primary-dark inline-block px-3 py-[2px] rounded-t-xl text-2sm font-medium font-sans !mb-0 !text-white">
+        {profile.bestForTagline}
+      </b>
+    ) : null
+  }
   <div class="card relative">
     <div class="bg-primary-light h-16 absolute top-0 w-full left-0 z-10"></div>
     <div class="grid grid-cols-[162px_1fr] gap-9 z-20 relative">
@@ -33,7 +48,7 @@ const program = profile.loanPrograms.filter((p) => {
           <div class="w-[50px] h-[50px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
             <Image
               alt={`${profile.name} Logo`}
-              class="w-full h-full max-w-[160px] bg-white"
+              class="w-full h-full max-w-[160px] bg-white shadow-md"
               densities={[1.5, 2]}
               loading="lazy"
               src={profile.logo.url}
@@ -49,103 +64,130 @@ const program = profile.loanPrograms.filter((p) => {
         <h3 class="!text-lg">{profile.name}</h3>
         <div class="grid grid-cols-[1fr_200px]">
           <div>
-            <table class="lender-card-specs">
-              <tbody>
-                <Tr
-                  name={LENDING_RATIOS_SHORTHAND[program.lendingRatios[0].type]}
-                  value={formatLTV(program.lendingRatios[0].value)}
-                  condition={!!program.lendingRatios[0]}
-                />
-                <Tr
-                  name="Rate"
-                  value={formatInterestRate(
-                    program.interestRateMin,
-                    program.interestRateMax,
-                  )}
-                  condition={!!program.interestRateMin}
-                />
-                <Tr
-                  name="Term"
-                  value={formatTerm(
-                    program.termLengthMin,
-                    program.termLengthMax,
-                  )}
-                  condition={!!program.termLengthMin || !!program.termLengthMax}
-                />
-                <Tr
-                  name="Amount"
-                  value={formatAmount(
-                    program.loanAmountMin,
-                    program.loanAmountMax,
-                  )}
-                  condition={!!program.loanAmountMin || !!program.loanAmountMax}
-                />
-              </tbody>
-            </table>
+            {
+              !!program ? (
+                <table class="lender-card-specs font-serif font-medium">
+                  <tbody>
+                    <Tr
+                      name={
+                        LENDING_RATIOS_SHORTHAND[program.lendingRatios[0].type]
+                      }
+                      value={formatLTV(program.lendingRatios[0].value)}
+                      condition={!!program.lendingRatios[0]}
+                    />
+                    <Tr
+                      name="Rate"
+                      value={formatInterestRate(
+                        program.interestRateMin,
+                        program.interestRateMax,
+                      )}
+                      condition={!!program.interestRateMin}
+                    />
+                    <Tr
+                      name="Term"
+                      value={formatTerm(
+                        program.termLengthMin,
+                        program.termLengthMax,
+                      )}
+                      condition={
+                        !!program.termLengthMin || !!program.termLengthMax
+                      }
+                    />
+                    <Tr
+                      name="Amount"
+                      value={formatAmount(
+                        program.loanAmountMin,
+                        program.loanAmountMax,
+                      )}
+                      condition={
+                        !!program.loanAmountMin || !!program.loanAmountMax
+                      }
+                    />
+                  </tbody>
+                </table>
+              ) : null
+            }
           </div>
           <div class="flex justify-center items-start mt-6">
-            <Button>View Lender</Button>
+            <Button href={url}>View Lender</Button>
           </div>
         </div>
       </div>
     </div>
     <div class="border-t-gray-200 border-t border-solid w-full text-2md">
-      <details class="read-more">
-        <h6 class="mt-6">Why We Picked This</h6>
-        <p>
-          First Tech Federal Credit Union offers fixed-rate personal loans of
-          $500 to $50,000 with terms of six to 84 months and no application or
-          origination fees. The credit union provides the opportunity to defer
-          your first loan payment for up to 45 days from the date the loan was
-          funded.
-        </p>
-
-        <div class="grid grid-cols-2 gap-12">
-          <div>
-            <b>Pros</b>
-            <ul>
-              <li>First Tech offers loan amounts from $500 to $50,000.</li>
-              <li>You can defer your first loan payment for up to 45 days.</li>
-              <li>Most loans are approved within one business day.</li>
-            </ul>
-          </div>
-          <div>
-            <b>Cons</b>
-            <ul>
-              <li>First Tech offers loan amounts from $500 to $50,000.</li>
-              <li>You can defer your first loan payment for up to 45 days.</li>
-              <li>Most loans are approved within one business day.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="grid">
-          <div>
-            <b>Time to Fund</b>
-
-            <ul>
-              <li>
-                {formatTerm(program.termLengthMin, program.termLengthMax)}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <b>Origination Fee</b>
-            <ul>
-              <li>
-                {program.originationFeeMin} to {program.originationFeeMax} points
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="flex justify-end">
-          <a href="" class="text-sm">See full profile »</a>
-        </div>
-
+      <details class="read-more-text">
         <summary
           class="text-right cursor-pointer select-none uppercase !text-accent-dark text-sm font-medium mt-4"
         >
           Read more
         </summary>
+        <h6 class="mt-6">Why We Picked This</h6>
+        {profile.whyWePickedThis}
+
+        {
+          !!hasPositiveConsiderations || !!hasNegativeConsiderations ? (
+            <div class="grid grid-cols-2  gap-9 mt-9">
+              {hasPositiveConsiderations && (
+                <div class="grid grid-cols-1">
+                  <h6 class="">Funds</h6>
+                  <div class="ml-3">
+                    <FancyList
+                      data={profile.positiveConsiderations}
+                      icon="checkmark"
+                    />
+                  </div>
+                </div>
+              )}
+              {hasNegativeConsiderations && (
+                <div class="grid grid-cols-1">
+                  <b class="block">Does Not Fund</b>
+                  <div class="ml-3">
+                    <FancyList
+                      data={profile.negativeConsiderations}
+                      icon="crossmark"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : null
+        }
+
+        {
+          !!program ? (
+            <div class="grid mt-9">
+              <div>
+                <b>Term Length</b>
+
+                <ul>
+                  <li>
+                    {formatTerm(program.termLengthMin, program.termLengthMax)}
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <b>Origination Fee</b>
+                <ul>
+                  <li>
+                    {program.originationFeeMin} to {program.originationFeeMax}{" "}
+                    points
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <b>Time to Close</b>
+                <ul>
+                  <li>
+                    {program.closingTimeMin} to {program.closingTimeMax} days
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : null
+        }
+        <div class="flex justify-end">
+          <a href={url} class="text-sm">See full profile »</a>
+        </div>
       </details>
     </div>
   </div>

@@ -27,11 +27,11 @@ const hasImage = !!deal.image && !!deal.image.length;
   class=`grid ${hasImage ? "grid-cols-1 md:grid-cols-[auto_300px]" : "grid-cols-1"} gap-6`
 >
   <div>
-    <h3>
+    <h4>
       <a href={deal.link} target="_blank">
         {deal.headline}
       </a>
-    </h3>
+    </h4>
     <div set:html={marked(deal.body)} />
     <a href={deal.link} target="_blank" class="mt-4 block"> Read more </a>
   </div>

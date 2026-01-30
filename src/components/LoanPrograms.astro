@@ -10,17 +10,19 @@ import numeral from "numeral";
 import Button from "./Button.astro";
 import { PROPERTY_TYPES } from "../constants/enums.js";
 import { hasArrayWithStrings } from "../utils/array.js";
-import { LENDING_RATIOS_SHORTHAND } from "../constants/enums.js";
+import { DOCUMENTATION, LENDING_RATIOS_SHORTHAND } from "../constants/enums.js";
 
 import LoanSpecs from "./LoanSpecs.astro";
 
 import LoanProgramsStat from "./LoanProgramsStat.astro";
 import Stat from "./Stat.astro";
 
-const propertyTypes = [];
+const propertyTypes = program.propertyTypes.map((item) => {
+  return PROPERTY_TYPES[item];
+});
 ---
 
-<div class="block p-4 md:p-12 border-solid border-gray-400 border-1">
+<div class="block p-4 md:p-12 border-solid border-secondary-light border-1">
   <div class="flex flex-row w-full justify-between">
     <div class="font-bold text-2xl"></div>
   </div>
@@ -57,20 +59,28 @@ const propertyTypes = [];
   </ul>
   <h4>Eligible Property Types</h4>
   <ul>
-    {
-      program.propertyTypes.map((item) => {
-        return <li>{PROPERTY_TYPES[item]}</li>;
-      })
-    }
+    <li>{propertyTypes.join(", ")}</li>
   </ul>
 
   {
-    hasArrayWithStrings(program.requirements) ? (
+    hasArrayWithStrings(program.keyRequirements) ? (
       <>
-        <h4>Requirements</h4>
+        <h4>Key Requirements</h4>
         <ul>
-          {program.requirements.map((item) => {
+          {program.keyRequirements.map((item) => {
             return <li>{item}</li>;
+          })}
+        </ul>
+      </>
+    ) : null
+  }
+  {
+    hasArrayWithStrings(program.documentation) ? (
+      <>
+        <h4>Documentation</h4>
+        <ul>
+          {program.documentation.map((item) => {
+            return <li>{DOCUMENTATION[item]}</li>;
           })}
         </ul>
       </>

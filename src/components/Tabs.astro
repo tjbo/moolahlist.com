@@ -11,7 +11,7 @@ const { tabs } = Astro.props;
           role="tab"
           data-index={i}
           aria-selected="true"
-          class={i === 0 ? "active" : ""}
+          class={`${i === 0 ? "active" : ""} text-lg font-normal p-1 px-4 border-secondary-light border-t border-r border-b border-l rounded-t-lg`}
         >
           {LOAN_TYPES[tab.title]}
         </button>

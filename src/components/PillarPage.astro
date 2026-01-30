@@ -5,11 +5,16 @@ const { headline, introText, lenderCards, subheadline } = Astro.props;
 import { getLenderProfileFromSlug, getUrlFromSlug } from "../hypgrah.js";
 import { Image } from "astro:assets";
 import Button from "./Button.astro";
+import { marked } from "marked";
+import ReadMore from "./ReadMore.astro";
 ---
 
 <Section>
   <h1 class="mb-3">{headline}</h1>
-  {introText}
+
+  <ReadMore>
+    <div set:html={marked.parse(introText.markdown)} />
+  </ReadMore>
 
   <h2 class="!mt-6 !text-3xl">{subheadline}</h2>
   <table class="lenders-list">
@@ -81,7 +86,7 @@ import Button from "./Button.astro";
         return (
           <LenderCard
             slug={card.lenderProfile.slug}
-            loanType={card.loanProgram.loanType}
+            loanType={!!card.loanProgram ? card.loanProgram.loanType : null}
           />
         );
       })
