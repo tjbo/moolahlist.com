@@ -34,3 +34,48 @@ Financial
 
 - make nested thumbnails... Home / Private Money Loans / State / Miami Hard
 Money Loans 
+
+
+
+PROS
+- lending ratio - sub selections?
+- lending ratio ltv
+- lending ratio ltc
+- lending ratio ltp
+- loan amount range, <company name> offers loan amounts from amountMin to
+amountMax
+- loan amount max,  <company name> offers loan amounts up to amountMax 
+- loan amount min, <company name> offers loan amounts from amountMin 
+
+- property types many, <company name> borrows on multiple property types.
+
+- property type singular, <company name> funds a variety of property types, including financing for manufactured housing.
+
+- interest rate min
+- interest rate range
+- term length max
+- origination fee max
+- origination fee min
+- closing time max
+- closing time min
+- closing time range
+- payment structure many
+- payment options many
+- credit check not required
+- credit check low fico minumum
+
+
+Borrowers can choose between interest-only or interest reserve...
+
+Has a variety of loan programs.
+
+
+
+CONS
+- <company name> does not have physical branches in all 50 states
+
+- Branch locations are limited.
+
+- The lender does not publicly disclose rates or fees.
+
+

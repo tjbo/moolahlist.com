@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import { getLenderProfileFromSlug, getUrlFromSlug } from "../hypgrah.js";
 import { LENDING_RATIOS_SHORTHAND } from "../constants/enums.js";
-const { slug, loanType } = Astro.props;
+const { profile } = Astro.props;
 import {
   formatAmount,
   formatInterestRate,
@@ -15,11 +15,7 @@ import FancyList from "./FancyList.astro";
 
 import { hasArrayWithStrings } from "../utils/array.js";
 
-const profile = getLenderProfileFromSlug(slug);
-
-const program = profile.loanPrograms.filter((p) => {
-  return p.loanType === loanType;
-})[0];
+const program = profile.loanProgram;
 
 const hasNegativeConsiderations = hasArrayWithStrings(
   profile.negativeConsiderations,
@@ -34,11 +30,11 @@ const url = getUrlFromSlug(profile.slug);
 
 <div class="block">
   {
-    !!profile.bestForTagline ? (
+    (
       <b class="bg-primary-dark inline-block px-3 py-[2px] rounded-t-xl text-2sm font-medium font-sans !mb-0 !text-white">
-        {profile.bestForTagline}
+        {program.bestForTagline}
       </b>
-    ) : null
+    )
   }
   <div class="card relative">
     <div class="bg-primary-light h-16 absolute top-0 w-full left-0 z-10"></div>
@@ -128,9 +124,9 @@ const url = getUrlFromSlug(profile.slug);
           !!hasPositiveConsiderations || !!hasNegativeConsiderations ? (
             <div class="grid grid-cols-2  gap-9 mt-9">
               {hasPositiveConsiderations && (
-                <div class="grid grid-cols-1">
+                <div class="flex flex-col items-start">
                   <h6 class="">Funds</h6>
-                  <div class="ml-3">
+                  <div class="ml-3 ">
                     <FancyList
                       data={profile.positiveConsiderations}
                       icon="checkmark"
@@ -139,14 +135,12 @@ const url = getUrlFromSlug(profile.slug);
                 </div>
               )}
               {hasNegativeConsiderations && (
-                <div class="grid grid-cols-1">
-                  <b class="block">Does Not Fund</b>
-                  <div class="ml-3">
-                    <FancyList
-                      data={profile.negativeConsiderations}
-                      icon="crossmark"
-                    />
-                  </div>
+                <div class="flex flex-col items-start">
+                  <b class="inline">Does Not Fund</b>
+                  <FancyList
+                    data={profile.negativeConsiderations}
+                    icon="crossmark"
+                  />
                 </div>
               )}
             </div>

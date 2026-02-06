@@ -23,7 +23,6 @@ async function getLenderProfiles() {
               listingType
               name
               website
-              bestForTagline
               licenses {
                 type
                 value
@@ -62,6 +61,8 @@ async function getLenderProfiles() {
               description {
                 markdown
               }
+              areasServed
+              states
               metaDescription
               phone
               streetAddress
@@ -78,6 +79,7 @@ async function getLenderProfiles() {
               positiveConsiderations
               negativeConsiderations
               loanPrograms {
+                bestForTagline
                 title
                 description
                 loanType
@@ -247,22 +249,18 @@ async function getPillarPages() {
               slug
               metaDescription
               metaTitle
-              headline
-              subheadline
+              headline1
+              headline2
               __typename
               introText {
                 markdown
               }
-              lenderCards {
-                ... on LenderCard {
-                  lenderProfile {
-                    slug
-                  }
-                  loanProgram {
-                    loanType
-                  }
-                }
-              }
+              areasServed
+              isAllLoanTypes
+              loanTypes
+              isAllPropertyTypes
+              propertyTypes
+              states
             }
           }
         `,
@@ -313,6 +311,12 @@ export const globalSettings = (await (await getGlobalSettings()).json()).data
 
 export function getPageBySlug(slug) {
   return pages.find((page) => {
+    return page.slug === slug;
+  });
+}
+
+export function doesPageExist(slug) {
+  return urls.some((page) => {
     return page.slug === slug;
   });
 }

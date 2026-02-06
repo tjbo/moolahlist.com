@@ -1,3 +1,9 @@
+export const AREAS_SERVED = {
+  ONLY_THESE_STATES: "ONLY_THESE_STATES",
+  NATIONWIDE_EXCEPT_THESE_STATES: "NATIONWIDE_EXCEPT_THESE_STATES",
+  NATIONWIDE: "NATIONWIDE",
+};
+
 export const LOAN_TYPES = {
   BRIDGE: "Bridge",
   CASH_OUT: "Cash-out",
@@ -91,4 +97,13 @@ export const LENDING_RATIOS_SHORTHAND = {
   LOAN_TO_VALUE_MAX: "LTV",
   LOAN_TO_COST_MAX: "LTC",
   LOAN_TO_PURCHASE_MAX: "LTP",
+};
+
+export const DOCUMENTATION = {
+  CREDIT_APPLICATION: "Credit application",
+  BANK_STATEMENTS: "Bank statements",
+  ID_AND_ENTITY_DOCS: "ID and entity documents",
+  PLANS_PERMITS_AND_CONTRACTOR_DETAILS:
+    "Plans, permits, and contractor details",
+  PROOF_OF_INSURANCE: "Proof of insurance",
 };
