@@ -7,9 +7,6 @@
 Financial
 - add social media icons
 - add link icon to news section
-- fix stats
-- fix mobile view about section and about section in general
-- remove boxes from mobile view
 - put logo and name on loan specs
 - add FAQs based on AI, and data that we have about the company
 - add before they apply section

@@ -153,8 +153,8 @@ const hasPositiveConsiderations = hasArrayWithStrings(
             </div>
             </div>
           )}
-          {hasNegativeConsiderations && (
-<div class="flex flex-col h-full">
+          { hasNegativeConsiderations && (
+              <div class="flex flex-col h-full">
 
               <h2 class="block mb-2">Does Not Fund</h2>
             <div class="grid grid-cols-1 bg-red-50 p-3">
@@ -174,7 +174,6 @@ const hasPositiveConsiderations = hasArrayWithStrings(
 
   {
     !!data.loanPrograms && !!data.loanPrograms.length ? (
-
   <Section variant="compact">
         <h2>Loan Programs</h2>
         <Tabs tabs={loanProgramTabs} />
