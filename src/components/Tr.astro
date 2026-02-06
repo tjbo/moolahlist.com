@@ -5,9 +5,11 @@ const mobileClass = asRowOnMobile ? "flex-row" : "flex-col";
 
 {
   condition ? (
-    <tr class={`flex ${mobileClass} md:flex-row justify-between`}>
-      <td class="px-0 py-1">{name}</td>
-      <td class="px-0 py-1">{value}</td>
+    <tr class={`flex ${mobileClass} md:flex-row justify-between max-w-full`}>
+      <td class="px-1 py-1 break-words whitespace-normal font-medium">
+        {name}
+      </td>
+      <td class="px-1 py-1 break-words whitespace-normal">{value}</td>
     </tr>
   ) : null
 }

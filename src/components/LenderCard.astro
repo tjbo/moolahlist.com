@@ -36,17 +36,17 @@ const url = getUrlFromSlug(profile.slug);
   </b>
   <div class="card !p-0">
     <div
-      class="relative grid grid-cols-1 p-3 md:p-6 md:pr-0 md:grid-cols-[162px_2fr_1fr] gap-3"
+      class="relative grid grid-cols-1 p-3 md:p-6 md:pr-0 md:grid-cols-[162px_auto_244px] gap-3"
     >
       <!-- desktop 1st column -->
       <div class="bg-primary-light h-14 absolute top-0 w-full left-0 z-10">
       </div>
       <div
-        class="flex flex-col absolute right-3 top-3 md:relative md:grid md:grid-cols-[162px_1fr] md:gap-9 z-20"
+        class="flex flex-col absolute right-3 top-3 md:relative md:grid md:grid-cols-[148px_1fr] md:gap-9 z-20"
       >
         {
           !!profile.logo && !!profile.logo.url ? (
-            <div class=" md:relative  w-[90px] h-[90px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
+            <div class=" md:relative  w-[90px] h-[90px] md:w-[148px] md:h-[148px] m-0 border-gray-200 border">
               <Image
                 alt={`${profile.name} Logo`}
                 class="w-full h-full max-w-[160px] bg-white shadow-md"
@@ -70,7 +70,7 @@ const url = getUrlFromSlug(profile.slug);
         <div class="mt-12 md:mt-0">
           {
             !!program ? (
-              <table class="lender-card-specs font-serif font-medium">
+              <table class="lender-card-specs font-serif font-medium !mb-1">
                 <tbody>
                   <Tr
                     asRowOnMobile={true}
@@ -117,12 +117,14 @@ const url = getUrlFromSlug(profile.slug);
           }
         </div>
       </div>
-      <div class="flex justify-center items-start mt-12 max-auto">
-        <Button href={url}>View Lender Profile</Button>
+      <div
+        class="flex flex-row justify-start items-start md:justify-center md:items-center my-3 md:mb-0 md:mt-6 w-full"
+      >
+        <Button extraClass="w-full mx-6" href={url}>View Lender</Button>
       </div>
     </div>
     <div class="border-t-gray-200 border-t border-solid w-full text-2md">
-      <details class="py-3 px-6 group">
+      <details class="py-3 px-3 md:py-3 md:px-6 group">
         <summary
           data-closed="READ MORE"
           data-open="READ LESS"
@@ -140,11 +142,11 @@ const url = getUrlFromSlug(profile.slug);
 
         {
           !!hasPositiveConsiderations || !!hasNegativeConsiderations ? (
-            <div class="grid grid-cols-2  gap-9 mt-9">
+            <div class="grid grid-cols-1 md:grid-cols-2 md:gap-9 mt-9">
               {hasPositiveConsiderations && (
                 <div class="flex flex-col items-start">
                   <h6 class="">Funds</h6>
-                  <div class="ml-3 ">
+                  <div class="">
                     <FancyList
                       data={profile.positiveConsiderations}
                       icon="checkmark"
