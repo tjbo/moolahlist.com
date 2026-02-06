@@ -68,67 +68,6 @@ const lenderCardsWithLoanPrograms = lenderCards
   }
 
   {!!headline2 ? <h2 class="!mt-6 !text-3xl">{headline2}</h2> : null}
-  <!--table class="lenders-list">
-    <thead>
-      <tr>
-        <th>Lender</th>
-        <th>Max LTV</th>
-        <th>Closing</th>
-        <th>Interest Rates</th>
-        <th>Learn More</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {
-        lenderCards.map((card) => {
-          const profile = getLenderProfileFromSlug(card.lenderProfile.slug);
-
-          return (
-            <tr>
-              <td class="text-center py-3">
-                <a
-                  href={profile.url}
-                  class="text-center mb-3 !text-sm font-semibold"
-                >{`${profile.name} »`}</a>
-
-                {!!profile.logo && !!profile.logo.url ? (
-                  <div class="w-[50px] h-[50px] md:w-[120px] md:h-[120px] mx-auto border-gray-200 border">
-                    <Image
-                      alt={`${profile.name} Logo`}
-                      densities={[1.5, 2]}
-                      loading="lazy"
-                      src={profile.logo.url}
-                      widths={[100, 200, 300, 400]}
-                      sizes="(max-width: 640px) 100px, (max-width: 768px) 150px, (max-width: 1024px) 200px, 400px"
-                      width={120}
-                      height={120}
-                    />
-                  </div>
-                ) : null}
-              </td>
-
-              <td> 75% </td>
-
-              <td>
-                <div>7 days</div>
-              </td>
-              <td>
-                <div>Less than industry average</div>
-              </td>
-
-              <td>
-                <Button href={getUrlFromSlug(profile.slug)}>
-                  View Profile
-                </Button>
-              </td>
-            </tr>
-          );
-        })
-      }
-    </tbody>
-  </table-->
-
   <div class="grid grid-cols-1 gap-9">
     {
       lenderCardsWithLoanPrograms.map((lenderCard) => {

@@ -1,12 +1,13 @@
 ---
-const { name, value, condition } = Astro.props;
+const { asRowOnMobile = false, name, value, condition } = Astro.props;
+const mobileClass = asRowOnMobile ? "flex-row" : "flex-col";
 ---
 
 {
   condition ? (
-    <tr class="flex flex-col md:flex-row justify-between">
-      <td>{name}</td>
-      <td>{value}</td>
+    <tr class={`flex ${mobileClass} md:flex-row justify-between`}>
+      <td class="px-0 py-1">{name}</td>
+      <td class="px-0 py-1">{value}</td>
     </tr>
   ) : null
 }

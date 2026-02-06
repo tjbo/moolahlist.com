@@ -11,6 +11,7 @@
   --text-4md: 16px;
   --text-sm: 15px;
   --text-2sm: 13px;
+  --text-3sm: 12px;
   --color-black: #1a1d27;
   --color-primary-dark: #008235;
   --color-primary-light: #e1fceA;
@@ -20,6 +21,9 @@
 }
 
 @layer base {
+  .text-2sm {
+    @apply leading-[16px]
+  }
   .max-w-desktop {
     max-width: 1080px;
   }
@@ -39,7 +43,6 @@
   }
 
   .read-more {
-
     @apply uppercase
   }
 

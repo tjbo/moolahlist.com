@@ -28,94 +28,112 @@ const hasPositiveConsiderations = hasArrayWithStrings(
 const url = getUrlFromSlug(profile.slug);
 ---
 
-<div class="block">
-  {
-    (
-      <b class="bg-primary-dark inline-block px-3 py-[2px] rounded-t-xl text-2sm font-medium font-sans !mb-0 !text-white">
-        {program.bestForTagline}
-      </b>
-    )
-  }
-  <div class="card relative">
-    <div class="bg-primary-light h-16 absolute top-0 w-full left-0 z-10"></div>
-    <div class="grid grid-cols-[162px_1fr] gap-9 z-20 relative">
-      {
-        !!profile.logo && !!profile.logo.url ? (
-          <div class="w-[50px] h-[50px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
-            <Image
-              alt={`${profile.name} Logo`}
-              class="w-full h-full max-w-[160px] bg-white shadow-md"
-              densities={[1.5, 2]}
-              loading="lazy"
-              src={profile.logo.url}
-              widths={[100, 200, 300, 400]}
-              sizes="(max-width: 640px) 100px, (max-width: 768px) 150px, (max-width: 1024px) 200px, 400px"
-              width={200}
-              height={200}
-            />
-          </div>
-        ) : null
-      }
-      <div>
-        <h3 class="!text-lg">{profile.name}</h3>
-        <div class="grid grid-cols-[1fr_200px]">
-          <div>
-            {
-              !!program ? (
-                <table class="lender-card-specs font-serif font-medium">
-                  <tbody>
-                    <Tr
-                      name={
-                        LENDING_RATIOS_SHORTHAND[program.lendingRatios[0].type]
-                      }
-                      value={formatLTV(program.lendingRatios[0].value)}
-                      condition={!!program.lendingRatios[0]}
-                    />
-                    <Tr
-                      name="Rate"
-                      value={formatInterestRate(
-                        program.interestRateMin,
-                        program.interestRateMax,
-                      )}
-                      condition={!!program.interestRateMin}
-                    />
-                    <Tr
-                      name="Term"
-                      value={formatTerm(
-                        program.termLengthMin,
-                        program.termLengthMax,
-                      )}
-                      condition={
-                        !!program.termLengthMin || !!program.termLengthMax
-                      }
-                    />
-                    <Tr
-                      name="Amount"
-                      value={formatAmount(
-                        program.loanAmountMin,
-                        program.loanAmountMax,
-                      )}
-                      condition={
-                        !!program.loanAmountMin || !!program.loanAmountMax
-                      }
-                    />
-                  </tbody>
-                </table>
-              ) : null
-            }
-          </div>
-          <div class="flex justify-center items-start mt-6">
-            <Button href={url}>View Lender</Button>
-          </div>
+<div class="flex flex-col md:block">
+  <b
+    class="bg-primary-dark inline-block px-3 py-2 md:py-1 rounded-t-xl text-2sm md:!leading-[30px] font-medium font-sans !mb-0 !text-white"
+  >
+    {program.bestForTagline}
+  </b>
+  <div class="card !p-0">
+    <div
+      class="relative grid grid-cols-1 p-3 md:p-6 md:pr-0 md:grid-cols-[162px_2fr_1fr] gap-3"
+    >
+      <!-- desktop 1st column -->
+      <div class="bg-primary-light h-14 absolute top-0 w-full left-0 z-10">
+      </div>
+      <div
+        class="flex flex-col absolute right-3 top-3 md:relative md:grid md:grid-cols-[162px_1fr] md:gap-9 z-20"
+      >
+        {
+          !!profile.logo && !!profile.logo.url ? (
+            <div class=" md:relative  w-[90px] h-[90px] md:w-[162px] md:h-[162px] m-0 border-gray-200 border">
+              <Image
+                alt={`${profile.name} Logo`}
+                class="w-full h-full max-w-[160px] bg-white shadow-md"
+                densities={[1.5, 2]}
+                loading="lazy"
+                src={profile.logo.url}
+                widths={[100, 200, 300, 400]}
+                sizes="(max-width: 640px) 100px, (max-width: 768px) 150px, (max-width: 1024px) 200px, 400px"
+                width={200}
+                height={200}
+              />
+            </div>
+          ) : null
+        }
+      </div>
+
+      <!-- middle col -->
+      <div class="flex flex-col z-20">
+        <h3 class="!text-2sm md:!text-lg mr-20 md:mr-0">{profile.name}</h3>
+
+        <div class="mt-12 md:mt-0">
+          {
+            !!program ? (
+              <table class="lender-card-specs font-serif font-medium">
+                <tbody>
+                  <Tr
+                    asRowOnMobile={true}
+                    name={
+                      LENDING_RATIOS_SHORTHAND[program.lendingRatios[0].type]
+                    }
+                    value={formatLTV(program.lendingRatios[0].value)}
+                    condition={!!program.lendingRatios[0]}
+                  />
+                  <Tr
+                    asRowOnMobile={true}
+                    name="Rate"
+                    value={formatInterestRate(
+                      program.interestRateMin,
+                      program.interestRateMax,
+                    )}
+                    condition={!!program.interestRateMin}
+                  />
+                  <Tr
+                    asRowOnMobile={true}
+                    name="Term"
+                    value={formatTerm(
+                      program.termLengthMin,
+                      program.termLengthMax,
+                    )}
+                    condition={
+                      !!program.termLengthMin || !!program.termLengthMax
+                    }
+                  />
+                  <Tr
+                    asRowOnMobile={true}
+                    name="Amount"
+                    value={formatAmount(
+                      program.loanAmountMin,
+                      program.loanAmountMax,
+                    )}
+                    condition={
+                      !!program.loanAmountMin || !!program.loanAmountMax
+                    }
+                  />
+                </tbody>
+              </table>
+            ) : null
+          }
         </div>
+      </div>
+      <div class="flex justify-center items-start mt-12 max-auto">
+        <Button href={url}>View Lender Profile</Button>
       </div>
     </div>
     <div class="border-t-gray-200 border-t border-solid w-full text-2md">
-      <details class="read-more-text">
+      <details class="py-3 px-6 group">
         <summary
-          class="text-right cursor-pointer select-none uppercase !text-accent-dark text-sm font-medium mt-4"
+          data-closed="READ MORE"
+          data-open="READ LESS"
+          class="text-right text-sm relative block cursor-pointer select-none text-blue-600 font-medium
+            [&::before]:text-blue-600 [&::before]:content-[attr(data-closed)]
+           group-open:[&::before]:content-[attr(data-open)]
+           px-0 y-3"
         >
-          Read more
+          <span class="sr-only text-left absolute left-0 top-0">
+            Read More
+          </span>
         </summary>
         <h6 class="mt-6">Why We Picked This</h6>
         {profile.whyWePickedThis}
