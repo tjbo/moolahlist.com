@@ -1,0 +1,78 @@
+---
+import Section from "./Section.astro";
+import LenderCard from "./LenderCard.astro";
+const {
+  headline1,
+  headline2,
+  introText,
+  isAllPropertyTypes,
+  areasServed,
+  states,
+  isAllLoanTypes,
+  loanTypes,
+  propertyTypes,
+} = Astro.props;
+import {
+  getLenderProfileFromSlug,
+  getUrlFromSlug,
+  lenderProfiles,
+} from "../hypgrah.js";
+import { Image } from "astro:assets";
+import Button from "./Button.astro";
+import { marked } from "marked";
+import ReadMore from "./ReadMore.astro";
+import { AREAS_SERVED } from "../constants/enums.js";
+
+// detect if lender profile is in areas served
+const lenderCards = lenderProfiles.filter((lenderProfile) => {
+  if (areasServed === AREAS_SERVED.ONLY_THESE_STATES) {
+    if (lenderProfile.areasServed === AREAS_SERVED.NATIONWIDE) {
+      return true;
+    } else if (lenderProfile.areasServed === AREAS_SERVED.ONLY_THESE_STATES) {
+      return lenderProfile.states.some((state) => {
+        return states.includes(state);
+      });
+    } else if (
+      lenderProfile.areasServed === AREAS_SERVED.NATION_WIDE_EXCEPT_THESE_STATES
+    ) {
+      return !states.includes(state);
+    }
+  }
+});
+
+// update this to include logic for specific loan program types
+const lenderCardsWithLoanPrograms = lenderCards
+  .map((lenderCard) => {
+    if (isAllLoanTypes) {
+      return {
+        ...lenderCard,
+        loanProgram: lenderCard.loanPrograms[0],
+      };
+    }
+  })
+  .filter((lenderCard) => {
+    return !!lenderCard.loanPrograms?.length;
+  });
+
+// then we can also do property types
+// then we can also do custom things like owner-occupied, etc
+---
+
+<Section>
+  {!!headline1 ? <h1 class="mb-3">{headline1}</h1> : null}
+
+  {
+    !!introText && !!introText.markdown ? (
+      <div set:html={marked.parse(introText.markdown)} />
+    ) : null
+  }
+
+  {!!headline2 ? <h2 class="!mt-6 !text-3xl">{headline2}</h2> : null}
+  <div class="grid grid-cols-1 gap-9">
+    {
+      lenderCardsWithLoanPrograms.map((lenderCard) => {
+        return <LenderCard profile={lenderCard} />;
+      })
+    }
+  </div>
+</Section>

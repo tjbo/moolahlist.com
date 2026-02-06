@@ -1,0 +1,208 @@
+---
+import { Image } from "astro:assets";
+import { getLenderProfileFromSlug, getUrlFromSlug } from "../hypgrah.js";
+import { LENDING_RATIOS_SHORTHAND } from "../constants/enums.js";
+const { profile } = Astro.props;
+import {
+  formatAmount,
+  formatInterestRate,
+  formatLTV,
+  formatTerm,
+} from "../utils/formatNumbers.js";
+import Tr from "./Tr.astro";
+import Button from "./Button.astro";
+import FancyList from "./FancyList.astro";
+
+import { hasArrayWithStrings } from "../utils/array.js";
+
+const program = profile.loanProgram;
+
+const hasNegativeConsiderations = hasArrayWithStrings(
+  profile.negativeConsiderations,
+);
+
+const hasPositiveConsiderations = hasArrayWithStrings(
+  profile.positiveConsiderations,
+);
+
+const url = getUrlFromSlug(profile.slug);
+---
+
+<div class="flex flex-col md:block">
+  <b
+    class="bg-primary-dark inline-block px-3 py-2 md:py-1 rounded-t-xl text-2sm md:!leading-[30px] font-medium font-sans !mb-0 !text-white"
+  >
+    {program.bestForTagline}
+  </b>
+  <div class="card !p-0">
+    <div
+      class="relative grid grid-cols-1 p-3 md:p-6 md:pr-0 md:grid-cols-[162px_auto_244px] gap-3"
+    >
+      <!-- desktop 1st column -->
+      <div class="bg-primary-light h-14 absolute top-0 w-full left-0 z-10">
+      </div>
+      <div
+        class="flex flex-col absolute right-3 top-3 md:relative md:grid md:grid-cols-[148px_1fr] md:gap-9 z-20"
+      >
+        {
+          !!profile.logo && !!profile.logo.url ? (
+            <div class=" md:relative  w-[90px] h-[90px] md:w-[148px] md:h-[148px] m-0 border-gray-200 border">
+              <Image
+                alt={`${profile.name} Logo`}
+                class="w-full h-full max-w-[160px] bg-white shadow-md"
+                densities={[1.5, 2]}
+                loading="lazy"
+                src={profile.logo.url}
+                widths={[100, 200, 300, 400]}
+                sizes="(max-width: 640px) 100px, (max-width: 768px) 150px, (max-width: 1024px) 200px, 400px"
+                width={200}
+                height={200}
+              />
+            </div>
+          ) : null
+        }
+      </div>
+
+      <!-- middle col -->
+      <div class="flex flex-col z-20">
+        <h3 class="!text-2sm md:!text-lg mr-20 md:mr-0">{profile.name}</h3>
+
+        <div class="mt-12 md:mt-0">
+          {
+            !!program ? (
+              <table class="lender-card-specs font-serif font-medium !mb-1">
+                <tbody>
+                  <Tr
+                    asRowOnMobile={true}
+                    name={
+                      LENDING_RATIOS_SHORTHAND[program.lendingRatios[0].type]
+                    }
+                    value={formatLTV(program.lendingRatios[0].value)}
+                    condition={!!program.lendingRatios[0]}
+                  />
+                  <Tr
+                    asRowOnMobile={true}
+                    name="Rate"
+                    value={formatInterestRate(
+                      program.interestRateMin,
+                      program.interestRateMax,
+                    )}
+                    condition={!!program.interestRateMin}
+                  />
+                  <Tr
+                    asRowOnMobile={true}
+                    name="Term"
+                    value={formatTerm(
+                      program.termLengthMin,
+                      program.termLengthMax,
+                    )}
+                    condition={
+                      !!program.termLengthMin || !!program.termLengthMax
+                    }
+                  />
+                  <Tr
+                    asRowOnMobile={true}
+                    name="Amount"
+                    value={formatAmount(
+                      program.loanAmountMin,
+                      program.loanAmountMax,
+                    )}
+                    condition={
+                      !!program.loanAmountMin || !!program.loanAmountMax
+                    }
+                  />
+                </tbody>
+              </table>
+            ) : null
+          }
+        </div>
+      </div>
+      <div
+        class="flex flex-row justify-start items-start md:justify-center md:items-center my-3 md:mb-0 md:mt-6 w-full"
+      >
+        <Button extraClass="w-full mx-6" href={url}>View Lender</Button>
+      </div>
+    </div>
+    <div class="border-t-gray-200 border-t border-solid w-full text-2md">
+      <details class="py-3 px-3 md:py-3 md:px-6 group">
+        <summary
+          data-closed="READ MORE"
+          data-open="READ LESS"
+          class="text-right text-sm relative block cursor-pointer select-none text-blue-600 font-medium
+            [&::before]:text-blue-600 [&::before]:content-[attr(data-closed)]
+           group-open:[&::before]:content-[attr(data-open)]
+           px-0 y-3"
+        >
+          <span class="sr-only text-left absolute left-0 top-0">
+            Read More
+          </span>
+        </summary>
+        <h6 class="mt-6">Why We Picked This</h6>
+        {profile.whyWePickedThis}
+
+        {
+          !!hasPositiveConsiderations || !!hasNegativeConsiderations ? (
+            <div class="grid grid-cols-1 md:grid-cols-2 md:gap-9 mt-9">
+              {hasPositiveConsiderations && (
+                <div class="flex flex-col items-start">
+                  <h6 class="">Funds</h6>
+                  <div class="">
+                    <FancyList
+                      data={profile.positiveConsiderations}
+                      icon="checkmark"
+                    />
+                  </div>
+                </div>
+              )}
+              {hasNegativeConsiderations && (
+                <div class="flex flex-col items-start">
+                  <b class="inline">Does Not Fund</b>
+                  <FancyList
+                    data={profile.negativeConsiderations}
+                    icon="crossmark"
+                  />
+                </div>
+              )}
+            </div>
+          ) : null
+        }
+
+        {
+          !!program ? (
+            <div class="grid mt-9">
+              <div>
+                <b>Term Length</b>
+
+                <ul>
+                  <li>
+                    {formatTerm(program.termLengthMin, program.termLengthMax)}
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <b>Origination Fee</b>
+                <ul>
+                  <li>
+                    {program.originationFeeMin} to {program.originationFeeMax}{" "}
+                    points
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <b>Time to Close</b>
+                <ul>
+                  <li>
+                    {program.closingTimeMin} to {program.closingTimeMax} days
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : null
+        }
+        <div class="flex justify-end">
+          <a href={url} class="text-sm">See full profile »</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</div>

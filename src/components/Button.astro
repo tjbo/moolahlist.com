@@ -9,13 +9,13 @@ const {
 } = Astro.props;
 
 const base =
-  "inline-flex items-center justify-center rounded-md font-medium transition " +
+  "inline-flex cursor-pointer items-center justify-center rounded-md font-medium transition " +
   "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2";
 
 const variants = {
-  solid: "bg-indigo-600 !text-white hover:bg-indigo-700",
+  solid: "bg-accent-dark !text-white hover:bg-accent-darker",
   outline:
-    "border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:!text-white",
+    "border border-accent-dark text-accent-dark hover:bg-accent-dark hover:!text-white",
 };
 
 const sizes = {

@@ -1,22 +1,27 @@
 ---
 const { orderClass, title, items } = Astro.props;
-import { settings } from "../prismic.js";
+import { doesPageExist, getUrlFromSlug } from "../hypgrah.js";
 ---
 
 <div class={`flex-col mb-6 ${orderClass}`}>
-  <ul class="p-0 m-0 !list-none">
+  <b>{title}</b>
+  <ul class="!p-0 !m-0 !ml-0 !list-none">
     {
       items.map((link) => {
-        return (
-          <li class="m-0 p-0 float-left">
-            <a
-              class="text-white font-normal font-display text-md hover:underline min-h-6 py-2 block"
-              href={link.href}
-            >
-              {link.text}
-            </a>
-          </li>
-        );
+        if (doesPageExist(link.internalPage[0].slug)) {
+          return (
+            <li class="!m-0 !p-0">
+              <a
+                class="font-normal font-display text-md hover:underline min-h-6 py-2 block"
+                href={getUrlFromSlug(link.internalPage[0].slug)}
+              >
+                {link.text}
+              </a>
+            </li>
+          );
+        } else {
+          return null;
+        }
       })
     }
   </ul>

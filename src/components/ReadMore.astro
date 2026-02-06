@@ -1,0 +1,56 @@
+---
+const {
+  id = `read-more-${Math.random().toString(36).slice(2)}`,
+  maxHeight = "6rem",
+  moreLabel = "Read more",
+  lessLabel = "Read less",
+} = Astro.props;
+---
+
+<div class="read-more-box">
+  <input type="checkbox" id={id} class="toggle" />
+
+  <div class="content" style={`--max-height:${maxHeight}`}>
+    <slot />
+  </div>
+
+  <label for={id} class="label read-more w-full text-center">
+    <span class="more">{moreLabel}</span>
+    <span class="less">{lessLabel}</span>
+  </label>
+</div>
+
+<style>
+  .toggle {
+    display: none;
+  }
+
+  .content {
+    max-height: var(--max-height);
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .toggle:checked + .content {
+    max-height: 100vh;
+  }
+
+  .label {
+    display: inline-block;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .less {
+    display: none;
+  }
+
+  .toggle:checked ~ .label .more {
+    display: none;
+  }
+
+  .toggle:checked ~ .label .less {
+    display: inline;
+  }
+</style>

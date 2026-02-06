@@ -1,14 +1,17 @@
 import numeral from "numeral";
 
 export function formatLTV(val) {
-  return numeral(val / 100).format("0%");
+  const formatted = numeral(val / 100).format("0.0%");
+  return formatted.endsWith(".0%") ? formatted.replace(".0%", "%") : formatted;
 }
 
 export function formatInterestRate(min, max) {
-  if (!!min && !!max) {
-    return `${numeral(min / 100).format("0.00%")} to ${numeral(max / 100).format("0%")}`;
-  } else {
-    return `${numeral(min / 100).format("0.00%")}`;
+  if (!!min || !!max) {
+    if (!!min && !!max) {
+      return `${numeral(min / 100).format("0.00%")} to ${numeral(max / 100).format("0.00%")}`;
+    } else {
+      return `${numeral(min / 100).format("0.00%")}`;
+    }
   }
 }
 

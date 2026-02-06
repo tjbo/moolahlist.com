@@ -10,14 +10,14 @@ const { className, id, title } = Astro.props;
   role="dialog"
 >
   <div
-    class={`w-full rounded-lg bg-white p-6 shadow-lg overflow-y-auto overflow-x-hidden ${className} mx-auto`}
+    class={`w-full rounded-lg bg-white px-2 py-6 shadow-lg overflow-y-auto overflow-x-hidden ${className} mx-auto`}
   >
-    <div class="flex items-start justify-between">
+    <div class="flex items-start justify-between relative">
       <h4>{title}</h4>
       <button
         type="button"
         data-close-modal={id}
-        class="cursor-pointer -me-4 -mt-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none"
+        class="absolute top-0 right-2 cursor-pointer -me-4 -mt-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600 focus:outline-none"
         aria-label="Close"
       >
         <svg

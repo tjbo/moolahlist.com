@@ -2,28 +2,21 @@
 import "../styles/global.css";
 import Section from "../components/Section.astro";
 import FooterMenu from "../components/FooterMenu.astro";
-import { settings } from "../prismic.js";
-import "@fontsource-variable/work-sans";
+import { globalSettings } from "../hypgrah.js";
 import "@fontsource-variable/montserrat";
+import "@fontsource-variable/roboto";
 
-const { metaTitle = "Moolah List - Private Lending Marketplace" } = Astro.props;
-
-const footerLinks = [
-  {
-    text: "Home",
-    href: "/",
-  },
-  {
-    text: "For Lenders",
-    href: "/for-lenders/",
-  },
-];
+const {
+  metaDescription = "MoolahList connects investors and borrowers with direct hard money and lenders nationwide. Find fast funding for investment properties, fix-and-flip projects, rentals, and more.",
+  metaTitle = "Moolah List - Private Lending Marketplace",
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <title>{metaTitle}</title>
+    <meta name="description" content={metaDescription} />
     <meta charset="UTF-8" />
     <meta
       name="viewport"
@@ -53,9 +46,31 @@ const footerLinks = [
       <slot />
     </div>
     <div class="mx-auto border-t border-gray-200 w-full mt-16">
-      <div class="mx-auto max-w-[500px]">
-        <FooterMenu orderClass="order-2" items={footerLinks} />
+      <div
+        class="mx-auto max-w-desktop grid grid-cols-2 md:grid-cols-[1fr_1fr_1fr_1fr] pt-4 px-5 lg:px-0"
+      >
+        <FooterMenu
+          orderClass="order-1"
+          items={globalSettings.footerLinks1}
+          title={globalSettings.footerLinks1Title}
+        />
+        <FooterMenu
+          orderClass="order-2"
+          items={globalSettings.footerLinks2}
+          title={globalSettings.footerLinks2Title}
+        />
+        <FooterMenu
+          orderClass="order-3"
+          items={globalSettings.footerLinks3}
+          title={globalSettings.footerLinks3Title}
+        />
+        <FooterMenu
+          orderClass="order-4"
+          items={globalSettings.footerLinks4}
+          title={globalSettings.footerLinks4Title}
+        />
       </div>
+      <div class="text-center text-sm mb-3">CA DRE Broker Lic. #02057741</div>
     </div>
   </body>
 </html>
