@@ -17,6 +17,7 @@ async function getLenderProfiles() {
           {
             lenderProfiles(stage: PUBLISHED) {
               __typename
+              updatedAt
               slug
               email
               profileStatus
@@ -147,6 +148,7 @@ async function getPages() {
         query: /* GraphQL */ `
           {
             pages(stage: PUBLISHED) {
+              updatedAt
               __typename
               metaDescription
               metaTitle
@@ -246,6 +248,7 @@ async function getPillarPages() {
         query: /* GraphQL */ `
           {
             pillarPages(stage: PUBLISHED) {
+              updatedAt
               slug
               metaDescription
               metaTitle
@@ -277,22 +280,25 @@ export const lenderProfiles = (await (await getLenderProfiles()).json()).data
 
 export const pages = (await (await getPages()).json()).data.pages;
 
-const urls = [...lenderProfiles, ...pillarPages, ...pages].map((page) => {
-  let url = page.__typename;
-  if (page.slug === "home") {
-    url = rootUrl + "/";
-  } else if (page.__typename === "LenderProfile") {
-    url = rootUrl + "/profile/" + page.slug + "/";
-  } else {
-    url = rootUrl + "/" + page.slug + "/";
-  }
+export const urls = [...lenderProfiles, ...pillarPages, ...pages].map(
+  (page) => {
+    let url = page.__typename;
+    if (page.slug === "home") {
+      url = rootUrl + "/";
+    } else if (page.__typename === "LenderProfile") {
+      url = rootUrl + "/profile/" + page.slug + "/";
+    } else {
+      url = rootUrl + "/" + page.slug + "/";
+    }
 
-  return {
-    id: page.id,
-    slug: page.slug,
-    url: url,
-  };
-});
+    return {
+      id: page.id,
+      slug: page.slug,
+      updatedAt: page.updatedAt,
+      url: url,
+    };
+  },
+);
 
 export function getLenderProfileFromSlug(slug) {
   return lenderProfiles.filter((profile) => {

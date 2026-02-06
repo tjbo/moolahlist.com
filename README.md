@@ -14,7 +14,6 @@ Financial
 - add FAQs based on AI, and data that we have about the company
 - add before they apply section
 - Add more loan programs to stormfield
-- fix sitemap.xml
 - add search page
 - add footer links
 - add a recently added lenders page or all lenders... etc
@@ -27,14 +26,9 @@ Financial
 - hard money lenders no credit check
 - dscr loan michigan
 - dscr loan ohio
-
 - hard money lenders dallas
-- bridge loans california
-
-
-- make nested thumbnails... Home / Private Money Loans / State / Miami Hard
+- make nested bread crumbs... Home / Private Money Loans / State / Miami Hard
 Money Loans 
-
 
 
 PROS
@@ -63,13 +57,6 @@ amountMax
 - payment options many
 - credit check not required
 - credit check low fico minumum
-
-
-Borrowers can choose between interest-only or interest reserve...
-
-Has a variety of loan programs.
-
-
 
 CONS
 - <company name> does not have physical branches in all 50 states
